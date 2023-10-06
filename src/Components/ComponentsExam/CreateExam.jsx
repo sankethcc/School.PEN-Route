@@ -19,7 +19,8 @@ import {
   import QuestionMultipleAnsExam from "./AddQuestionExam/QuestionMultipleAnsExam";
   import QuestionTrueFalseExam from "./AddQuestionExam/QuestionTrueFalseExam";
   import Instructions from './AddExam/Instructions'
-  import { State } from "../Context/Provider";
+import { State } from "../Context/Provider";
+  import axios from "axios";
 import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
   const style = {
     dflex: {
@@ -35,9 +36,35 @@ import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
   const CreateQuiz = ({
   
   }) => {
-    
-    
     const { quest } = State();
+    const handlePostQuestion = () => {
+      console.log(quest)
+       const formData = new FormData();
+      formData.append('subject', quest.Subject); 
+      formData.append('topic_class', quest.Class); 
+      formData.append('topic_name', quest.Topic); 
+      formData.append('level', quest.Level); 
+      formData.append('no_of_questions', quest.Sub_topic); 
+      formData.append('assigned_time', quest.Quiz_Type); 
+      formData.append('instruction', "lajh"); 
+      formData.append('learning', "jsnjs"); 
+      formData.append('eligiblity', "js js"); 
+
+      axios
+    .post("http://localhost:5000/create_topic", formData)
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("Data added successfully");
+          } else {
+            alert("Error occured");
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }
+    
+    
     return (
       <Box
         style={style.dflex}
@@ -70,10 +97,10 @@ import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
                   <SelectContainerExam />
                   <Instructions />
                   <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
-                  <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={quest.Quiz_Type}/>
+                  {/* <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={quest.Quiz_Type}/> */}
 
                   </Box>
-                  {quest.Quiz_Type === "" ? (
+                  {/* {quest.Quiz_Type === "" ? (
                     <QuestionsExam  />
                   ) : quest.Quiz_Type === "Multiple choice - multiple answers" ? (
                     <QuestionMultipleAnsExam
@@ -86,8 +113,31 @@ import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
                     <QuestionTrueFalseExam
                       prop={["Yes", "No"]}
                     />
-                  ) : null}
-                  
+                  ) : null} */}
+                  <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
+                      <Button variant="contained" onClick={()=>{
+                        handlePostQuestion()
+                      }} 
+                        color="primary"
+                        sx={{
+                            width: "375px",
+                            borderRadius: "12px",
+                            background: "#7A58E6",
+                            cursor: "pointer",
+                            border: "none",
+                            color: "#FFF",
+                            fontSize: "18px",
+                            fontWeight: "500",
+                            textTransform: "capitalize",
+                            p: "10px 10px",
+                            "&:hover": {
+                              background: "#7A58E6",
+                            },
+                          }}
+                      >
+                        Post Question
+                      </Button>
+                    </Box>
                 </Box>
             </Box>
 
