@@ -1,0 +1,17 @@
+.instructions .quill .ql-toolbar{
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    border: none;
+    background-color: var(--light-grey, #EAEAEA);
+    border-radius:32px;
+}
+
+.instructions .quill .ql-container{
+    margin-top:40px;
+    border: none;
+}
+.instructions .quill .ql-container .ql-editor{
+    padding: 0px; 
+    min-height: 135px;
+}
