@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button, Container } from '@mui/material'
 import DropDown from './DropDown'
 
-const AssignUser = () => {
+const AssignNewUser = () => {
   return (
     <Box
       
@@ -57,4 +57,4 @@ const AssignUser = () => {
   )
 }
 
-export default AssignUser
+export default AssignNewUser

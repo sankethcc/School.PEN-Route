@@ -6,7 +6,7 @@ import Questions from "./Questions";
 import AddDetails from "../AddSubject/AddDetails";
 import ProfileWrapper from "../ProfileWrapper";
 import SelectContainer from "../CreateQuiz/SelectContainer";
-import AssignUser from "../../ComponentsAssignUser/AssignUser/AssignUser";
+import AssignUser from "../../ComponentsAssignUser/AssignUser/AssignNewUser";
 import UserProfile from "../../ComponentsAssignUser/UserProfile/UserProfile";
 import { State } from "../../Context/Provider";
 
@@ -21,23 +21,8 @@ const style = {
   },
 };
 
-const UpdateQuiz = ({
-  handleOpenPage,
-  openPageName,
-  openPage,
-  handleOpenPageNameUpdate,
-}) => {
-  const [threeDotMenu, setThreeDotMenu] = useState("preview");
-  const handleThreeDotMenu = (menuName) => {
-    setThreeDotMenu(menuName);
-  };
-  const {quest} = State();
-
-  const propsForProfileRow = {
-    openPageName,
-    handleOpenPage,
-    handleOpenPageNameUpdate,
-  };
+const UpdateQuiz = () => {
+  const {quest, openPage} = State();
 
 
   return (
@@ -64,12 +49,8 @@ const UpdateQuiz = ({
           pt: "38px",
         }}
       >
-        <ProfileWrapper {...propsForProfileRow} />
-        {openPage == "Assign User" ? (
-          <AssignUser />
-        ) : openPage == "User Profile" ? (
-          <UserProfile />
-        ) : (
+        <ProfileWrapper pageName='Update Quiz'  />
+        
           <Box>
             {/* <LanguageAndDotMenu {...propsForLanguageDotMenu} /> */}
               <Box sx={{
@@ -88,13 +69,11 @@ const UpdateQuiz = ({
               </Box>
               <Box>
                 <SelectContainer />
-                <Questions handleThreeDotMenu={handleThreeDotMenu} />
+                <Questions />
               </Box>
             
           </Box>
-        )}
       </Box>
-      {/* preview question section */}
 
       <Box
         sx={{

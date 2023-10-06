@@ -11,6 +11,7 @@ import MainPageOfExam from "./Pages/MainPageOfExam";
 import MainPageOfAssignUser from "./Pages/MainPageOfAssignUser";
 import AddSubjectSubtopic from "./Pages/AddSubjectSubtopic";
 import AddLanguagePage from "./Pages/AddLanguagePage";
+import PreviewPageExam from "./Pages/PreviewPageExam";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             <Route path="add-language" element={<AddLanguagePage />} />
             <Route path="create-exam" element={<MainPageOfExam />} />
             <Route path="assign-user" element={<MainPageOfAssignUser />} />
+            <Route path="exam-preview" element={<PreviewPageExam />} />
           </Route>
           <Route path="/update/:quiz_id" element={<UpdatePageOfQuiz />} />
 

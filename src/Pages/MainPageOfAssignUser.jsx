@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Menu from '../Components/Menu/Menu'
 import CreateQuiz from '../Components/ComponentsQuizz/CreateQuiz/CreateQuiz'
 import { Box } from '@mui/system'
+import AssignUser from '../Components/ComponentsAssignUser/AssignUser'
 
 const MainPageOfAssignUser = () => {
     const [toggle, setToggle] = useState(true)
@@ -39,7 +40,7 @@ const MainPageOfAssignUser = () => {
   return (
     <Box sx={{display:'flex', alignItems:'start'}}>
         <Menu {...propsForMenu} />
-        <CreateQuiz {...propsForCreateQuiz} />
+        <AssignUser />
     </Box>
   )
 }
