@@ -12,7 +12,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } 
 export default function SelectMenuExam({dropdownName,listArray,add,value,val }) {
   const style = (dropdownName == "Language") ? "#fff" :(dropdownName == "Quiz Type")? "#fff": '#F5F6F7'
 
-  const { quest, setquest } = State();
+  const {setexam} = State();
   const [open, setOpen] = React.useState(false);
   const [subject, setSubject] = React.useState('');
 
@@ -35,7 +35,7 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   return (
     <div>
 
-    <CustomSelect id={dropdownName}  onChange={(event, newValue) =>setquest((prevData) => {
+    <CustomSelect id={dropdownName}  onChange={(event, newValue) =>setexam((prevData) => {
       return {
         ...prevData,
         [value]: newValue,

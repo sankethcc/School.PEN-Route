@@ -22,15 +22,43 @@ const Provider = ({ children }) => {
     
   });
 
+  const [exam, setexam] = useState({
+    Subject: "",
+    Class: "",
+    Topic: "",
+    Level: "",
+    perquest: "",
+    assigned_time: "",
+    Quiz_Type: ""
+  });
+
   // const [prevnote, setprevnote] = useState([])
   const [dsubject, setdsubject] = useState([])
   const [dtopic, setdtopic] = useState([])
   const [dstopic, setdstopic] = useState([])
   
   const [questions, setQuestions] = useState([])
+  const [Exams, SetExams]=useState([])
   const [subjects, setSubjects] = useState([])
   const [fdata, setfdata] = useState([])
   
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+      try {
+        var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+        const creatorId = usersdata.user._id
+        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorId}`)
+        // console.log(data)
+        SetExams(data)
+
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchQuestions()
+  }, [])
+
+
   useEffect(()=>{
     const fetchQuestions = async ()=>{
       try{
@@ -162,18 +190,25 @@ const Provider = ({ children }) => {
       try {
         // console.log(dsubject)
         setdstopic([]);
-        const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${quest.Subject}`)
-        setdtopic(data);
+        if (quest.Subject) {
+          const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${quest.Subject}`)
+          setdtopic(data);
+        }
+        else {
+          const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${exam.Subject}`)
+          setdtopic(data);
+        }
         // const temp= JSON.parse(data)
         // console.log(data)
+        // console.log(Exams)
 
       } catch(error){
         console.error('Error Fetching questions: ', error)
       }
     }
-    if(quest.Subject)
+    if(quest.Subject || exam.Subject)
     fetchtopic()
-  }, [quest.Subject])
+  }, [quest.Subject, exam.Subject])
 
   useEffect(()=>{
     const fetchstopic = async ()=>{
@@ -205,7 +240,9 @@ const Provider = ({ children }) => {
               setdsubject,
         dtopic, setdtopic,
               dstopic, setdstopic,
-              openPage, setOpenPage
+        openPage, setOpenPage,
+        exam, setexam,
+              Exams, SetExams
       }}
     >
       {children}
