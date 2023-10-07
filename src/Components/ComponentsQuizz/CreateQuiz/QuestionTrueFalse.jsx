@@ -184,7 +184,7 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
           variant='contained'
           onClick={() => {
             handlePostQuestion();
-            handleThreeDotMenu();
+            
           }}
           color='primary'
           sx={{

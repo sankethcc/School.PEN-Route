@@ -67,7 +67,7 @@ const Login = () => {
             // Success
             // Store the user object in local storage
             localStorage.setItem("user", JSON.stringify(response.data));
-            navigate("/admin/create-quiz");
+            navigate("/admin");
           } else {
             alert("Error occured");
           }

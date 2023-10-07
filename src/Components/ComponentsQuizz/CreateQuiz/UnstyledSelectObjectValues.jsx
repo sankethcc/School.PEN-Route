@@ -7,12 +7,33 @@ import { Popper } from '@mui/base/Popper';
 import { fontSize, styled } from '@mui/system';
 // import { useState } from 'react';
 import {State} from "../../Context/Provider"
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
 export default function UnstyledSelectObjectValues({dropdownName,listArray,add,value,val }) {
   const style = dropdownName == "Language" ? "#fff" : '#F5F6F7'
   const { quest, setquest } = State();
+  const [open, setOpen] = React.useState(false);
+  const [subject, setSubject] = React.useState('');
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleAdd = () => {
+    // Handle adding the subject
+    // ...
+
+    // Close the dialog
+    handleClose();
+  };
   
   return (
+    <div>
+
     <CustomSelect id={dropdownName}  onChange={(event, newValue) =>setquest((prevData) => {
       return {
         ...prevData,
@@ -21,12 +42,34 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
     })} sx={{background:`${style}`}} placeholder={val?val:dropdownName} >
         {listArray.map((itemVal, index) => (
           <StyledOption
-            sx={{}}
-            key={index} value={itemVal} >{itemVal}
+          sx={{}}
+          key={index} value={itemVal} >{itemVal}
           </StyledOption>
                 ))}
-        {add?<StyledOption  sx={{color:'blue'}}>Add New</StyledOption>:null}
+        {add?<StyledOption onClick={handleOpen}  sx={{color:'blue'}}>Add New</StyledOption>:null}
     </CustomSelect>
+    <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add New {dropdownName}</DialogTitle>
+        <DialogContent>
+          <TextField
+            type="text"
+            label={`Enter New ${dropdownName}`}
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleAdd} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </div>
+    
   );
 }
 
