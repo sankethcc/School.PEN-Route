@@ -16,7 +16,7 @@ import { State } from "../../Context/Provider"
 import axios from 'axios';
 
 const QuestionsExam = () => {
-  const { quest,questions, setQuestions} = State();
+  const { setexamquest,exam,examid,setexamid} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
     { text: '', image: null ,answer: false},
@@ -82,45 +82,31 @@ const QuestionsExam = () => {
   const handlePostQuestion = () => {
     // const data = {
     const formData = new FormData();
-    formData.append('language', quest.Language); 
-    formData.append('class', quest.Class);
-    formData.append('subject', quest.Subject);
-    formData.append('topic', quest.Topic);
-    formData.append('subtopic', quest.Sub_topic);
-    formData.append('level', quest.Level);
-    formData.append('quiz_type', quest.Quiz_Type);
-    formData.append('question', question.text);
+    formData.append('question_no', examid.qno); 
+    formData.append('question_type', exam.Quiz_Type);
+    formData.append('question_text', question.text);
     formData.append('question_image', question.image);
+    formData.append('answer', '11');
 
-    const popt = [],QUE=question.text;
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
       const optionImageInput = options[i].image;
-      formData.append(`option_${i + 1}`, optionText);
-      formData.append(`option_${i + 1}_image`, optionImageInput);
-      const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i}`, isAnswer.toString());
-      popt.push({text:optionText});
+      formData.append(`option${i + 1}`, optionText);
+      formData.append(`option${i + 1}_image`, optionImageInput);
     }
     
-    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
-    const creatorId = usersdata.user._id
+    // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+    .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
         .then((response) => {
           if (response.status === 201) {
-            // setbool(!bool)
             console.log("Data added successfully");
-            try {
-              
-              setQuestions(oldArray => [{ question: QUE, options: popt,id: response.data._id }, ...oldArray])
-              // console.log(response.data._id)
-            }
-            catch (err) {
-              console.log(err)
-            }
-          } else {
-            alert("Error occured");
+            //  console.log(response.data);
+            setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            setexamquest(oldArray => [ ...oldArray,response.data])
+          }
+          else {
+             console.log(response);
           }
         })
         .catch((err) => {
@@ -262,7 +248,7 @@ const QuestionsExam = () => {
             },
           }}
       >
-        Post Question
+        ADD Question
       </Button>
 
 
