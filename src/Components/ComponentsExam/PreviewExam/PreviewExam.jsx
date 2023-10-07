@@ -3,7 +3,7 @@ import {Avatar,Box,FormControl,FormGroup,InputLabel,Menu,MenuItem,Select,Typogra
   import ProfileWrapper from "../../ComponentsQuizz/ProfileWrapper";
   import { State } from "../../Context/Provider"; 
 
-import SideDetailsPreviewExam from "./SideDetailsPreviewExam";
+import SideDetailsPreviewExam from "../SideDetailsExam";
 import PreviewExamQuestions from "./PreviewExamQuestions";
 
   const style = {

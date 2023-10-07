@@ -9,9 +9,33 @@ import FormLabel from '@mui/material/FormLabel';
 import { Link } from 'react-router-dom'
 import profile from '../../../Data//logo.svg'
 import QuestionImg from '../../../Data/QuestionImg.png'
+import axios from 'axios'
 
 const PreviewExamQuestions = ({heading, number}) => {
-  const { questions} = State();
+  const [examquest,setexamquest] = useState([])
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+      try {
+        const creatorId = '65206c78d9a9b6e425e37bb6'
+        const { data } = await axios.get(`http://localhost:5000/get_topic/${creatorId}`)
+        var arr = [];
+        const objects = data.questions
+        // console.log(objects)
+        // for (var i = 0; i < objects.length; i++) {
+        //     arr.push(objects[i]);
+        // }
+        for (const key in objects) {
+          // const value = objects[key];
+          arr.push(objects[key])
+        }
+        console.log(arr[0][0].options)
+        setexamquest(arr)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchQuestions()
+  }, [])
   // console.log(questions)
   return (
     
@@ -19,13 +43,13 @@ const PreviewExamQuestions = ({heading, number}) => {
       
       <Box>
 
-        {questions?.map((data, i) => {
-        const {question, options, id } = data
+        {examquest?.map((data, i) => {
+        // const {question, options, id } = data
           return (
           <Box sx={{background:'#fff'}} className='preview-question' key={i}>
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
               <img alt='Question image' style={{width:'200px', height:'200px', objectFit:'contain', marginRight:'20px'}} src={QuestionImg}></img>
-              <p>Tadoba national park known for sheltering tiger, panther and bear is located in: </p>
+              <p>{data[0].question_text} </p>
 
             </Box>
             
@@ -35,7 +59,8 @@ const PreviewExamQuestions = ({heading, number}) => {
               defaultValue="option"
               name="radio-buttons-group"
             >
-              {options.map((option, i)=>{
+              
+              {/* {data.options.map((option, i)=>{
                 const text = option.text
                 const is_answer = option.is_answer             
                 return(
@@ -45,7 +70,7 @@ const PreviewExamQuestions = ({heading, number}) => {
 
                   </Box>
                 )
-              })}
+              })} */}
             </RadioGroup>
           </FormControl>
               </Box>

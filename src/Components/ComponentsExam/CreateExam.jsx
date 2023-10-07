@@ -36,7 +36,8 @@ const style = {
 const CreateQuiz = ({
 
 }) => {
-  const { exam , SetExams,Exams} = State();
+  const { exam, SetExams ,setexamid,examquest} = State();
+  // console.log(Exams)
   const handlePostQuestion = () => {
     // console.log(exam)
      const formData = new FormData();
@@ -54,8 +55,8 @@ const CreateQuiz = ({
   .post("http://localhost:5000/create_topic", formData)
       .then((response) => {
         if (response.status === 201) {
-          // console.log(response.data)
           SetExams(oldArray => [response.data, ...oldArray])
+          setexamid({id:response.data._id,qno:1})
           console.log("Data added successfully");
         } else {
           alert("Error occured");
@@ -123,23 +124,32 @@ const CreateQuiz = ({
                     </Button>
               </Box>
                   <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
-                <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={Exams.Quiz_Type}/>
+                <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={exam.Quiz_Type}/>
 
                 </Box>
-                {Exams.Quiz_Type === "" ? (
+                {exam.Quiz_Type === "" ? (
                   <QuestionsExam  />
-                ) : Exams.Quiz_Type === "Multiple choice - multiple answers" ? (
+                ) : exam.Quiz_Type === "Multiple choice - multiple answers" ? (
                   <QuestionMultipleAnsExam
                   />
-                ) : Exams.Quiz_Type === "True or False" ? (
+                ) : exam.Quiz_Type === "True or False" ? (
                   <QuestionTrueFalseExam prop={["True", "False"]} />
-                ) : Exams.Quiz_Type === "Multiple choice - Single answer" ? (
+                ) : exam.Quiz_Type === "Multiple choice - Single answer" ? (
                   <QuestionsExam />
-                ) : Exams.Quiz_Type === "Yes or No" ? (
+                ) : exam.Quiz_Type === "Yes or No" ? (
                   <QuestionTrueFalseExam
                     prop={["Yes", "No"]}
                   />
-                ) : null}
+            ) : null}
+            
+              {/* {
+              examquest?.map((data, i)=>{
+
+
+                  
+              })
+                  
+               } */}
               </Box>
           </Box>
 

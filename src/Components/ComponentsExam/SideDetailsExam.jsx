@@ -3,7 +3,7 @@ import { Box } from '@mui/system'
 import React from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,NavLink, useNavigate } from 'react-router-dom';
 import {State} from '../Context/Provider'
 
 const SideDetailsExam = ({heading}) => {
@@ -53,9 +53,9 @@ const SideDetailsExam = ({heading}) => {
                 <Typography sx={{ color: '#707070' }}> <TimerIcon />{data.assigned_time}</Typography>
 
               </Box>
-              <Link to={'preview'}>
+              <NavLink to={'preview'}>
               <Button style={{background:'var(--Linear, linear-gradient(180deg, #8C6FE9 0%, #2D00BA 100%))', color:'#fff'}} sx={styleButton}>Check</Button>
-              </Link>
+              </NavLink>
               <Button style={{background:'#fff'}} sx={styleButton}>Edit</Button>
 
         </Box>

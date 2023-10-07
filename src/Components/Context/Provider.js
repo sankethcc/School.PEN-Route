@@ -32,6 +32,8 @@ const Provider = ({ children }) => {
     Quiz_Type: ""
   });
 
+  const [examquest, setexamquest] = useState([]);
+  const [examid, setexamid] = useState({id:null, qno:1});
   // const [prevnote, setprevnote] = useState([])
   const [dsubject, setdsubject] = useState([])
   const [dtopic, setdtopic] = useState([])
@@ -242,7 +244,9 @@ const Provider = ({ children }) => {
               dstopic, setdstopic,
         openPage, setOpenPage,
         exam, setexam,
-              Exams, SetExams
+        Exams, SetExams,
+        examquest, setexamquest,
+              examid, setexamid
       }}
     >
       {children}
