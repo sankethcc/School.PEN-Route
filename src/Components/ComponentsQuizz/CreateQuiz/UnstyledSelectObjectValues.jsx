@@ -8,12 +8,29 @@ import { fontSize, styled } from '@mui/system';
 // import { useState } from 'react';
 import {State} from "../../Context/Provider"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import axios from 'axios';
 
 export default function UnstyledSelectObjectValues({dropdownName,listArray,add,value,val }) {
   const style = dropdownName == "Language" ? "#fff" : '#F5F6F7'
   const { quest, setquest } = State();
   const [open, setOpen] = React.useState(false);
   const [subject, setSubject] = React.useState('');
+  const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
+
+  const [sub, setSub] = React.useState([
+    {name: '', image: null},
+    {topic: '', image: null},
+    {subt1: '', image: null},
+    {subt2: '', image: null},
+  ])
+  const InputEvent = (event, index) => {
+    const { value, name } = event.target;
+    setSub((prevData) => {
+      const updatedSub = [...prevData]; 
+      updatedSub[index] = { ...updatedSub[index], [name]: value };
+      return updatedSub;
+    });
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -30,6 +47,31 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
     // Close the dialog
     handleClose();
   };
+  const submithandler = () => {
+    const formData = new FormData();
+    console.log(sub);
+    formData.append('subject', sub[0].name);
+    formData.append('subject_image', sub[0].image);
+    formData.append('topic', sub[1].topic);
+    formData.append('topic_image', sub[1].image); 
+    formData.append('subtopic', sub[2].subt1);
+    formData.append('subtopic_image', sub[2].image);
+
+    axios
+    .post("http://localhost:5000/add_Subject_quizz", formData)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("Data added successfully");
+          } else {
+            alert("Error occured");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    console.log(sub)
+
+  }
   
   return (
     <div>
@@ -52,10 +94,11 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
         <DialogTitle>Add New {dropdownName}</DialogTitle>
         <DialogContent>
           <TextField
+            name={(dropdownName == "Subject")?'name':(dropdownName =="Topic")?'topic':(dropdownName == 'Sub topic')?'subt1':null}
             type="text"
             label={`Enter New ${dropdownName}`}
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            value={(dropdownName == "Subject")?sub.name:(dropdownName =="Topic")?sub.topic:(dropdownName == 'Sub topic')?sub.subt1:null}
+            onChange={(e)=>InputEvent(e,index)}
             fullWidth
           />
         </DialogContent>
@@ -63,7 +106,11 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleAdd} color="primary">
+          <Button onClick={()=>{
+            handleAdd()
+            submithandler()
+          
+          }} color="primary">
             Add
           </Button>
         </DialogActions>

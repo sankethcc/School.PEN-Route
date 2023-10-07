@@ -41,8 +41,17 @@ const CreateQuiz = () => {
   };
 
   const handleRadioChange = (event) => {
-    setCorrectAnswerIndex(parseInt(event.target.value, 10));
-  };
+    const selectedIndex = parseInt(event.target.value, 10);
+    
+    // Create a new array with updated answer values
+    const newOptions = options.map((option, index) => ({
+        ...option,
+        answer: index === selectedIndex,
+    }));
+
+    setOptions(newOptions);
+    setCorrectAnswerIndex(selectedIndex);
+};
 
   const handleDeleteImage = (type) => {
     if (type === 'question') {
@@ -121,7 +130,7 @@ const CreateQuiz = () => {
       formData.append(`option_${i + 1}`, optionText);
       formData.append(`option_${i + 1}_image`, optionImageInput);
       const isAnswer = options[i].is_answer;
-      formData.append(`is_answer_${i}`, isAnswer.toString());
+      formData.append(`is_answer_${i + 1}`, isAnswer.toString());
     }
      
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
