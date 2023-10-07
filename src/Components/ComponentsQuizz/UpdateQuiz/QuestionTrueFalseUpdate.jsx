@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FormControlLabel,
   Box,
@@ -10,17 +10,21 @@ import {
 } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import { State } from '../../Context/Provider';
+import { State } from "../../Context/Provider"
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
+const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
+  const navigate = useNavigate()
+  const {quiz_id} = useParams()
 
-  const { quest, questions, setQuestions } = State();
-  const [question, setQuestion] = useState({ text: '', image: null });
+
+  const { quest,questions,setquest, setQuestions} = State();
+  const [question, setQuestion] = useState({ text: '', question_image_url: null });
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [options, setOptions] = useState([
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
+    { text: '', image: null, is_answer: false },
+    { text: '', image: null, is_answer: false },
   ]);
 
   const handleQuestionChange = (event) => {
@@ -30,7 +34,7 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
   const handleRadioChange = (selectedIndex) => {
     const newOptions = options.map((option, index) => ({
       ...option,
-      answer: index === selectedIndex,
+      is_answer: index === selectedIndex,
     }));
   
     setOptions(newOptions);
@@ -61,44 +65,18 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
     setOptions(updatedOptions);
   };
 
-  const handlePostQuestion = () => {
-    // const data = {
-    const formData = new FormData();
-    formData.append('language', quest.Language); 
-    formData.append('class', quest.Class);
-    formData.append('subject', quest.Subject);
-    formData.append('topic', quest.Topic);
-    formData.append('subtopic', quest.Sub_topic);
-    formData.append('level', quest.Level);
-    formData.append('quiz_type', quest.Quiz_Type);
-    formData.append('question', question.text);
-    formData.append('question_image', question.image);
-
-    const popt = [],QUE=question.text;
-    for (let i = 0; i < options.length; i++) {
-      const optionText = options[i].text;
-      const optionImageInput = options[i].image;
-      formData.append(`option_${i + 1}`, optionText);
-      formData.append(`option_${i + 1}_image`, optionImageInput);
-      const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i + 1}`, isAnswer.toString());
-      popt.push({text:optionText});
-    }
-    
-    const creatorId = Number("651276d1abd5f9a259c30025");
-    axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+  const handleDeleteQuestion = () => {
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const creatorId = usersdata.user._id
+    // console.log(creatorId)
+    // const quiz_id= '651beef47be29762479cf0ef'
+      axios
+    .delete(`http://localhost:5000/delete_quizz/${quiz_id}/${creatorId}`)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             // setbool(!bool)
-            console.log("Data added successfully");
-            try {
-              
-              setQuestions(oldArray => [{ question: QUE, options: popt },...oldArray])
-            }
-            catch (err) {
-              console.log(err)
-            }
+            console.log("Data updated successfully");
+            
           } else {
             alert("Error occured");
           }
@@ -106,7 +84,83 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
         .catch((err) => {
           console.log(err.response.data);
         });
+  }
+  const handlePostQuestion = () => {
+    
+    const formData = new FormData();
+    formData.append('language', quest.Language);
+    formData.append('class', quest.Class);
+    formData.append('subject', quest.Subject);
+    formData.append('topic', quest.Topic);
+    formData.append('subtopic',  quest.Sub_topic);
+    formData.append('level', quest.Level);
+    formData.append('quiz_type',  quest.Quiz_Type);
+    formData.append('question', question.text);
+    formData.append('question_image', question.question_image_url);
+
+    for (let i = 0; i < options.length; i++) {
+      const optionText = options[i].text;
+      const optionImageInput = options[i].image_url;
+      formData.append(`option_${i + 1}`, optionText);
+      formData.append(`option_${i + 1}_image`, optionImageInput);
+      const isAnswer = options[i].is_answer;
+      formData.append(`is_answer_${i + 1}`, isAnswer.toString());
     }
+     
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const creatorId = usersdata.user._id
+    console.log(creatorId)
+    // const quiz_id= '651beef47be29762479cf0ef'
+    axios
+    .put(`http://localhost:5000/update_quizz/${quiz_id}/${creatorId}`, formData)
+        .then((response) => {
+          if (response.status === 200) {
+            // setbool(!bool)
+            console.log("Data updated successfully");
+            
+          } else {
+            alert("Error occured");
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    
+    // console.log('Posted Question:', { question, options, correctAnswerIndex });
+  };
+  useEffect(()=>{
+    const fetchstopic = async ()=>{
+      try {
+        const { data } = await axios.get(`http://localhost:5000/get_quizz/${quiz_id}`)
+        // const temp= JSON.parse(data)
+        // console.log(data.class)
+        const obj = {
+          Language: data.language,
+          Class: data.class,
+          Topic: data.topic,
+          Level: data.level,
+          Quiz_Type: data.quiz_type,
+          Subject: data.subject,
+          Sub_topic: data.subtopic
+        }
+        setOptions(data.question_container.options)
+        setQuestion({ text: data.question_container.question, question_image_url: data.question_container.question_image_url })
+        // console.log(obj)
+        setquest(obj)
+        data.question_container.options.map((option, i)=>{
+          if(option.is_answer == true){
+            setSelectedAnswer(i)
+          }
+        })
+        
+        
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+     }
+     
+     fetchstopic()
+  }, [])
   const inputStyle = {
     padding: '11px 27px',
     borderRadius: '12px',
@@ -185,35 +239,59 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
       ))}
       </Box>
       </Box>
-      <Box sx={{ display: 'flex', width: '100%', mt: '56px', mb: '91px', justifyContent: 'center' }}>
-        <Button
-          variant='contained'
-          onClick={() => {
-            handlePostQuestion();
-            
-          }}
-          color='primary'
-          sx={{
-            width: '375px',
-            borderRadius: '12px',
-            background: '#7A58E6',
-            cursor: 'pointer',
-            border: 'none',
-            color: '#FFF',
-            fontSize: '18px',
-            fontWeight: '500',
-            textTransform: 'capitalize',
-            p: '10px 10px',
-            '&:hover': {
-              background: '#7A58E6',
+      <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'space-between'}}>
+      <Button variant="contained" onClick={()=>{
+        handlePostQuestion()
+        navigate('/admin')
+      }} 
+        color="primary"
+        sx={{
+            width: "40%",
+            borderRadius: "12px",
+            background: "#7A58E6",
+            cursor: "pointer",
+            border: "none",
+            color: "#FFF",
+            fontSize: "18px",
+            fontWeight: "500",
+            textTransform: "capitalize",
+            p: "10px 10px",
+            "&:hover": {
+              background: "#7A58E6",
             },
           }}
-        >
-          Post Question
-        </Button>
-      </Box>
+      >
+        Update Question
+      </Button>
+      <Button variant="contained" onClick={()=>{
+        handleDeleteQuestion()
+        navigate('/admin')
+      }} 
+        color="primary"
+        sx={{
+            width: "40%",
+            borderRadius: "12px",
+            background: "#7A58E6",
+            cursor: "pointer",
+            border: "none",
+            color: "#FFF",
+            fontSize: "18px",
+            fontWeight: "500",
+            textTransform: "capitalize",
+            p: "10px 10px",
+            "&:hover": {
+              background: "#7A58E6",
+            },
+          }}
+      >
+        Delete Question
+      </Button>
+
+
+    </Box>
+
     </Box>
   );
 };
 
-export default QuestionTrueFalse;
+export default QuestionTrueFalseUpdate;

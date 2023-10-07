@@ -54,6 +54,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
   
     setSelectedAnswerIndices(newSelectedIndices);
     setOptions(updatedOptions);
+    console.log(selectedAnswerIndices)
   };
   const handleDeleteImage = (type) => {
     if (type === 'question') {

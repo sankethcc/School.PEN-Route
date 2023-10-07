@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Checkbox,  FormControlLabel,
   Box,
@@ -14,15 +14,19 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
-const { quest,questions, setQuestions} = State();
-const [question, setQuestion] = useState({ text: '', image: null });
+  const navigate = useNavigate()
+  const {quiz_id} = useParams()
+
+  const { quest,questions,setquest, setQuestions} = State();
+  const [question, setQuestion] = useState({ text: '', question_image_url: null });
   const [options, setOptions] = useState([
-    { text: '', image: null, answer: '' },
-    { text: '', image: null, answer: '' },
-    { text: '', image: null, answer: '' },
-    { text: '', image: null, answer: '' },
+    { text: '', image: null, is_answer: '' },
+    { text: '', image: null, is_answer: '' },
+    { text: '', image: null, is_answer: '' },
+    { text: '', image: null, is_answer: '' },
   ]);
   const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
 
@@ -49,7 +53,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
     // Update the options with the new answer states
     const updatedOptions = options.map((option, i) => ({
       ...option,
-      answer: newSelectedIndices.includes(i),
+      is_answer: newSelectedIndices.includes(i),
     }));
   
     setSelectedAnswerIndices(newSelectedIndices);
@@ -89,44 +93,59 @@ const [question, setQuestion] = useState({ text: '', image: null });
     }
   };
 
-   const handlePostQuestion = () => {
-    // const data = {
+  const handleDeleteQuestion = () => {
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const creatorId = usersdata.user._id
+    // console.log(creatorId)
+    // const quiz_id= '651beef47be29762479cf0ef'
+      axios
+    .delete(`http://localhost:5000/delete_quizz/${quiz_id}/${creatorId}`)
+        .then((response) => {
+          if (response.status === 200) {
+            // setbool(!bool)
+            console.log("Data updated successfully");
+            
+          } else {
+            alert("Error occured");
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+  }
+  const handlePostQuestion = () => {
+    
     const formData = new FormData();
-    formData.append('language', quest.Language); 
+    formData.append('language', quest.Language);
     formData.append('class', quest.Class);
     formData.append('subject', quest.Subject);
     formData.append('topic', quest.Topic);
-    formData.append('subtopic', quest.Sub_topic);
+    formData.append('subtopic',  quest.Sub_topic);
     formData.append('level', quest.Level);
-    formData.append('quiz_type', quest.Quiz_Type);
+    formData.append('quiz_type',  quest.Quiz_Type);
     formData.append('question', question.text);
-    formData.append('question_image', question.image);
+    formData.append('question_image', question.question_image_url);
 
-    const popt = [],QUE=question.text;
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
-      const optionImageInput = options[i].image;
+      const optionImageInput = options[i].image_url;
       formData.append(`option_${i + 1}`, optionText);
       formData.append(`option_${i + 1}_image`, optionImageInput);
-      const isAnswer = options[i].answer;
+      const isAnswer = options[i].is_answer;
       formData.append(`is_answer_${i + 1}`, isAnswer.toString());
-      popt.push({text:optionText});
     }
-    
-    const creatorId = Number("651276d1abd5f9a259c30025");
+     
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const creatorId = usersdata.user._id
+    console.log(creatorId)
+    // const quiz_id= '651beef47be29762479cf0ef'
     axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+    .put(`http://localhost:5000/update_quizz/${quiz_id}/${creatorId}`, formData)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             // setbool(!bool)
-            console.log("Data added successfully");
-            try {
-              
-              setQuestions(oldArray => [{ question: QUE, options: popt },...oldArray])
-            }
-            catch (err) {
-              console.log(err)
-            }
+            console.log("Data updated successfully");
+            
           } else {
             alert("Error occured");
           }
@@ -137,6 +156,42 @@ const [question, setQuestion] = useState({ text: '', image: null });
     
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
+  useEffect(()=>{
+    const fetchstopic = async ()=>{
+      try {
+        const { data } = await axios.get(`http://localhost:5000/get_quizz/${quiz_id}`)
+        // const temp= JSON.parse(data)
+        // console.log(data.class)
+        const obj = {
+          Language: data.language,
+          Class: data.class,
+          Topic: data.topic,
+          Level: data.level,
+          Quiz_Type: data.quiz_type,
+          Subject: data.subject,
+          Sub_topic: data.subtopic
+        }
+        setOptions(data.question_container.options)
+        setQuestion({ text: data.question_container.question, question_image_url: data.question_container.question_image_url })
+        // console.log(obj)
+        setquest(obj)
+        const correctAnswers = []
+        data.question_container.options.map((option, i)=>{
+          if(option.is_answer == true){
+            correctAnswers.push(i)
+          }
+        })
+        setSelectedAnswerIndices(correctAnswers)
+        
+        
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+     }
+     
+     fetchstopic()
+  }, [])
+     
   const inputStyle = {
     padding: '11px 27px',
     borderRadius: '12px',
@@ -156,7 +211,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
         }}
     >
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px"}} >Question</Typography>
-        <Box sx={{display:'flex', width:'100%'}}>
+        <Box sx={{display:'flex', width:'100%', mb:'30px'}}>
 
             <Input
                 disableUnderline
@@ -242,13 +297,14 @@ const [question, setQuestion] = useState({ text: '', image: null });
         </Box>
         <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'end', mt:'32px'}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
     </Box>
-    <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
+    <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'space-between'}}>
       <Button variant="contained" onClick={()=>{
         handlePostQuestion()
+        navigate('/admin')
       }} 
         color="primary"
         sx={{
-            width: "375px",
+            width: "40%",
             borderRadius: "12px",
             background: "#7A58E6",
             cursor: "pointer",
@@ -263,7 +319,30 @@ const [question, setQuestion] = useState({ text: '', image: null });
             },
           }}
       >
-        Post Question
+        Update Question
+      </Button>
+      <Button variant="contained" onClick={()=>{
+        handleDeleteQuestion()
+        navigate('/admin')
+      }} 
+        color="primary"
+        sx={{
+            width: "40%",
+            borderRadius: "12px",
+            background: "#7A58E6",
+            cursor: "pointer",
+            border: "none",
+            color: "#FFF",
+            fontSize: "18px",
+            fontWeight: "500",
+            textTransform: "capitalize",
+            p: "10px 10px",
+            "&:hover": {
+              background: "#7A58E6",
+            },
+          }}
+      >
+        Delete Question
       </Button>
 
 

@@ -174,6 +174,11 @@ const CreateQuiz = () => {
         setQuestion({ text: data.question_container.question, question_image_url: data.question_container.question_image_url })
         // console.log(obj)
         setquest(obj)
+        data.question_container.options.map((option, i)=>{
+          if(option.is_answer == true){
+            setCorrectAnswerIndex(i)
+          }
+        })
         
         
       } catch(error){

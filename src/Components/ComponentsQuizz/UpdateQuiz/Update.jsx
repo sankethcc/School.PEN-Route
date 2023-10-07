@@ -9,6 +9,9 @@ import SelectContainer from "../CreateQuiz/SelectContainer";
 import AssignUser from "../../ComponentsAssignUser/AssignUser/AssignNewUser";
 import UserProfile from "../../ComponentsAssignUser/UserProfile/UserProfile";
 import { State } from "../../Context/Provider";
+import QuestionMultipleAnsUpdate from "./QuestionMultipleAnsUpdate";
+import QuestionTrueFalse from "./QuestionTrueFalseUpdate";
+import QuestionTrueFalseUpdate from "./QuestionTrueFalseUpdate";
 
 const style = {
   dflex: {
@@ -69,7 +72,22 @@ const UpdateQuiz = () => {
               </Box>
               <Box>
                 <SelectContainer />
-                <Questions />
+                <Box>
+                {quest.Quiz_Type === "" ? (
+                  <Questions  />
+                ) : quest.Quiz_Type === "Multiple choice - multiple answers" ? (
+                  <QuestionMultipleAnsUpdate
+                  />
+                ) : quest.Quiz_Type === "True or False" ? (
+                  <QuestionTrueFalseUpdate prop={["True", "False"]} />
+                ) : quest.Quiz_Type === "Multiple choice - Single answer" ? (
+                  <Questions />
+                ) : quest.Quiz_Type === "Yes or No" ? (
+                  <QuestionTrueFalseUpdate
+                    prop={["Yes", "No"]}
+                  />
+                ) : null}
+              </Box>
               </Box>
             
           </Box>
