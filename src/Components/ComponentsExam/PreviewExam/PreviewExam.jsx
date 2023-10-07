@@ -1,21 +1,10 @@
-import {
-    Avatar,
-    Box,
-    FormControl,
-    FormGroup,
-    InputLabel,
-    Menu,
-    MenuItem,
-    Select,
-    Typography,
-    Button,
-  } from "@mui/material";
+import {Avatar,Box,FormControl,FormGroup,InputLabel,Menu,MenuItem,Select,Typography,Button,} from "@mui/material";
   import React, { useState } from "react";
   import ProfileWrapper from "../../ComponentsQuizz/ProfileWrapper";
-  import SideDetailsExam from "../SideDetailsExam";
-  import { State } from "../../Context/Provider";
+  import { State } from "../../Context/Provider"; 
 
-  import axios from "axios";
+import SideDetailsPreviewExam from "./SideDetailsPreviewExam";
+import PreviewExamQuestions from "./PreviewExamQuestions";
 
   const style = {
     dflex: {
@@ -28,9 +17,7 @@ import {
     },
   };
   
-  const PreviewExam = ({
-  
-  }) => {
+  const PreviewExam = () => {
     const { quest } = State();
     
     return (
@@ -59,11 +46,12 @@ import {
           }}
         >
            <ProfileWrapper pageName='Exam Preview'  /> {/* // add props for menu name */}
-            <Box>
-             
+            <Box sx={{pt:'30px'}}>
+             <PreviewExamQuestions />
             </Box>
-        {/* preview question section */}
+        {/* preview Exam section */}
   
+        </Box>
         <Box
           sx={{
             width: {
@@ -78,11 +66,10 @@ import {
           }}
         >
   
-          <SideDetailsExam heading='Total Exam' />
+          <SideDetailsPreviewExam heading='Total Exam' />
   
   
              </Box>  
-        </Box>
       </Box>
     );
   };

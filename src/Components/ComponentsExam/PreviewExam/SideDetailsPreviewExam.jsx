@@ -1,20 +1,31 @@
+import { Box } from "@mui/material"
+import { State } from "../../Context/Provider";
 import { Button, Typography } from '@mui/material'
-import { Box } from '@mui/system'
 import React from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { useNavigate } from 'react-router-dom';
-
-const ExamPreviewSide = () => {
+const SideDetailsPreviewExam = ({heading, number}) => {
+  const { questions} = State();
   const navigate = useNavigate()
-    const styleButton = {
-        borderRadius:'34px',
-        color:'#383838',
-        font:'700 16px Lato',
-        width:'100%'
-    }
+  const styleButton = {
+      borderRadius:'34px',
+      color:'#383838',
+      font:'700 16px Lato',
+      width:'100%'
+  }
+  // console.log(questions)
   return (
-    <Box 
+    
+    <div className="side-details">
+      <div className="amount-wrapper">
+        <p className="price-heading">{heading}</p>
+        <p className="price-count">{questions.length}</p>
+      </div>
+      <h3>Preview</h3>
+      
+      <Box>
+      <Box 
     >
         <Box 
         style={{background:'#F5F6F7'}}
@@ -44,7 +55,10 @@ const ExamPreviewSide = () => {
         </Box>
       
     </Box>
+      </Box>
+
+    </div>
   )
 }
 
-export default ExamPreviewSide
+export default SideDetailsPreviewExam
