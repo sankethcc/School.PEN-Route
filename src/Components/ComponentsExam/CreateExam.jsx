@@ -32,7 +32,7 @@ const style = {
     alignItems: "center",
   },
 };
-
+//jnjnkkjn
 const CreateQuiz = ({
 
 }) => {
