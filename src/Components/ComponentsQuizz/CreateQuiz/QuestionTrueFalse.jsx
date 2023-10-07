@@ -27,8 +27,14 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
     setQuestion({ ...question, text: event.target.value });
   };
 
-  const handleRadioChange = (value) => {
-    setSelectedAnswer(value);
+  const handleRadioChange = (selectedIndex) => {
+    const newOptions = options.map((option, index) => ({
+      ...option,
+      answer: index === selectedIndex,
+    }));
+  
+    setOptions(newOptions);
+    setSelectedAnswer(selectedIndex);
   };
 
   const handleOptionChange = (event, index) => {
@@ -75,7 +81,7 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
       formData.append(`option_${i + 1}`, optionText);
       formData.append(`option_${i + 1}_image`, optionImageInput);
       const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i}`, isAnswer.toString());
+      formData.append(`is_answer_${i + 1}`, isAnswer.toString());
       popt.push({text:optionText});
     }
     

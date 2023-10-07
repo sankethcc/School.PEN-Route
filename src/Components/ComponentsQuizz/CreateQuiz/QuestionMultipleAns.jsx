@@ -19,10 +19,10 @@ const QuestionMultipleAns = ({handleThreeDotMenu}) => {
 const { quest,questions, setQuestions} = State();
 const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
+    { text: '', image: null, answer: '' },
+    { text: '', image: null, answer: '' },
+    { text: '', image: null, answer: '' },
+    { text: '', image: null, answer: '' },
   ]);
   const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
 
@@ -36,17 +36,24 @@ const [question, setQuestion] = useState({ text: '', image: null });
     setOptions(newOptions);
   };
 
-  const handleCheckboxChange = (event, index) => {
+  const handleCheckboxChange = (index) => {
     const newSelectedIndices = [...selectedAnswerIndices];
-    if (event.target.checked) {
+    const currentIndex = newSelectedIndices.indexOf(index);
+  
+    if (currentIndex === -1) {
       newSelectedIndices.push(index);
     } else {
-      const indexToRemove = newSelectedIndices.indexOf(index);
-      if (indexToRemove !== -1) {
-        newSelectedIndices.splice(indexToRemove, 1);
-      }
+      newSelectedIndices.splice(currentIndex, 1);
     }
+  
+    // Update the options with the new answer states
+    const updatedOptions = options.map((option, i) => ({
+      ...option,
+      answer: newSelectedIndices.includes(i),
+    }));
+  
     setSelectedAnswerIndices(newSelectedIndices);
+    setOptions(updatedOptions);
   };
   const handleDeleteImage = (type) => {
     if (type === 'question') {
@@ -102,7 +109,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
       formData.append(`option_${i + 1}`, optionText);
       formData.append(`option_${i + 1}_image`, optionImageInput);
       const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i}`, isAnswer.toString());
+      formData.append(`is_answer_${i + 1}`, isAnswer.toString());
       popt.push({text:optionText});
     }
     
@@ -188,7 +195,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
                 <Checkbox
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }}
                   checked={selectedAnswerIndices.includes(index)}
-                  onChange={(event) => handleCheckboxChange(event, index)}
+                  onChange={(event) => handleCheckboxChange(index)}
                 />
               }
               label=""

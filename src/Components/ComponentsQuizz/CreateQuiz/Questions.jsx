@@ -19,10 +19,10 @@ const CreateQuiz = () => {
   const { quest,questions, setQuestions} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
-    { text: '', image: null ,answer: false},
-    { text: '', image: null ,answer: false},
-    { text: '', image: null ,answer: false},
-    { text: '', image: null ,answer: false},
+    { text: '', image: null ,answer: ''},
+    { text: '', image: null ,answer: ''},
+    { text: '', image: null ,answer: ''},
+    { text: '', image: null ,answer: ''},
   ]);
   // const [bool, setbool]=useState(false)
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
@@ -38,9 +38,17 @@ const CreateQuiz = () => {
   };
 
   const handleRadioChange = (event) => {
-    setCorrectAnswerIndex(parseInt(event.target.value, 10));
-  };
+    const selectedIndex = parseInt(event.target.value, 10);
+    
+    // Create a new array with updated answer values
+    const newOptions = options.map((option, index) => ({
+        ...option,
+        answer: index === selectedIndex,
+    }));
 
+    setOptions(newOptions);
+    setCorrectAnswerIndex(selectedIndex);
+};
   const handleDeleteImage = (type) => {
     if (type === 'question') {
       setQuestion({ ...question, image: null });
@@ -99,7 +107,7 @@ const CreateQuiz = () => {
       formData.append(`option_${i + 1}`, optionText);
       formData.append(`option_${i + 1}_image`, optionImageInput);
       const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i}`, isAnswer.toString());
+      formData.append(`is_answer_${i + 1}`, isAnswer.toString());
       popt.push({text:optionText});
     }
     
