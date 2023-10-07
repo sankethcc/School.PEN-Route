@@ -10,7 +10,7 @@ const Instructions = () => {
     const [instructions, setInstructions] = useState('');
     const [eligibility, setEligibility] = useState('');
     const [learning, setLearning] = useState('');
-    console.log(learning)
+    // console.log(learning)
     const btnStyle={
         borderRadius:'12px',
         height:'64px',

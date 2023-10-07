@@ -10,14 +10,14 @@ import FormLabel from '@mui/material/FormLabel';
 import { Link } from 'react-router-dom'
 import ExamPreviewSide from './AddExam/ExamPreviewSide'
 const SideDetailsExam = ({heading, number}) => {
-  const { questions} = State();
+  const { Exams} = State();
   // console.log(questions)
   return (
     
     <div className="side-details">
       <div className="amount-wrapper">
         <p className="price-heading">{heading}</p>
-        <p className="price-count">{questions.length}</p>
+        <p className="price-count">{Exams.length}</p>
       </div>
       <h3>Preview</h3>
       

@@ -36,16 +36,16 @@ import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
   const CreateQuiz = ({
   
   }) => {
-    const { quest } = State();
+    const { exam , SetExams,Exams} = State();
     const handlePostQuestion = () => {
-      console.log(quest)
+      // console.log(exam)
        const formData = new FormData();
-      formData.append('subject', quest.Subject); 
-      formData.append('topic_class', quest.Class); 
-      formData.append('topic_name', quest.Topic); 
-      formData.append('level', quest.Level); 
-      formData.append('no_of_questions', quest.Sub_topic); 
-      formData.append('assigned_time', quest.Quiz_Type); 
+      formData.append('subject', exam.Subject); 
+      formData.append('topic_class', exam.Class); 
+      formData.append('topic_name', exam.Topic); 
+      formData.append('level', exam.Level); 
+      formData.append('no_of_questions', exam.perquest); 
+      formData.append('assigned_time', exam.assigned_time); 
       formData.append('instruction', "lajh"); 
       formData.append('learning', "jsnjs"); 
       formData.append('eligiblity', "js js"); 
@@ -54,6 +54,8 @@ import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
     .post("http://localhost:5000/create_topic", formData)
         .then((response) => {
           if (response.status === 201) {
+            // console.log(response.data)
+            SetExams(oldArray => [response.data, ...oldArray])
             console.log("Data added successfully");
           } else {
             alert("Error occured");
@@ -96,24 +98,6 @@ import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
                 <Box>
                   <SelectContainerExam />
                   <Instructions />
-                  <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
-                  {/* <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={quest.Quiz_Type}/> */}
-
-                  </Box>
-                  {/* {quest.Quiz_Type === "" ? (
-                    <QuestionsExam  />
-                  ) : quest.Quiz_Type === "Multiple choice - multiple answers" ? (
-                    <QuestionMultipleAnsExam
-                    />
-                  ) : quest.Quiz_Type === "True or False" ? (
-                    <QuestionTrueFalseExam prop={["True", "False"]} />
-                  ) : quest.Quiz_Type === "Multiple choice - Single answer" ? (
-                    <QuestionsExam />
-                  ) : quest.Quiz_Type === "Yes or No" ? (
-                    <QuestionTrueFalseExam
-                      prop={["Yes", "No"]}
-                    />
-                  ) : null} */}
                   <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
                       <Button variant="contained" onClick={()=>{
                         handlePostQuestion()
@@ -135,9 +119,27 @@ import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
                             },
                           }}
                       >
-                        Post Question
+                        Create Exam
                       </Button>
-                    </Box>
+                </Box>
+                    <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
+                  <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={Exams.Quiz_Type}/>
+
+                  </Box>
+                  {Exams.Quiz_Type === "" ? (
+                    <QuestionsExam  />
+                  ) : Exams.Quiz_Type === "Multiple choice - multiple answers" ? (
+                    <QuestionMultipleAnsExam
+                    />
+                  ) : Exams.Quiz_Type === "True or False" ? (
+                    <QuestionTrueFalseExam prop={["True", "False"]} />
+                  ) : Exams.Quiz_Type === "Multiple choice - Single answer" ? (
+                    <QuestionsExam />
+                  ) : Exams.Quiz_Type === "Yes or No" ? (
+                    <QuestionTrueFalseExam
+                      prop={["Yes", "No"]}
+                    />
+                  ) : null}
                 </Box>
             </Box>
 

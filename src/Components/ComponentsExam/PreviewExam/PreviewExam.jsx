@@ -31,7 +31,7 @@ import {
   const PreviewExam = ({
   
   }) => {
-    const { quest } = State();
+    const { Exams} = State();
     
     return (
       <Box
