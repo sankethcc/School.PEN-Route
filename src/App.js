@@ -20,21 +20,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
-      {/* <Route path="/main" element={<Quiz />} />
-          <Route path="/page2" element={<Page2 />} />
-          <Route path="/page3" element={<Page3 />} />
-          <Route path="/page4" element={<CreateSubject />} />
-          <Route path="/exam" element={<Exam />} />
-          <Route path="/user" element={<User />} />
-          <Route path="user-profile" element={<UserProfile />} />
-          <Route path="quiz" element={<CreateQuiz />} /> */}
           <Route path="/admin">
             <Route path="" element={<MainPageOfQuiz />} />
             <Route path="creae-subject" element={<AddSubjectSubtopic />} />
             <Route path="add-language" element={<AddLanguagePage />} />
             <Route path="create-exam" element={<MainPageOfExam />} />
             <Route path="assign-user" element={<MainPageOfAssignUser />} />
-            <Route path="exam-preview" element={<PreviewPageExam />} />
+            <Route path="create-exam/preview" element={<PreviewPageExam />} />
           </Route>
           <Route path="/update/:quiz_id" element={<UpdatePageOfQuiz />} />
 
