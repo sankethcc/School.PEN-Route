@@ -15,7 +15,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { State } from '../../Context/Provider';
 
-const CreateQuiz = ({ handleThreeDotMenu }) => {
+const CreateQuiz = () => {
   const navigate = useNavigate()
   const {quiz_id} = useParams()
   
@@ -284,7 +284,6 @@ const CreateQuiz = ({ handleThreeDotMenu }) => {
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'space-between'}}>
       <Button variant="contained" onClick={()=>{
         handlePostQuestion()
-        handleThreeDotMenu()
         navigate('/admin')
       }} 
         color="primary"

@@ -3,8 +3,10 @@ import { Box } from '@mui/system'
 import React from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
+import { useNavigate } from 'react-router-dom';
 
 const ExamPreviewSide = () => {
+  const navigate = useNavigate()
     const styleButton = {
         borderRadius:'34px',
         color:'#383838',
@@ -31,8 +33,8 @@ const ExamPreviewSide = () => {
               <Typography sx={{color:'#707070'}}> <QuizIcon /> 90 Questions</Typography>
 
               </Box>
-              <Box>
-              <Typography variant='p' sx={{color:'#707070'}}>Beginner</Typography>
+              <Box >
+              <Typography variant='p' sx={{color:'#707070', mb:'30px'}}>Beginner</Typography>
               <Typography sx={{color:'#707070'}}> <TimerIcon />180 Minutes</Typography>
 
               </Box>

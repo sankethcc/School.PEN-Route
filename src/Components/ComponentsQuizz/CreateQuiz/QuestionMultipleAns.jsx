@@ -238,7 +238,6 @@ const [question, setQuestion] = useState({ text: '', image: null });
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
       <Button variant="contained" onClick={()=>{
         handlePostQuestion()
-        handleThreeDotMenu()
       }} 
         color="primary"
         sx={{

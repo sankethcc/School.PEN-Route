@@ -1,0 +1,17 @@
+import React, { useState } from 'react'
+import Menu from '../Components/Menu/Menu'
+import CreateQuiz from '../Components/ComponentsQuizz/CreateQuiz/CreateQuiz'
+import { Box } from '@mui/system'
+import PreviewExam from '../Components/ComponentsExam/PreviewExam/PreviewExam'
+
+const PreviewPageExam = () => {
+
+  return (
+    <Box sx={{display:'flex', alignItems:'start'}}>
+        <Menu  />
+        <PreviewExam />
+    </Box>
+  )
+}
+
+export default PreviewPageExam

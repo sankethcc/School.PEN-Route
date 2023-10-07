@@ -1,6 +1,6 @@
 import React from 'react'
 import ProfileWrapper from '../../ComponentsNotRequire/ProfileWrapper'
-import AssignUser from './AssignUser'
+import AssignUser from './AssignNewUser'
 
 
 const Assign = () => {
