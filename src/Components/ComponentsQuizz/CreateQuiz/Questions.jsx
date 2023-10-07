@@ -15,7 +15,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
 
-const CreateQuiz = ({handleThreeDotMenu}) => {
+const CreateQuiz = () => {
   const { quest,questions, setQuestions} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
@@ -105,6 +105,7 @@ const CreateQuiz = ({handleThreeDotMenu}) => {
     
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
+    console.log(creatorId)
     axios
     .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
         .then((response) => {
@@ -244,7 +245,6 @@ const CreateQuiz = ({handleThreeDotMenu}) => {
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
       <Button variant="contained" onClick={()=>{
         handlePostQuestion()
-        handleThreeDotMenu()
       }} 
         color="primary"
         sx={{

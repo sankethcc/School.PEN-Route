@@ -15,7 +15,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { State } from '../../Context/Provider';
 
-const CreateQuiz = ({ handleThreeDotMenu }) => {
+const CreateQuiz = () => {
   const navigate = useNavigate()
   const {quiz_id} = useParams()
   
@@ -126,7 +126,7 @@ const CreateQuiz = ({ handleThreeDotMenu }) => {
      
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
-    // console.log(creatorId)
+    console.log(creatorId)
     // const quiz_id= '651beef47be29762479cf0ef'
     axios
     .put(`http://localhost:5000/update_quizz/${quiz_id}/${creatorId}`, formData)
