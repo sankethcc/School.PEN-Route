@@ -12,24 +12,15 @@ import axios from 'axios';
 
 export default function UnstyledSelectObjectValues({dropdownName,listArray,add,value,val }) {
   const style = dropdownName == "Language" ? "#fff" : '#F5F6F7'
-  const { quest, setquest } = State();
+  const { quest, setquest,setdsubject,setdtopic,setdstopic } = State();
   const [open, setOpen] = React.useState(false);
-  const [subject, setSubject] = React.useState('');
+  // const [subject, setSubject] = React.useState('');
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
 
-  const [sub, setSub] = React.useState([
-    {name: '', image: null},
-    {topic: '', image: null},
-    {subt1: '', image: null},
-    {subt2: '', image: null},
-  ])
+  const [sub, setSub] = React.useState('')
   const InputEvent = (event, index) => {
     const { value, name } = event.target;
-    setSub((prevData) => {
-      const updatedSub = [...prevData]; 
-      updatedSub[index] = { ...updatedSub[index], [name]: value };
-      return updatedSub;
-    });
+    setSub(value);
   };
 
   const handleOpen = () => {
@@ -48,28 +39,48 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
     handleClose();
   };
   const submithandler = () => {
-    const formData = new FormData();
-    console.log(sub);
-    formData.append('subject', sub[0].name);
-    formData.append('subject_image', sub[0].image);
-    formData.append('topic', sub[1].topic);
-    formData.append('topic_image', sub[1].image); 
-    formData.append('subtopic', sub[2].subt1);
-    formData.append('subtopic_image', sub[2].image);
-
-    axios
-    .post("http://localhost:5000/add_Subject_quizz", formData)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log("Data added successfully");
-          } else {
-            alert("Error occured");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    console.log(sub)
+  const formData = new FormData();
+  if (dropdownName == "Language") {
+    formData.append('language', sub);
+    axios.post("http://localhost:5000/create_language", formData)
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("Data added successfully");
+        } else {
+          alert("Error occured");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+    });
+  }
+  else {
+    if (dropdownName == "Subject") {
+      formData.append('subject', sub);
+    }
+    else if (dropdownName == "Topic") {
+      formData.append('topic', sub);
+      formData.append('subject', quest.Subject);
+    }
+    else {
+      formData.append('topic', quest.Topic);
+      formData.append('subject', quest.Subject);
+      formData.append('subtopic', sub);
+    }
+    axios.post("http://localhost:5000/add_Subject_quizz", formData)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Data added successfully");
+          // console.log(response)
+          (dropdownName=="Subject")?setdsubject(oldArray => [sub,...oldArray]):(dropdownName=="Topic")?setdtopic(oldArray => [sub,...oldArray]):setdstopic(oldArray => [sub,...oldArray])
+        } else {
+          alert("Error occured");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   }
   
@@ -90,6 +101,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
                 ))}
         {add?<StyledOption onClick={handleOpen}  sx={{color:'blue'}}>Add New</StyledOption>:null}
     </CustomSelect>
+    
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add New {dropdownName}</DialogTitle>
         <DialogContent>
@@ -97,7 +109,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
             name={(dropdownName == "Subject")?'name':(dropdownName =="Topic")?'topic':(dropdownName == 'Sub topic')?'subt1':null}
             type="text"
             label={`Enter New ${dropdownName}`}
-            value={(dropdownName == "Subject")?sub.name:(dropdownName =="Topic")?sub.topic:(dropdownName == 'Sub topic')?sub.subt1:null}
+            value={sub}
             onChange={(e)=>InputEvent(e,index)}
             fullWidth
           />
