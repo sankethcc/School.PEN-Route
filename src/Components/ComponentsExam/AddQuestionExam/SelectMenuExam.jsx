@@ -4,10 +4,11 @@ import { Select, selectClasses } from '@mui/base/Select';
 import { Option, optionClasses } from '@mui/base/Option';
 import { OptionGroup } from '@mui/base/OptionGroup';
 import { Popper } from '@mui/base/Popper';
-import { fontSize, styled } from '@mui/system';
+import { Box, fontSize, styled } from '@mui/system';
 // import { useState } from 'react';
 import {State} from "../../Context/Provider"
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from 'axios';
 
 export default function SelectMenuExam({dropdownName,listArray,add,value,val }) {
@@ -104,7 +105,7 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
     </CustomSelect>
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add New {dropdownName}</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{display:'flex', justifyContent:'center'}}>
           <TextField
             type="text"
             label={`Enter New ${dropdownName}`}
@@ -112,6 +113,23 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
             onChange={(e) => InputEvent(e,index)}
             fullWidth
           />
+          {(dropdownName == "Subject"|| dropdownName =="Topic"|| dropdownName=="Sub topic")?
+          <Box>
+          <input
+            type="file"
+            accept="image/*"
+            // onChange={(e) => handleImageUpload(e, null, 'topic')}
+            style={{ display: 'none' }}
+            id="topic-image-upload"
+            />
+            <label htmlFor="topic-image-upload">
+            <IconButton component="span" aria-label="Upload image">
+                <AddPhotoAlternateIcon sx={{fontSize:'30px'}} />
+            </IconButton>
+            </label>
+
+          </Box>
+            :null}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

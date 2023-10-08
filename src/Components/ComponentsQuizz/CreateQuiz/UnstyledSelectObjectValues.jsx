@@ -4,10 +4,11 @@ import { Select, selectClasses } from '@mui/base/Select';
 import { Option, optionClasses } from '@mui/base/Option';
 import { OptionGroup } from '@mui/base/OptionGroup';
 import { Popper } from '@mui/base/Popper';
-import { fontSize, styled } from '@mui/system';
+import { Box, fontSize, styled } from '@mui/system';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 // import { useState } from 'react';
 import {State} from "../../Context/Provider"
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
 import axios from 'axios';
 
 export default function UnstyledSelectObjectValues({dropdownName,listArray,add,value,val }) {
@@ -22,7 +23,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
     const { value, name } = event.target;
     setSub(value);
   };
-
+  
   const handleOpen = () => {
     setOpen(true);
   };
@@ -104,7 +105,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
     
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add New {dropdownName}</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{display:'flex', justifyContent:'center'}}>
           <TextField
             name={(dropdownName == "Subject")?'name':(dropdownName =="Topic")?'topic':(dropdownName == 'Sub topic')?'subt1':null}
             type="text"
@@ -113,6 +114,23 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
             onChange={(e)=>InputEvent(e,index)}
             fullWidth
           />
+          {(dropdownName == "Subject"|| dropdownName =="Topic"|| dropdownName=="Sub topic")?
+          <Box>
+          <input
+            type="file"
+            accept="image/*"
+            // onChange={(e) => handleImageUpload(e, null, 'topic')}
+            style={{ display: 'none' }}
+            id="topic-image-upload"
+            />
+            <label htmlFor="topic-image-upload">
+            <IconButton component="span" aria-label="Upload image">
+                <AddPhotoAlternateIcon sx={{fontSize:'30px'}} />
+            </IconButton>
+            </label>
+
+          </Box>
+            :null}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
