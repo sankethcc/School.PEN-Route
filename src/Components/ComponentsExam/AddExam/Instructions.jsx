@@ -1,43 +1,82 @@
-import { Box } from '@mui/material'
-import React, { useState } from 'react'
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 import StyledArea from './StyledArea';
+import { useState } from 'react';
 
-const Instructions = () => {
-    const [activeTab, setActiveTab] = useState('tab1');
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-    const [instructions, setInstructions] = useState('');
-    const [eligibility, setEligibility] = useState('');
-    const [learning, setLearning] = useState('');
-    console.log(learning)
-    const btnStyle={
-        borderRadius:'12px',
-        height:'64px',
-        fontSize:'20px',
-        fontWeight:'700',
-        border:'none',
-        textTransform:'capitalize'
-    }
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 0 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+export default function Instructions() {
+  const [value, setValue] = useState(0);
+  const [instructions, setInstructions] = useState('');
+  const [eligibility, setEligibility] = useState('');
+  const [learning, setLearning] = useState('');
+
+  const handleChange = (event, newValue) => {
     
-    const handleTabClick = (tab) => {
-        setActiveTab(tab);
-      };
-    
+    setValue(newValue);
+  };
+  const btnStyle={
+    borderRadius:'12px',
+    height:'64px',
+    fontSize:'20px',
+    fontWeight:'700',
+    border:'none',
+    textTransform:'capitalize'
+  }
+  const [activeTab, setActiveTab] = useState('tab1');
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
 
 
   return (
-
-      <Box sx={{
-        background:'#FFF',
-        padding:'56px 48px',
-        mt:'32px',
-        borderRadius:'24px',
-        textAlign:'center',
-        width:'100%'
-      }}>
-        <ButtonGroup variant="contained" aria-label="outlined primary button group"
-            sx={{
+    <Box sx={{
+      background:'#FFF',
+      padding:'56px 48px',
+      mt:'32px',
+      borderRadius:'24px',
+      textAlign:'center',
+      width:'100%'
+    }}>
+    
+    <Box sx={{ width: '100%' }}>
+      <Box className='instructions-exam'>
+        <Tabs sx={{
                 borderRadius:'16px',
                 width:'100%',
                 mb:'49px',
@@ -45,61 +84,80 @@ const Instructions = () => {
                 background:'#F5F6F7',
                 boxShadow:'none'
                 
-            }}
+            }} 
+          value={value} onChange={handleChange}>
+          <Tab disableFocusRipple 
+          disableTouchRipple 
+          color='#fff'
+          sx={{
+            borderRadius:'12px',
+            height:'64px',
+            fontSize:'20px',
+            fontWeight:'700',
+            border:'none',
+            textTransform:'capitalize',
+            width:'100%',
+            width:'100%',
+            color: activeTab === 'tab1' ? '#FFF' : '#707070',
+            fontWeight: activeTab === 'tab1' ? '700' : '400',
+            background: activeTab === 'tab1' ? '#7A58E6' : 'transparent',
+            '&:hover': {
+            background: activeTab === 'tab1' ? '#7A58E6' : 'transparent',
+            }   
+          }} 
+          className={`tab ${activeTab === 'tab1' ? 'active' : ''}`}
+          onClick={() => handleTabClick('tab1')}
+          label="Instructions" {...a11yProps(0)} />
+
+          <Tab sx={{
+            borderRadius:'12px',
+            height:'64px',
+            fontSize:'20px',
+            fontWeight:'700',
+            border:'none',
+            textTransform:'capitalize',
+            color: activeTab === 'tab2' ? '#FFF' : '#707070',
+            fontWeight: activeTab === 'tab2' ? '700' : '400',
+            background: activeTab === 'tab2' ? '#7A58E6' : 'transparent',
+            '&:hover': {
+            background: activeTab === 'tab2' ? '#7A58E6' : 'transparent',
+            }   
             
-        >
-            <Button style={btnStyle} 
-                sx={{ 
-                    width:'100%',
-                    color: activeTab === 'tab1' ? '#FFF' : '#707070',
-                    fontWeight: activeTab === 'tab1' ? '700' : '400',
-                    background: activeTab === 'tab1' ? '#7A58E6' : 'transparent',
-                    '&:hover': {
-                    background: activeTab === 'tab1' ? '#7A58E6' : 'transparent',
-                    }   
-                }}
-                className={`tab ${activeTab === 'tab1' ? 'active' : ''}`}
-                onClick={() => handleTabClick('tab1')}
-            >Instruction</Button>
-            <Button style={btnStyle} 
-                sx={{ 
-                    width:'100%',
-                    color: activeTab === 'tab2' ? '#FFF' : '#707070',
-                    fontWeight: activeTab === 'tab2' ? '700' : '400',
-                    background: activeTab === 'tab2' ? '#7A58E6' : 'transparent',
-                    '&:hover': {
-                    background: activeTab === 'tab2' ? '#7A58E6' : 'transparent',
-                    }   
-                }}
-                className={`tab ${activeTab === 'tab2' ? 'active' : ''}`}
-                onClick={() => handleTabClick('tab2')}
-            >Eligibility</Button>
-            <Button style={btnStyle} 
-                sx={{ 
-                    width:'100%',
-                    color: activeTab === 'tab3' ? '#FFF' : '#707070',
-                    fontWeight: activeTab === 'tab3' ? '700' : '400',
-                    background: activeTab === 'tab3' ? '#7A58E6' : 'transparent',
-                    '&:hover': {
-                    background: activeTab === 'tab3' ? '#7A58E6' : 'transparent',
-                    }   
-                }}
-                className={`tab ${activeTab === 'tab3' ? 'active' : ''}`}
-                onClick={() => handleTabClick('tab3')}
-            >Learning</Button>
-
-        </ButtonGroup>
-        {activeTab == 'tab1'? 
-        <StyledArea value={instructions} setValue={setInstructions} />
-        
-        :activeTab == 'tab2'?
-        <StyledArea value={eligibility} setValue={setEligibility} />
-        
-        : <StyledArea value={learning} setValue={setLearning} />}
-                
+            }} 
+            className={`tab ${activeTab === 'tab2' ? 'active' : ''}`}
+            onClick={() => handleTabClick('tab2')}
+            label="Elegibility" {...a11yProps(1)} />
+          <Tab sx={{
+            borderRadius:'12px',
+            height:'64px',
+            fontSize:'20px',
+            fontWeight:'700',
+            border:'none',
+            textTransform:'capitalize',
+            width:'100%',
+            color: activeTab === 'tab3' ? '#FFF' : '#707070',
+            fontWeight: activeTab === 'tab3' ? '700' : '400',
+            background: activeTab === 'tab3' ? '#7A58E6' : 'transparent',
+            '&:hover': {
+            background: activeTab === 'tab3' ? '#7A58E6' : 'transparent',
+            }   
+            
+          }}
+          className={`tab ${activeTab === 'tab3' ? 'active' : ''}`}
+          onClick={() => handleTabClick('tab3')}
+          label="Learning" {...a11yProps(2)} />
+        </Tabs>
       </Box>
-
-  )
+      <CustomTabPanel value={value} index={0}>
+      <StyledArea value={instructions} setValue={setInstructions} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+      <StyledArea value={eligibility} setValue={setEligibility} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+      <StyledArea value={learning} setValue={setLearning} />
+      </CustomTabPanel>
+    </Box>
+    </Box>
+  );
 }
-
-export default Instructions

@@ -15,3 +15,18 @@
     padding: 0px; 
     min-height: 135px;
 }
+
+.instructions-exam .MuiTabs-flexContainer {
+    display: grid;
+    grid-template-columns: 4fr 4fr 4fr;
+}
+.instructions-exam span{
+    display: none;
+
+}
+.css-1u2wfj3-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    color: #FFF !important;
+}
+.css-15pxztp-MuiButtonBase-root-MuiTab-root.Mui-selected {
+    color: #fff !important;
+}
