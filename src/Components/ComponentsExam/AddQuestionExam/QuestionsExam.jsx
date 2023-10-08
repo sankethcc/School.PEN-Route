@@ -225,34 +225,7 @@ const QuestionsExam = () => {
                     </Box>
                 ))}
         </Box>
-
-        <Box sx={{display:'grid', gridTemplateColumns:'4fr 4fr 4fr', justifyContent:'center', mt:'32px'}}>
-          <span></span>
-          <Box sx={{textAlign:'center'}}>
-            <Button
-            sx={{
-              width: "60%",
-              borderRadius: "12px",
-              background: "#7A58E6",
-              cursor: "pointer",
-              border: "none",
-              color: "#FFF",
-              fontSize: "18px",
-              fontWeight: "500",
-              textTransform: "capitalize",
-              p: "10px 10px",
-              "&:hover": {
-                background: "#7A58E6",
-              },
-            }}
-            >Update</Button>
-
-          </Box>
-          <Box sx={{display:'flex'}}>
-              <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'center',}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
-
-          </Box>
-        </Box>
+        <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'end', mt:'32px'}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
     </Box>
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
       <Button variant="contained" onClick={()=>{
