@@ -38,6 +38,7 @@ const CreateQuiz = ({
 
 }) => {
   const { exam, SetExams ,setexamid,examquest} = State();
+  const {instruction, eligiblity, learning} = State()
   // console.log(Exams)
   const handlePostQuestion = () => {
     // console.log(exam)
@@ -48,9 +49,9 @@ const CreateQuiz = ({
     formData.append('level', exam.Level); 
     formData.append('no_of_questions', exam.perquest); 
     formData.append('assigned_time', exam.assigned_time); 
-    formData.append('instruction', "lajh"); 
-    formData.append('learning', "jsnjs"); 
-    formData.append('eligiblity', "js js"); 
+    formData.append('instruction', instruction); 
+    formData.append('learning', learning); 
+    formData.append('eligiblity', eligiblity); 
 
     axios
   .post("http://localhost:5000/create_topic", formData)

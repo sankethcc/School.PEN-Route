@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import StyledArea from './StyledArea';
 import { useState } from 'react';
+import { State } from '../../Context/Provider';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,10 +42,9 @@ function a11yProps(index) {
 }
 
 export default function Instructions() {
+  const {instruction, setInstruction,    eligiblity, setEligiblity,    learning, setLearning,} = State()
   const [value, setValue] = useState(0);
-  const [instructions, setInstructions] = useState('');
-  const [eligibility, setEligibility] = useState('');
-  const [learning, setLearning] = useState('');
+  
 
   const handleChange = (event, newValue) => {
     
@@ -107,7 +107,7 @@ export default function Instructions() {
           }} 
           className={`tab ${activeTab === 'tab1' ? 'active' : ''}`}
           onClick={() => handleTabClick('tab1')}
-          label="Instructions" {...a11yProps(0)} />
+          label="Instruction" {...a11yProps(0)} />
 
           <Tab sx={{
             borderRadius:'12px',
@@ -126,7 +126,7 @@ export default function Instructions() {
             }} 
             className={`tab ${activeTab === 'tab2' ? 'active' : ''}`}
             onClick={() => handleTabClick('tab2')}
-            label="Elegibility" {...a11yProps(1)} />
+            label="Eligiblity" {...a11yProps(1)} />
           <Tab sx={{
             borderRadius:'12px',
             height:'64px',
@@ -149,10 +149,10 @@ export default function Instructions() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-      <StyledArea value={instructions} setValue={setInstructions} />
+      <StyledArea value={instruction} setValue={setInstruction} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-      <StyledArea value={eligibility} setValue={setEligibility} />
+      <StyledArea value={eligiblity} setValue={setEligiblity} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
       <StyledArea value={learning} setValue={setLearning} />

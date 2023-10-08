@@ -4,10 +4,10 @@ import React from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { Link,NavLink, useNavigate } from 'react-router-dom';
-import {State} from '../Context/Provider'
+import { State } from '../../Context/Provider';
 
-const SideDetailsExam = ({heading}) => {
-  const { Exams} = State();
+const SideDetailsPreviewPage = ({heading}) => {
+  const { Exams, handleUpdatePreviewQuestionExam} = State();
   const navigate = useNavigate()
     const styleButton = {
         borderRadius:'34px',
@@ -52,7 +52,7 @@ const SideDetailsExam = ({heading}) => {
                 <Typography sx={{ color: '#707070' }}> <TimerIcon />{data.assigned_time}</Typography>
 
               </Box>
-              <NavLink to={`${data._id}`}>
+              <NavLink to={`/admin/create-exam/${data._id}`} onClick={handleUpdatePreviewQuestionExam}>
               <Button style={{background:'var(--Linear, linear-gradient(180deg, #8C6FE9 0%, #2D00BA 100%))', color:'#fff'}} sx={styleButton}>Check</Button>
               </NavLink>
               <Button style={{background:'#fff'}} sx={styleButton}>Edit</Button>
@@ -67,4 +67,4 @@ const SideDetailsExam = ({heading}) => {
   )
 }
 
-export default SideDetailsExam
+export default SideDetailsPreviewPage

@@ -5,6 +5,7 @@ import {Avatar,Box,FormControl,FormGroup,InputLabel,Menu,MenuItem,Select,Typogra
 
 import SideDetailsPreviewExam from "../SideDetailsExam";
 import PreviewExamQuestions from "./PreviewExamQuestions";
+import SideDetailsPreviewPage from "./SideDetailsPreviewPage";
 
   const style = {
     dflex: {
@@ -66,7 +67,7 @@ import PreviewExamQuestions from "./PreviewExamQuestions";
           }}
         >
   
-          <SideDetailsPreviewExam heading='Total Exam' />
+          <SideDetailsPreviewPage heading='Total Exam' />
   
   
              </Box>  
