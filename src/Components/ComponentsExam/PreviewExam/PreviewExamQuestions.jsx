@@ -80,7 +80,7 @@ const PreviewExamQuestions = ({heading, number}) => {
                 // const is_answer = option.is_answer             
                 return(
                   <Box sx={{ display: 'flex', mr: '20px', mb: '20px' }}>{
-                    <img alt='Question image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }} src={QuestionImg} />
+                    option.oimg?<img src={`http://127.0.0.1:5000/get_image/${option.oimg}`} alt='get-image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }}  />:<></>
                     }
                     <FormControlLabel key={i}   value="option" control={<Radio /> } label={text} />
                     {/* disabled={!is_answer} */}
