@@ -23,6 +23,12 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
     const { value, name } = event.target;
     setSub(value);
   };
+  const [subImg, setSubImg] = React.useState([{image:null}])
+  const handleImageUpload = (event, index, type) => {
+    const newImg = [...subImg]
+    newImg[0].image = event.target.files[0]
+    setSubImg(newImg)
+  };
   
   const handleOpen = () => {
     setOpen(true);
@@ -119,7 +125,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
           <input
             type="file"
             accept="image/*"
-            // onChange={(e) => handleImageUpload(e, null, 'topic')}
+            onChange={(e) => handleImageUpload(e, null, 'topic')}
             style={{ display: 'none' }}
             id="topic-image-upload"
             />
