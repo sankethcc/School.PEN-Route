@@ -6,18 +6,9 @@ import { State } from '../Components/Context/Provider'
   
 
 const MainPageOfQuiz = () => {
-  const { setquest } = State();
+  const { bool,setbool } = State();
   useEffect(() => {
-    setquest({
-    Subject: "",
-    Class: "",
-    Topic: "",
-    Sub_topic: "",
-    Level: "",
-    Quiz_Type: "",
-    Language: "",
-    
-  })
+    setbool(!bool)
   },[])
   return (
     <Box sx={{display:'flex', alignItems:'start'}}>

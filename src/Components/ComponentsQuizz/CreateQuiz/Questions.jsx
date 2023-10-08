@@ -108,7 +108,7 @@ const CreateQuiz = () => {
       formData.append(`option_${i + 1}_image`, optionImageInput);
       const isAnswer = options[i].answer;
       formData.append(`is_answer_${i + 1}`, isAnswer.toString());
-      popt.push({text:optionText});
+      popt.push({text:optionText, is_answer:isAnswer});
     }
     
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;

@@ -39,7 +39,7 @@ const Provider = ({ children }) => {
   const [dsubject, setdsubject] = useState([])
   const [dtopic, setdtopic] = useState([])
   const [dstopic, setdstopic] = useState([])
-  
+  const [bool,setbool]= useState(true)
   const [questions, setQuestions] = useState([])
   const [Exams, SetExams]=useState([])
   const [subjects, setSubjects] = useState([])
@@ -163,7 +163,7 @@ const Provider = ({ children }) => {
     }
     fetchQuestions()
     
-  }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language])
+  }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language,openPage,bool])
   
   
   // useEffect(() => {
@@ -248,7 +248,8 @@ const Provider = ({ children }) => {
         exam, setexam,
         Exams, SetExams,
         examquest, setexamquest,
-              examid, setexamid
+        examid, setexamid,
+              bool,setbool
       }}
     >
       {children}
