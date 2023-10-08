@@ -63,7 +63,7 @@ const PreviewExamQuestions = ({heading, number}) => {
           return (
           <Box sx={{background:'#fff'}} className='preview-question' key={i}>
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
-              <img alt='Question image' style={{width:'200px', height:'200px', objectFit:'contain', marginRight:'20px'}} src={QuestionImg}></img>
+                {/* {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`http://127.0.0.1:5000/get_image/${data.img}`}></img> : <></>} */}
               <p>{data.question} </p>
 
             </Box>

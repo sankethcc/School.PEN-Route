@@ -18,7 +18,7 @@ const Provider = ({ children }) => {
     Sub_topic: "",
     Level: "",
     Quiz_Type: "",
-    Language: "English",
+    Language: "",
     
   });
 
@@ -29,7 +29,8 @@ const Provider = ({ children }) => {
     Level: "",
     perquest: "",
     assigned_time: "",
-    Quiz_Type: ""
+    Quiz_Type: "",
+    Language: ""
   });
 
   const [examquest, setexamquest] = useState([]);

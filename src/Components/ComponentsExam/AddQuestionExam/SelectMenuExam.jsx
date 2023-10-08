@@ -8,13 +8,21 @@ import { fontSize, styled } from '@mui/system';
 // import { useState } from 'react';
 import {State} from "../../Context/Provider"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import axios from 'axios';
 
 export default function SelectMenuExam({dropdownName,listArray,add,value,val }) {
   const style = (dropdownName == "Language") ? "#fff" :(dropdownName == "Quiz Type")? '#fff' :(dropdownName == "Topic Quiz Type")? "#fff": '#F5F6F7'
+  const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
 
-  const {setexam} = State();
+  const {exam,setexam,setdsubject,setdtopic,setdstopic} = State();
   const [open, setOpen] = React.useState(false);
-  const [subject, setSubject] = React.useState('');
+  
+
+  const [sub, setSub] = React.useState('')
+  const InputEvent = (event, index) => {
+    const { value, name } = event.target;
+    setSub(value);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -31,6 +39,51 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
     // Close the dialog
     handleClose();
   };
+  const submithandler = () => {
+  const formData = new FormData();
+  if (dropdownName == "Language") {
+    formData.append('language', sub);
+    axios.post("http://localhost:5000/create_language", formData)
+      .then((response) => {
+        if (response.status === 201) {
+          console.log("Data added successfully");
+        } else {
+          alert("Error occured");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+    });
+  }
+  else {
+    if (dropdownName == "Subject") {
+      formData.append('subject', sub);
+    }
+    else if (dropdownName == "Topic") {
+      formData.append('topic', sub);
+      formData.append('subject', exam.Subject);
+    }
+    else {
+      formData.append('topic', exam.Topic);
+      formData.append('subject', exam.Subject);
+      formData.append('subtopic', sub);
+    }
+    axios.post("http://localhost:5000/add_Subject_quizz", formData)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log("Data added successfully");
+          // console.log(response)
+          (dropdownName=="Subject")?setdsubject(oldArray => [sub,...oldArray]):(dropdownName=="Topic")?setdtopic(oldArray => [sub,...oldArray]):setdstopic(oldArray => [sub,...oldArray])
+        } else {
+          alert("Error occured");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  }
   
   return (
     <div>
@@ -55,8 +108,8 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
           <TextField
             type="text"
             label={`Enter New ${dropdownName}`}
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            value={sub}
+            onChange={(e) => InputEvent(e,index)}
             fullWidth
           />
         </DialogContent>
@@ -64,7 +117,10 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleAdd} color="primary">
+          <Button onClick={()=>{
+            handleAdd()
+            submithandler()
+          }} color="primary">
             Add
           </Button>
         </DialogActions>

@@ -8,7 +8,7 @@ import { State } from '../../Context/Provider';
 const AddDetails = () => {
   
   // const [listarray, setlistarray] = useState(["Science", "Mathematics", "History"])
-  const { subjects } = State();
+  const { subjects,setdsubject,setdtopic,setdstopic,dsubject ,dtopic,dstopic} = State();
   // console.log(subjects.subject)
   const [existingSubject, setExistingSubject] = useState(false)
 
@@ -23,7 +23,6 @@ const AddDetails = () => {
     {name: '', image: null},
     {topic: '', image: null},
     {subt1: '', image: null},
-    {subt2: '', image: null},
   ])
   
   // const InputEvent = (event) => {
@@ -54,9 +53,7 @@ const AddDetails = () => {
       newSub[1].image = event.target.files[0]
     } else if(type === 'subt1') {
       newSub[2].image = event.target.files[0]
-    } else if(type === 'subt2') {
-      newSub[3].image = event.target.files[0]
-    }
+    } 
     setSub(newSub)
   };
   
@@ -76,6 +73,20 @@ const AddDetails = () => {
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
+            // console.log(response)
+            
+            // if (!dsubject.includes(sub[0].name)){
+            //   setdsubject(oldArray => [sub[0].name, ...oldArray])
+            // }
+            // if (!dtopic.includes(sub[1].topic)){
+            //   setdtopic(oldArray => [sub[1].topic, ...oldArray])
+            // }
+            // if (!dstopic.includes(sub[2].subt1)){
+            //   setdstopic(oldArray => [sub[2].subt1,...oldArray])
+            // }
+
+            window.location.reload();
+           
           } else {
             alert("Error occured");
           }
@@ -157,7 +168,7 @@ const AddDetails = () => {
           </div>
         </div>
         <div className='subtopic'>
-          <text className="textc">Topic1</text>
+          <text className="textc">Topic</text>
           <div className='input-wrapper'>
           <input name="topic"
                 type="text"
@@ -181,8 +192,8 @@ const AddDetails = () => {
         </div>
         <div className='subtopic'>
           <div className='subtopic-heading'> 
-            <text className="textc">SubTopic 1.1</text>
-            <text className='add-new'>Add new subtopic</text>
+            <text className="textc">SubTopic</text>
+            {/* <text className='add-new'>Add new subtopic</text> */}
           </div>
           <div className='subtopicl'>
             <input name="subt1"
@@ -205,7 +216,7 @@ const AddDetails = () => {
                 </label>
           </div>
         </div>
-        <div className='subtopic'>
+        {/* <div className='subtopic'>
           <div className='subtopic-heading'> 
             <text className="textc">SubTopic 1.1</text>
             <text className='add-new'>Add new subtopic</text>
@@ -231,7 +242,7 @@ const AddDetails = () => {
                 </label>
 
           </div>
-        </div>
+        </div> */}
         <div>
           <button onClick={()=>{
             submithandler()
