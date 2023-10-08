@@ -233,6 +233,7 @@ const Provider = ({ children }) => {
       value={{
               activeTab,
               setActiveTab,
+              handleOpenPage,
               quest,
               setquest,
               questions,

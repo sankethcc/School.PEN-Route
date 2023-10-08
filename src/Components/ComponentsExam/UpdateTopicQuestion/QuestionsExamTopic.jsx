@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
-  Checkbox,  FormControlLabel,
-  Box,
-  Typography,
   TextField,
   Radio,
+  FormControlLabel,
+  Box,
   IconButton,
   Button,
+  Typography,
   Input,
 } from '@mui/material';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -15,16 +15,17 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
 
-const QuestionMultipleAnsExam = () => {
-const { quest,questions, setQuestions} = State();
-const [question, setQuestion] = useState({ text: '', image: null });
+const QuestionsExamTopic = () => {
+  const { setexamquest,exam,examid,setexamid, quest} = State();
+  const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
+    { text: '', image: null ,answer: false},
+    { text: '', image: null ,answer: false},
+    { text: '', image: null ,answer: false},
+    { text: '', image: null ,answer: false},
   ]);
-  const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
+  // const [bool, setbool]=useState(false)
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -36,31 +37,25 @@ const [question, setQuestion] = useState({ text: '', image: null });
     setOptions(newOptions);
   };
 
-  const handleCheckboxChange = (index) => {
-    const newSelectedIndices = [...selectedAnswerIndices];
-    const currentIndex = newSelectedIndices.indexOf(index);
-  
-    if (currentIndex === -1) {
-      newSelectedIndices.push(index);
-    } else {
-      newSelectedIndices.splice(currentIndex, 1);
-    }
-  
-    // Update the options with the new answer states
-    const updatedOptions = options.map((option, i) => ({
-      ...option,
-      answer: newSelectedIndices.includes(i),
+  const handleRadioChange = (event) => {
+    const selectedIndex = parseInt(event.target.value, 10);
+    
+    // Create a new array with updated answer values
+    const newOptions = options.map((option, index) => ({
+        ...option,
+        answer: index === selectedIndex,
     }));
-  
-    setSelectedAnswerIndices(newSelectedIndices);
-    setOptions(updatedOptions);
-  };
+
+    setOptions(newOptions);
+    setCorrectAnswerIndex(selectedIndex);
+};
+
   const handleDeleteImage = (type) => {
     if (type === 'question') {
       setQuestion({ ...question, image: null });
     } else if (type === 'option') {
       const newOptions = options.map((option, index) => {
-        if (index === selectedAnswerIndices) {
+        if (index === correctAnswerIndex) {
           return { ...option, image: null };
         }
         return option;
@@ -68,14 +63,18 @@ const [question, setQuestion] = useState({ text: '', image: null });
       setOptions(newOptions);
     }
   };
+
   const handleDeleteOption = (index) => {
     const newOptions = [...options];
-    newOptions.splice(index, 1);
+    newOptions[index] = { text: '', image: null };
     setOptions(newOptions);
+    // 
+    // const userd = localStorage.getItem('user')
+    // console.log(userd.user)
   };
 
   const handleAddOption = () => {
-    const newOptions = [...options, { text: '', image: null, answer: false }];
+    const newOptions = [...options, { text: '', image: null,answer: false}];
     setOptions(newOptions);
   };
 
@@ -89,46 +88,35 @@ const [question, setQuestion] = useState({ text: '', image: null });
     }
   };
 
-   const handlePostQuestion = () => {
+  const handlePostQuestion = () => {
     // const data = {
     const formData = new FormData();
-    formData.append('language', quest.Language); 
-    formData.append('class', quest.Class);
-    formData.append('subject', quest.Subject);
-    formData.append('topic', quest.Topic);
-    formData.append('subtopic', quest.Sub_topic);
-    formData.append('level', quest.Level);
-    formData.append('quiz_type', quest.Quiz_Type);
-    formData.append('question', question.text);
+    formData.append('question_no', examid.qno); 
+    formData.append('question_type', exam.Quiz_Type);
+    formData.append('question_text', question.text);
     formData.append('question_image', question.image);
+    formData.append('answer', '11');
 
-    const popt = [],QUE=question.text;
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
       const optionImageInput = options[i].image;
-      formData.append(`option_${i + 1}`, optionText);
-      formData.append(`option_${i + 1}_image`, optionImageInput);
-      const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i}`, isAnswer.toString());
-      popt.push({text:optionText});
+      formData.append(`option${i + 1}`, optionText);
+      formData.append(`option${i + 1}_image`, optionImageInput);
+      
     }
     
-    const creatorId = Number("651276d1abd5f9a259c30025");
+    // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+    .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
         .then((response) => {
           if (response.status === 201) {
-            // setbool(!bool)
             console.log("Data added successfully");
-            try {
-              
-              setQuestions(oldArray => [{ question: QUE, options: popt },...oldArray])
-            }
-            catch (err) {
-              console.log(err)
-            }
-          } else {
-            alert("Error occured");
+            //  console.log(response.data);
+            setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            setexamquest(oldArray => [ ...oldArray,response.data])
+          }
+          else {
+             console.log(response);
           }
         })
         .catch((err) => {
@@ -137,15 +125,25 @@ const [question, setQuestion] = useState({ text: '', image: null });
     
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
+
+// useEffect(() => {
+//     console.log(questions);
+//     // setpopt([]);
+//     // setprevu({});
+//     // setbool(false)
+// }, [bool]);
+  
   const inputStyle = {
-    padding: '11px 27px',
-    borderRadius: '12px',
-    background: '#EFF3F4',
-    width: '100%',
-    border: 'none',
-    color: '#707070',
-    fontSize: '18px',
+    padding: "11px 27px",
+    borderRadius: "12px",
+    background: "#EFF3F4",
+    width: "100%",
+    border: "none",
+    color: "#707070",
+    fontSize:'18px'
   };
+
+  
 
   return (
     <Box >
@@ -186,29 +184,26 @@ const [question, setQuestion] = useState({ text: '', image: null });
                 </IconButton>
                 </label>
         </Box>
-        <Typography sx={{ font: '700 32px Poppins', color: 'var(--grey, #707070)', alignSelf: 'start', mt:'28px', pb: "28px" }}>Options:</Typography>
-      <Box sx={{ width: "100%", display: 'grid', gridTemplateColumns: "12fr", gridRowGap: '24px' }}>
-        {options.map((option, index) => (
-          <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', width: '100%', gap: '32px' }}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }}
-                  checked={selectedAnswerIndices.includes(index)}
-                  onChange={(event) => handleCheckboxChange(event, index)}
-                />
-              }
-              label=""
-              labelPlacement="start"
-            />
-            <input
-              placeholder={`Option ${index + 1}`}
-              style={inputStyle}
-              disableUnderline
-              value={option.text}
-              onChange={(e) => handleOptionChange(e, index)}
-              variant="outlined"
-            />
+        <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Options:</Typography>
+        <Box sx={{width:"100%", display:'grid', gridTemplateColumns:"12fr", gridRowGap:'24px'}}>
+
+                {options.map((option, index) => (
+                    <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
+                    <FormControlLabel
+                        value={index.toString()}
+                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onChange={handleRadioChange} />}
+                        label=""
+                        labelPlacement="start"
+                        
+                    />
+                    <Input
+                        placeholder={`Option ${index+1}`}
+                        style={inputStyle}
+                        disableUnderline
+                        value={option.text}
+                        onChange={(e) => handleOptionChange(e, index)}
+                        variant="outlined"
+                    />
                     <Box display="flex" alignItems="center">
                         {/* {option.image && (
                         <IconButton
@@ -240,37 +235,37 @@ const [question, setQuestion] = useState({ text: '', image: null });
                     </Box>
                 ))}
         </Box>
-        <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'end', mt:'32px'}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
-    </Box>
-    <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
-      <Button variant="contained" onClick={()=>{
-        handlePostQuestion()
-
-      }} 
-        color="primary"
-        sx={{
-            width: "375px",
-            borderRadius: "12px",
-            background: "#7A58E6",
-            cursor: "pointer",
-            border: "none",
-            color: "#FFF",
-            fontSize: "18px",
-            fontWeight: "500",
-            textTransform: "capitalize",
-            p: "10px 10px",
-            "&:hover": {
+        <Box sx={{display:'grid', gridTemplateColumns:'4fr 4fr 4fr', justifyContent:'center', mt:'32px', width:'100%'}}>
+          <span></span>
+          <Box sx={{textAlign:'center'}}>
+            <Button
+            sx={{
+              width: "60%",
+              borderRadius: "12px",
               background: "#7A58E6",
-            },
-          }}
-      >
-        Post Question
-      </Button>
+              cursor: "pointer",
+              border: "none",
+              color: "#FFF",
+              fontSize: "18px",
+              fontWeight: "500",
+              textTransform: "capitalize",
+              p: "10px 10px",
+              "&:hover": {
+                background: "#7A58E6",
+              },
+            }}
+            >Update</Button>
 
+          </Box>
+          <Box sx={{display:'flex', justifyContent:'end'}}>
+              <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'center',}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
 
+          </Box>
+        </Box>
     </Box>
+
     </Box>
   );
 };
 
-export default QuestionMultipleAnsExam;
+export default QuestionsExamTopic;

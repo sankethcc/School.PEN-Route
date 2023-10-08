@@ -38,8 +38,17 @@ const QuestionsExam = () => {
   };
 
   const handleRadioChange = (event) => {
-    setCorrectAnswerIndex(parseInt(event.target.value, 10));
-  };
+    const selectedIndex = parseInt(event.target.value, 10);
+    
+    // Create a new array with updated answer values
+    const newOptions = options.map((option, index) => ({
+        ...option,
+        answer: index === selectedIndex,
+    }));
+
+    setOptions(newOptions);
+    setCorrectAnswerIndex(selectedIndex);
+};
 
   const handleDeleteImage = (type) => {
     if (type === 'question') {

@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
 import { useNavigate } from "react-router-dom";
+import { State } from "../Context/Provider";
 const style = {
   dflex: {
     display: "flex",
@@ -15,6 +16,7 @@ const style = {
 };
 
 const LanguageAndDotMenuExam = () => {
+  const {setActiveTab, openPage} = State()
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -75,6 +77,7 @@ const LanguageAndDotMenuExam = () => {
               onClick={() => {
                 handleClose();
                 navigate('/admin/add-language')
+                setActiveTab(openPage)
               }}
             >
               Add language
@@ -83,6 +86,7 @@ const LanguageAndDotMenuExam = () => {
               onClick={() => {
                 handleClose();
                 navigate('/admin/creae-subject')
+                setActiveTab(openPage)
               }}
             >
               Create subject
@@ -91,6 +95,7 @@ const LanguageAndDotMenuExam = () => {
               onClick={() => {
                 handleClose();
                 navigate('/admin/creae-subject')
+                setActiveTab(openPage)
               }}
             >
               Create topic
@@ -99,6 +104,7 @@ const LanguageAndDotMenuExam = () => {
               onClick={() => {
                 handleClose();
                 navigate('/admin/creae-subject')
+                setActiveTab(openPage)
               }}
             >
               Create subtopic

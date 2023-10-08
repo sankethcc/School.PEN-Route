@@ -9,8 +9,8 @@ import { fontSize, styled } from '@mui/system';
 import {State} from "../../Context/Provider"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
 
-export default function SelectMenuExam({dropdownName,listArray,add,value,val }) {
-  const style = (dropdownName == "Language") ? "#fff" :(dropdownName == "Quiz Type")? '#fff' :(dropdownName == "Topic Quiz Type")? "#fff": '#F5F6F7'
+export default function SelectMenuTopicUpdate({dropdownName,listArray,add,value,val }) {
+  const style = (dropdownName == "Quiz Type Topic")? "#fff": '#F5F6F7'
 
   const {setexam} = State();
   const [open, setOpen] = React.useState(false);

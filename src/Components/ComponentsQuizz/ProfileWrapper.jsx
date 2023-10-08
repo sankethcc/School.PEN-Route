@@ -18,6 +18,7 @@ const style ={
 const ProfileWrapper = ({pageName}) => {
     const {setOpenPage} = State()
     setOpenPage(pageName)
+    
   return (
     <Box style={style.dflex} sx={{justifyContent:'space-between', width:'100%'}}>
     <Typography sx={{font:'500 35px Lato'}}>{pageName}</Typography>

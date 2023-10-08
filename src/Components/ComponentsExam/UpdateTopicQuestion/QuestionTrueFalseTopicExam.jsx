@@ -13,7 +13,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { State } from '../../Context/Provider';
 import axios from 'axios';
 
-const QuestionTrueFalseExam = ({ prop  }) => {
+const QuestionTrueFalseTopicExam = ({ prop  }) => {
 
   const { quest, questions, setQuestions } = State();
   const [question, setQuestion] = useState({ text: '', image: null });
@@ -36,7 +36,6 @@ const QuestionTrueFalseExam = ({ prop  }) => {
     setOptions(newOptions);
     setSelectedAnswer(selectedIndex);
   };
-
   const handleOptionChange = (event, index) => {
     const updatedOptions = [...options];
     updatedOptions[index].text = event.target.value;
@@ -184,35 +183,33 @@ const QuestionTrueFalseExam = ({ prop  }) => {
         </Box>
       ))}
       </Box>
+      <Box sx={{display:'grid', gridTemplateColumns:'4fr', justifyContent:'center', mt:'32px'}}>
+          <Box sx={{textAlign:'center'}}>
+            <Button
+            sx={{
+              width: "140px",
+              borderRadius: "12px",
+              background: "#7A58E6",
+              cursor: "pointer",
+              border: "none",
+              color: "#FFF",
+              fontSize: "18px",
+              fontWeight: "500",
+              textTransform: "capitalize",
+              p: "10px 10px",
+              "&:hover": {
+                background: "#7A58E6",
+              },
+            }}
+            >Update</Button>
+
+          </Box>
+          
       </Box>
-      <Box sx={{ display: 'flex', width: '100%', mt: '56px', mb: '91px', justifyContent: 'center' }}>
-        <Button
-          variant='contained'
-          onClick={() => {
-            handlePostQuestion();
-          }}
-          color='primary'
-          sx={{
-            width: '375px',
-            borderRadius: '12px',
-            background: '#7A58E6',
-            cursor: 'pointer',
-            border: 'none',
-            color: '#FFF',
-            fontSize: '18px',
-            fontWeight: '500',
-            textTransform: 'capitalize',
-            p: '10px 10px',
-            '&:hover': {
-              background: '#7A58E6',
-            },
-          }}
-        >
-          Post Question
-        </Button>
+      
       </Box>
     </Box>
   );
 };
 
-export default QuestionTrueFalseExam;
+export default QuestionTrueFalseTopicExam;

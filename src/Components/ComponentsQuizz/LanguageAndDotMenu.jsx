@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import UnstyledSelectObjectValues from "./CreateQuiz/UnstyledSelectObjectValues";
 import { useNavigate } from "react-router-dom";
+import { State } from "../Context/Provider";
 const style = {
   dflex: {
     display: "flex",
@@ -15,6 +16,7 @@ const style = {
 };
 
 const LanguageAndDotMenu = () => {
+  const {setActiveTab, openPage} = State()
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -74,6 +76,7 @@ const LanguageAndDotMenu = () => {
             <MenuItem
               onClick={() => {
                 handleClose();
+                setActiveTab(openPage)
                 navigate('/admin/add-language')
               }}
             >
@@ -83,6 +86,7 @@ const LanguageAndDotMenu = () => {
               onClick={() => {
                 handleClose();
                 navigate('/admin/creae-subject')
+                setActiveTab(openPage)
               }}
             >
               Create subject
@@ -91,6 +95,7 @@ const LanguageAndDotMenu = () => {
               onClick={() => {
                 handleClose();
                 navigate('/admin/creae-subject')
+                setActiveTab(openPage)
               }}
             >
               Create topic

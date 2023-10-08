@@ -22,6 +22,7 @@ import Instructions from './AddExam/Instructions'
 import { State } from "../Context/Provider";
 import axios from "axios";
 import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
+import QuestionsContainer from "./UpdateTopicQuestion/QuestionsContainer";
 const style = {
   dflex: {
     display: "flex",
@@ -150,6 +151,7 @@ const CreateQuiz = ({
               })
                   
                } */}
+               <QuestionsContainer />
               </Box>
           </Box>
 
