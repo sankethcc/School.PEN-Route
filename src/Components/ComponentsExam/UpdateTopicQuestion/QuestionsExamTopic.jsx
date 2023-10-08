@@ -46,17 +46,17 @@ const QuestionsExamTopic = (props) => {
     setOptions(newOptions);
   };
 
-  const handleRadioChange = (event) => {
+  const handleRadioChange = (event, index) => {
     const selectedIndex = parseInt(event.target.value, 10);
     
     // Create a new array with updated answer values
-    const newOptions = options.map((option, index) => ({
-        ...option,
-        answer: index === selectedIndex,
-    }));
+    // const newOptions = options.map((option, index) => ({
+    //     ...option,
+    //     answer: index === selectedIndex,
+    // }));
 
-    setOptions(newOptions);
-    setCorrectAnswerIndex(selectedIndex);
+    // setOptions(newOptions);
+    setCorrectAnswerIndex(index);
 };
 
   const handleDeleteImage = (type) => {
@@ -104,7 +104,7 @@ const QuestionsExamTopic = (props) => {
     formData.append('question_type', drop);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
-    formData.append('answer', '1');
+    formData.append('answer', correctAnswerIndex+1);
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
@@ -202,7 +202,7 @@ const QuestionsExamTopic = (props) => {
                     <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
                     <FormControlLabel
                         value={index.toString()}
-                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onChange={handleRadioChange} />}
+                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onClick={(e)=>handleRadioChange(e,index)} />}
                         label=""
                         labelPlacement="start"
                         

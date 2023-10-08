@@ -59,10 +59,11 @@ const PreviewExamQuestions = ({heading, number}) => {
       
       <Box>
 
-        {examquest?.map((data, i) => {
+        {examquest?.map((data, index) => {
         // const {question, options, id } = data
+        console.log(data)
           return (
-          <Box sx={{background:'#fff'}} className='preview-question' key={i}>
+          <Box sx={{background:'#fff'}} className='preview-question' key={index}>
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
                 {/* {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`http://127.0.0.1:5000/get_image/${data.img}`}></img> : <></>} */}
               <p>{data.question} </p>
@@ -80,11 +81,10 @@ const PreviewExamQuestions = ({heading, number}) => {
                 const text = option.text
                 // const is_answer = option.is_answer             
                 return(
-                  <Box sx={{ display: 'flex', mr: '20px', mb: '20px' }}>{
+                  <Box key={i} sx={{ display: 'flex', mr: '20px', mb: '20px' }}>{
                     option.oimg?<img src={`http://127.0.0.1:5000/get_image/${option.oimg}`} alt='get-image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }}  />:<></>
                     }
-                    <FormControlLabel key={i}   value="option" control={<Radio /> } label={text} />
-                    {/* disabled={!is_answer} */}
+                    <FormControlLabel key={i}  value="option" control={<Radio disabled={data.ans != i} /> } label={text} />
                   </Box>
                 )
               })}

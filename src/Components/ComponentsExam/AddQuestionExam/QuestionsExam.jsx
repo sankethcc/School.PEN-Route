@@ -25,7 +25,7 @@ const QuestionsExam = () => {
     { text: '', image: null ,answer: false},
   ]);
   // const [bool, setbool]=useState(false)
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState('');
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -37,17 +37,18 @@ const QuestionsExam = () => {
     setOptions(newOptions);
   };
 
-  const handleRadioChange = (event) => {
-    const selectedIndex = parseInt(event.target.value, 10);
+  const handleRadioChange = (event, index) => {
+    // const selectedIndex = parseInt(event.target.value, 10);
     
-    // Create a new array with updated answer values
-    const newOptions = options.map((option, index) => ({
-        ...option,
-        answer: index === selectedIndex,
-    }));
+    // // Create a new array with updated answer values
+    // const newOptions = options.map((option, index) => ({
+    //     ...option,
+    //     answer: index === selectedIndex,
+    // }));
 
-    setOptions(newOptions);
-    setCorrectAnswerIndex(selectedIndex);
+    // setOptions(newOptions);
+    setCorrectAnswerIndex(index);
+    console.log(correctAnswerIndex)
 };
 
   const handleDeleteImage = (type) => {
@@ -95,7 +96,7 @@ const QuestionsExam = () => {
     formData.append('question_type', exam.Quiz_Type);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
-    formData.append('answer', '11');
+    formData.append('answer', correctAnswerIndex+1);
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
@@ -191,8 +192,8 @@ const QuestionsExam = () => {
                 {options.map((option, index) => (
                     <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
                     <FormControlLabel
-                        value={index.toString()}
-                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onChange={handleRadioChange} />}
+                        value={index}
+                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onClick={(e)=>handleRadioChange(e,index)} />}
                         label=""
                         labelPlacement="start"
                         
