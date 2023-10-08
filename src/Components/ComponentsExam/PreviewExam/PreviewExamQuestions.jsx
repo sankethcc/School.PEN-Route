@@ -18,23 +18,38 @@ const PreviewExamQuestions = ({heading, number}) => {
       try {
         const creatorId = '65206c78d9a9b6e425e37bb6'
         const { data } = await axios.get(`http://localhost:5000/get_topic/${creatorId}`)
-        var arr = [];
+        
         const objects = data.questions
         // console.log(objects)
         // for (var i = 0; i < objects.length; i++) {
         //     arr.push(objects[i]);
         // }
+        setexamquest([])
         for (const key in objects) {
-          // const value = objects[key];
-          arr.push(objects[key])
+          const arr = Object.values(objects[key][0].options)
+          const dat = []
+          for (let i = 0; i < arr.length; i+=2){
+            dat.push({text:arr[i], oimg: arr[i+1]})
+          }
+          // console.log(Object.values(objects[key][0].options))
+          setexamquest(oldArray => [{
+            question: objects[key][0].question_text,
+            img: objects[key][0].question_image,
+            ans: objects[key][0].answer,
+            options:dat
+          }, ...oldArray])
+
+          // console.log(dat)
         }
-        console.log(arr[0][0].options)
-        setexamquest(arr)
+        //  Object.keys(data[0].options)
+        // console.log(Object.keys(arr[0][0].options))
+        // setexamquest(arr)
       } catch(error){
         console.error('Error Fetching questions: ', error)
       }
     }
     fetchQuestions()
+    // console.log(examquest)
   }, [])
   // console.log(questions)
   return (
@@ -49,7 +64,7 @@ const PreviewExamQuestions = ({heading, number}) => {
           <Box sx={{background:'#fff'}} className='preview-question' key={i}>
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
               <img alt='Question image' style={{width:'200px', height:'200px', objectFit:'contain', marginRight:'20px'}} src={QuestionImg}></img>
-              <p>{data[0].question_text} </p>
+              <p>{data.question} </p>
 
             </Box>
             
@@ -58,19 +73,20 @@ const PreviewExamQuestions = ({heading, number}) => {
               aria-labelledby="demo-radio-buttons-group-label"
               defaultValue="option"
               name="radio-buttons-group"
-            >
-              
-              {/* {data.options.map((option, i)=>{
+                >
+                  
+              {data.options.map((option, i)=>{
                 const text = option.text
-                const is_answer = option.is_answer             
+                // const is_answer = option.is_answer             
                 return(
-                  <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
-              <img alt='Question image' style={{width:'100px', height:'100px', objectFit:'contain', marginRight:'20px'}} src={QuestionImg} />
-                    <FormControlLabel key={i}  disabled={!is_answer} value="option" control={<Radio /> } label={text} />
-
+                  <Box sx={{ display: 'flex', mr: '20px', mb: '20px' }}>{
+                    <img alt='Question image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }} src={QuestionImg} />
+                    }
+                    <FormControlLabel key={i}   value="option" control={<Radio /> } label={text} />
+                    {/* disabled={!is_answer} */}
                   </Box>
                 )
-              })} */}
+              })}
             </RadioGroup>
           </FormControl>
               </Box>
