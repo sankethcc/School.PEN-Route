@@ -6,18 +6,19 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import profile from '../../../Data//logo.svg'
 import QuestionImg from '../../../Data/QuestionImg.png'
 import axios from 'axios'
 
 const PreviewExamQuestions = ({heading, number}) => {
+  const {updatePreviewQuestionExam} = State()
+   const {topic_id} = useParams()
   const [examquest,setexamquest] = useState([])
   useEffect(()=>{
     const fetchQuestions = async ()=>{
       try {
-        const creatorId = '65206c78d9a9b6e425e37bb6'
-        const { data } = await axios.get(`http://localhost:5000/get_topic/${creatorId}`)
+        const { data } = await axios.get(`http://localhost:5000/get_topic/${topic_id}`)
         
         const objects = data.questions
         // console.log(objects)
@@ -50,7 +51,7 @@ const PreviewExamQuestions = ({heading, number}) => {
     }
     fetchQuestions()
     // console.log(examquest)
-  }, [])
+  }, [updatePreviewQuestionExam])
   // console.log(questions)
   return (
     

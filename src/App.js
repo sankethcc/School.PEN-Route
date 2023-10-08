@@ -26,8 +26,8 @@ function App() {
             <Route path="add-language" element={<AddLanguagePage />} />
             <Route path="create-exam" element={<MainPageOfExam />} />
             <Route path="assign-user" element={<MainPageOfAssignUser />} />
-            <Route path="create-exam/preview" element={<PreviewPageExam />} />
           </Route>
+            <Route path="/admin/create-exam/:topic_id" element={<PreviewPageExam />} />
           <Route path="/update/:quiz_id" element={<UpdatePageOfQuiz />} />
 
           <Route path="*" element={<ErrorPage />} />

@@ -10,7 +10,13 @@ const Provider = ({ children }) => {
   const handleOpenPage = (page)=>{
       setOpenPage(page)
   }
-
+  const [updatePreviewQuestionExam, setUpdatePreviewQuestionExam] = useState(true)
+  const handleUpdatePreviewQuestionExam = ()=>{
+    setUpdatePreviewQuestionExam(!updatePreviewQuestionExam)
+  }
+  const [instruction, setInstruction] = useState('');
+  const [eligiblity, setEligiblity] = useState('');
+  const [learning, setLearning] = useState('');
   const [quest, setquest] = useState({
     Subject: "",
     Class: "",
@@ -248,7 +254,12 @@ const Provider = ({ children }) => {
         exam, setexam,
         Exams, SetExams,
         examquest, setexamquest,
-              examid, setexamid
+              examid, setexamid,
+              instruction, setInstruction,
+              eligiblity, setEligiblity,
+              learning, setLearning,
+              updatePreviewQuestionExam, setUpdatePreviewQuestionExam,
+              handleUpdatePreviewQuestionExam,
       }}
     >
       {children}
