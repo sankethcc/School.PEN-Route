@@ -110,9 +110,11 @@ const QuestionsExam = () => {
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");
-            //  console.log(response.data);
+            console.log(response.data);
+            setexamquest(oldArray => [...oldArray, {que:response.data, qno:examid.qno}])
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
-            setexamquest(oldArray => [ ...oldArray,response.data])
+
+            // console.log(response.data.question_type);
           }
           else {
              console.log(response);

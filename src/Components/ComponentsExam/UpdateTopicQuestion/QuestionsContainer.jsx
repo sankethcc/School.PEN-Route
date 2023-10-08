@@ -7,27 +7,28 @@ import QuestionMultipleAnsTopicExam from './QuestionTrueFalseTopicExam'
 import QuestionTrueFalseTopicExam from './QuestionTrueFalseTopicExam'
 
 const QuestionsContainer = () => {
-    const {quest} = State(); ///
+    const {quest,examquest} = State(); ///
 
   return (
     <Box>
-        <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
-                <SelectMenuTopicUpdate dropdownName={"Quiz Type Topic"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={quest.Quiz_Type}/>
-
-                </Box>
-                {quest.Quiz_Type === "" ? (
-                  <QuestionExamTopic  />
-                ) : quest.Quiz_Type === "Multiple choice - multiple answers" ? (
+                  
+      {
+        examquest.map((data, index) =>(
+                data.que.question_type === "" ? (
+            <QuestionExamTopic type={data.question_type} options={data.options} answer={data.answer } />
+                ) : data.que.question_type === "Multiple choice - multiple answers" ? (
                   <QuestionMultipleAnsTopicExam />
-                ) : quest.Quiz_Type === "True or False" ? (
+                ) : data.que.question_type === "True or False" ? (
                   <QuestionTrueFalseTopicExam prop={["True", "False"]} />
-                ) : quest.Quiz_Type === "Multiple choice - Single answer" ? (
-                  <QuestionExamTopic />
-                ) : quest.Quiz_Type === "Yes or No" ? (
+                ) : data.que.question_type === "Multiple choice - Single answer" ? (
+                  <QuestionExamTopic type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno} />
+                ) : data.que.question_type === "Yes or No" ? (
                   <QuestionTrueFalseTopicExam
                     quest={["Yes", "No"]}
-                  />
-            ) : null}
+                />
+            ) : null
+      
+      ) )}
       
     </Box>
   )
