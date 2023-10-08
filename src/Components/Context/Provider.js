@@ -5,7 +5,7 @@ import axios from 'axios'
 const ChatContext = createContext();
 
 const Provider = ({ children }) => {
-  const [activeTab, setActiveTab] = useState('tab1');
+  const [activeTab, setActiveTab] = useState('Create Quiz');
   const [openPage, setOpenPage] = useState('')
   const handleOpenPage = (page)=>{
       setOpenPage(page)

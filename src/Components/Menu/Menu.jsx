@@ -53,34 +53,34 @@ const Menu = () => {
        className="menu-wrapper"
       >
         <List >
-          <li className={`tab ${activeTab === 'tab1' ? 'active' : ''}`} 
+          <li className={`tab ${openPage === 'Create Quiz' ? 'active' : ''}`} 
 
             onClick={() => {
             
             handleTabClick('tab1')
           }} 
           >
-            <img src={activeTab==="tab1"?TestWhite:Test707070} alt="" className="menuelog " />
+            <img src={openPage==="Create Quiz"?TestWhite:Test707070} alt="" className="menuelog " />
             
 
             <p>Quiz</p>
           </li>
-          <li className={`tab ${activeTab === 'tab2' ? 'active' : ''}`} 
+          <li className={`tab ${openPage === 'Create Exam' ? 'active' : ''}`} 
             onClick={() => {
               handleTabClick('tab2')
             }}>
             {/* <img src={Exam} className="menuelog" alt="" /> */}
-            <DescriptionIcon sx={{fontSize:'30px'}} htmlColor={`${activeTab ==='tab2'?"#fff":"#707070"}`} />
+            <DescriptionIcon sx={{fontSize:'30px'}} htmlColor={`${openPage === 'Create Exam'?"#fff":"#707070"}`} />
             
             <p>Exam</p>
           </li>
 
-          <li className={`tab ${activeTab === 'tab3' ? 'active' : ''}`} 
+          <li className={`tab ${openPage === 'Assign User' ? 'active' : ''}`} 
           onClick={() => {
             handleTabClick('tab3')
             }}>
             {/* <img src={User} className="menuelog" alt="" /> */}
-            <PersonIcon sx={{fontSize:'30px'}} htmlColor={`${activeTab ==='tab3'?"#fff":"#707070"}`} />
+            <PersonIcon sx={{fontSize:'30px'}} htmlColor={`${openPage === 'Assign User'?"#fff":"#707070"}`} />
             <p>Assign user</p>
           </li>
           {(openPage==="Assign User"&&"Create User"&&"User Profile")?
