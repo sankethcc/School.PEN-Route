@@ -14,17 +14,26 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
+import SelectMenuTopicUpdate from './SelectMenuTopicUpdate';
 
-const QuestionsExamTopic = () => {
+const QuestionsExamTopic = (props) => {
   const { setexamquest,exam,examid,setexamid, quest} = State();
-  const [question, setQuestion] = useState({ text: '', image: null });
+  const [question, setQuestion] = useState({ text: props.question, image: null });
   const [options, setOptions] = useState([
-    { text: '', image: null ,answer: false},
-    { text: '', image: null ,answer: false},
-    { text: '', image: null ,answer: false},
-    { text: '', image: null ,answer: false},
   ]);
+  const [drop, setdrop] = useState(props.type);
+  // { text: '', image: null },
+  //   { text: '', image: null },
+  //   { text: '', image: null },
+  //   { text: '', image: null },
   // const [bool, setbool]=useState(false)
+  useEffect(() => {
+    setOptions([])
+    const arr = Object.values(props.options)
+    for (let i = 0; i < arr.length; i+=2){
+       setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
+    }
+  },[])
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
 
   const handleQuestionChange = (event) => {
@@ -91,23 +100,22 @@ const QuestionsExamTopic = () => {
   const handlePostQuestion = () => {
     // const data = {
     const formData = new FormData();
-    formData.append('question_no', examid.qno); 
-    formData.append('question_type', exam.Quiz_Type);
+    // formData.append('question_no', examid.qno); 
+    formData.append('question_type', drop);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
-    formData.append('answer', '11');
+    formData.append('answer', '1');
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
       const optionImageInput = options[i].image;
       formData.append(`option${i + 1}`, optionText);
-      formData.append(`option${i + 1}_image`, optionImageInput);
-      
+      formData.append(`option${i + 1}_image`, optionImageInput); 
     }
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
+    .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");
@@ -147,6 +155,9 @@ const QuestionsExamTopic = () => {
 
   return (
     <Box >
+      {/* <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
+            <SelectMenuTopicUpdate dropdownName={drop} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={quest.Quiz_Type}/>
+      </Box> */}
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={{
             background:'#fff', width:'100%', mt:'32px', p:'56px 48px', 
@@ -238,7 +249,10 @@ const QuestionsExamTopic = () => {
         <Box sx={{display:'grid', gridTemplateColumns:'4fr 4fr 4fr', justifyContent:'center', mt:'32px', width:'100%'}}>
           <span></span>
           <Box sx={{textAlign:'center'}}>
-            <Button
+            <Button 
+              onClick={()=>{
+                handlePostQuestion()
+              }} 
             sx={{
               width: "60%",
               borderRadius: "12px",

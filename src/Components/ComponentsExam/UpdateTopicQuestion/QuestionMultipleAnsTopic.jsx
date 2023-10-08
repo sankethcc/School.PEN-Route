@@ -16,7 +16,7 @@ import { State } from "../../Context/Provider"
 import axios from 'axios';
 
 const QuestionMultipleAnsTopic = () => {
-const { quest,questions, setQuestions} = State();
+const { quest,questions, setQuestions,examquest} = State();
 const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
     { text: '', image: null, answer: false },
