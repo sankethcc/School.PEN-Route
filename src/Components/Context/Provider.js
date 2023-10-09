@@ -1,10 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from 'axios'
-
+import Hamburger from 'hamburger-react';
 
 const ChatContext = createContext();
 
 const Provider = ({ children }) => {
+  const [toggleMenu, setToggleMenu] = useState(true)
+  const handleHamburger = ()=>{
+    setToggleMenu(!toggleMenu)
+  }
   const [activeTab, setActiveTab] = useState('Create Quiz');
   const [openPage, setOpenPage] = useState('')
   const handleOpenPage = (page)=>{
@@ -195,6 +199,8 @@ const Provider = ({ children }) => {
   return (
     <ChatContext.Provider
       value={{
+              Hamburger,
+              handleHamburger,toggleMenu,
               activeTab,
               setActiveTab,
               handleOpenPage,

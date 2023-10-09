@@ -13,7 +13,12 @@ const Menu = () => {
   
   const navigate = useNavigate();
   // const [activeTab, setActiveTab] = useState('tab1');
-  const { activeTab, setActiveTab, openPage } = State();
+  const [onClick, setOnClick] = useState("")
+  const [toggle, setToggle] = useState(false)
+  const [lightBox, setLightBox] = useState('')
+  const { activeTab, setActiveTab, openPage, toggleMenu } = State();
+
+
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -34,16 +39,38 @@ const Menu = () => {
     sx={{
       background:'#fff',
       p:'18px 32px',
-      height:'100dvh',
-      position:'sticky',
+      height:'120vh',
+      position:{
+        xs: 'fixed',
+        sm: "fixed",
+        md: "sticky",
+        lg: "sticky",
+        xl: "sticky",
+      },
+      zIndex:{
+        xs:'10',
+        sm:'10'
+      },
       top:'0',
       width:{
+        xs:'70%',
+        sm:'65%',
         md:'21%',
         lg:'15%',
-      }
+      },
+      transform:{
+        xs:`translate3d(${toggleMenu==true?'-100%':'0%'}, 0%, 0px)`,
+        sm:`translate3d(${toggleMenu==true?'-100%':'0%'}, 0%, 0px)`,
+        md: "translate3d(0%, 0%, 0px)",
+        lg: "translate3d(0%, 0%, 0px)",
+        xl: "translate3d(0%, 0%, 0px)",
+      },
+      transitionDuration:'400ms'
+
     }}
     
     >
+      
       {/* page logo  */}
       <Box sx={{textAlign:'center', pb:'30px' }}>
         <img style={{ width:'134px'}} src={Logo} alt="" />

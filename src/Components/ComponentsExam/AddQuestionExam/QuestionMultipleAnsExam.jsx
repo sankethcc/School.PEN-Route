@@ -14,6 +14,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
+import { qStyle } from '../../../styles/style';
 
 const QuestionMultipleAnsExam = () => {
   const { setexamquest,exam,examid,setexamid} = State();
@@ -140,10 +141,7 @@ const QuestionMultipleAnsExam = () => {
   return (
     <Box >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
-        sx={{
-            background:'#fff', width:'100%', mt:'32px', p:'56px 48px', 
-            borderRadius:'40px'
-        }}
+        sx={qStyle.question}
     >
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px"}} >Question</Typography>
         <Box sx={{display:'flex', width:'100%'}}>

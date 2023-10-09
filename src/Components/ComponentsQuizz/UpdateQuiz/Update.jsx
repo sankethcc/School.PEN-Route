@@ -12,6 +12,7 @@ import { State } from "../../Context/Provider";
 import QuestionMultipleAnsUpdate from "./QuestionMultipleAnsUpdate";
 import QuestionTrueFalse from "./QuestionTrueFalseUpdate";
 import QuestionTrueFalseUpdate from "./QuestionTrueFalseUpdate";
+import { mainBoxStyle } from "../../../styles/style";
 
 const style = {
   dflex: {
@@ -31,26 +32,10 @@ const UpdateQuiz = () => {
   return (
     <Box
       style={style.dflex}
-      sx={{
-        width: {
-          md: "79%",
-          lg: "85%",
-        },
-        minHeight: "100dvh",
-        background: "#F5F6F7",
-      }}
+      sx={mainBoxStyle.first}
     >
       <Box
-        sx={{
-          width: {
-            xs: "100%",
-            sm: "100%",
-            md: "63%",
-            lg: "74%",
-          },
-          px: "40px",
-          pt: "38px",
-        }}
+        sx={mainBoxStyle.second}
       >
         <ProfileWrapper pageName='Update Quiz'  />
         

@@ -19,6 +19,7 @@ import SideDetails from "../SideDetails";
 import QuestionMultipleAns from "./QuestionMultipleAns";
 import QuestionTrueFalse from "./QuestionTrueFalse";
 import { State } from "../../Context/Provider";
+import { mainBoxStyle, sideDetail } from "../../../styles/style";
 const style = {
   dflex: {
     display: "flex",
@@ -39,27 +40,11 @@ const CreateQuiz = ({
   return (
     <Box
       style={style.dflex}
-      sx={{
-        width: {
-          md: "79%",
-          lg: "85%",
-        },
-        minHeight: "100dvh",
-        background: "#F5F6F7",
-      }}
+      sx={ mainBoxStyle.first
+      }
     >
       <Box
-        sx={{
-          width: {
-            xs: "100%",
-            sm: "100%",
-            md: "63%",
-            lg: "65%",
-            xl: "69%",
-          },
-          px: "40px",
-          pt: "38px",
-        }}
+        sx={mainBoxStyle.second}
       >
          <ProfileWrapper pageName='Create Quiz'  /> {/* // add props for menu name */}
           <Box>
@@ -86,17 +71,7 @@ const CreateQuiz = ({
       {/* preview question section */}
 
       <Box
-        sx={{
-          width: {
-            xs: "100%",
-            sm: "100%",
-            md: "37%",
-            lg: "35%",
-            xl: "31%",
-          },
-          background: "#fff",
-          p: "38px 32px",
-        }}
+        sx={sideDetail.first}
       >
 
         <SideDetails heading='Total Quiz'  />

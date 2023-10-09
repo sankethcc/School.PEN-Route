@@ -14,6 +14,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { State } from '../../Context/Provider';
+import { qStyle } from '../../../styles/style';
 
 const CreateQuiz = () => {
   const navigate = useNavigate()
@@ -213,10 +214,7 @@ const CreateQuiz = () => {
   return (
     <Box >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
-        sx={{
-            background:'#fff', width:'100%', mt:'32px', p:'56px 48px', 
-            borderRadius:'40px'
-        }}
+        sx={qStyle.question}
     >
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px"}} >Question</Typography>
         <Box sx={{display:'flex', width:'100%'}}>

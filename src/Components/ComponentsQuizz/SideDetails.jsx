@@ -13,7 +13,7 @@ const SideDetails = ({heading, number}) => {
   // console.log(questions)
   return (
     
-    <div className="side-details">
+    <Box className="side-details">
       <div className="amount-wrapper">
         <p className="price-heading">{heading}</p>
         <p className="price-count">{questions.length}</p>
@@ -57,7 +57,7 @@ const SideDetails = ({heading, number}) => {
 
       </Box>
 
-    </div>
+    </Box>
   )
 }
 
