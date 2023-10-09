@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Checkbox,  FormControlLabel,
   Box,
@@ -42,7 +42,7 @@ const [question, setQuestion] = useState({ text: props.question, image: null });
     setOptions(newOptions);
   };
 
-  const handleRadioChange = (event, index) => {
+  const handleCheckboxChange = (event, index) => {
     const selectedIndex = parseInt(event.target.value, 10);
     
     // Create a new array with updated answer values

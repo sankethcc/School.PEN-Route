@@ -3,7 +3,7 @@ import React from 'react'
 import { State } from "../../Context/Provider";
 import SelectMenuTopicUpdate from './SelectMenuTopicUpdate';
 import QuestionExamTopic from './QuestionsExamTopic'
-import QuestionMultipleAnsTopicExam from './QuestionTrueFalseTopicExam'
+import QuestionMultipleAnsTopic from './QuestionMultipleAnsTopic'
 import QuestionTrueFalseTopicExam from './QuestionTrueFalseTopicExam'
 
 const QuestionsContainer = () => {
@@ -17,7 +17,7 @@ const QuestionsContainer = () => {
                 data.que.question_type === "" ? (
             <QuestionExamTopic type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno} />
                 ) : data.que.question_type === "Multiple choice - multiple answers" ? (
-                  <QuestionExamTopic type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno}/>
+                  <QuestionMultipleAnsTopic type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno}/>
                 ) : data.que.question_type === "True or False" ? (
                   <QuestionTrueFalseTopicExam type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno} prop={["True", "False"]} />
                 ) : data.que.question_type === "Multiple choice - Single answer" ? (

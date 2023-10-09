@@ -65,17 +65,17 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   else {
     if (dropdownName == "Subject") {
       formData.append('subject', sub);
-      formData.append('subject_image', subImg);
+      formData.append('subject_image', subImg[0].image);
     }
     else if (dropdownName == "Topic") {
       formData.append('topic', sub);
-      formData.append('topic_image', subImg);
+      formData.append('topic_image', subImg[0].image);
       formData.append('subject', exam.Subject);
     }
     else {
       formData.append('topic', exam.Topic);
       formData.append('subject', exam.Subject);
-      formData.append('subtopic_image', subImg);
+      formData.append('subtopic_image', subImg[0].image);
       formData.append('subtopic', sub);
     }
     axios.post("http://localhost:5000/add_Subject_quizz", formData)
