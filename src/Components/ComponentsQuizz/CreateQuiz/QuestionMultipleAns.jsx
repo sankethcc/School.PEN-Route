@@ -114,7 +114,8 @@ const [question, setQuestion] = useState({ text: '', image: null });
       popt.push({text:optionText});
     }
     
-    const creatorId = Number("651276d1abd5f9a259c30025");
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const creatorId = usersdata.user._id
     axios
     .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
         .then((response) => {

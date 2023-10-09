@@ -15,15 +15,15 @@ const QuestionsContainer = () => {
       {
         examquest.map((data, index) =>(
                 data.que.question_type === "" ? (
-            <QuestionExamTopic type={data.question_type} options={data.options} answer={data.answer } />
+            <QuestionExamTopic type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno} />
                 ) : data.que.question_type === "Multiple choice - multiple answers" ? (
-                  <QuestionMultipleAnsTopicExam />
+                  <QuestionExamTopic type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno}/>
                 ) : data.que.question_type === "True or False" ? (
-                  <QuestionTrueFalseTopicExam prop={["True", "False"]} />
+                  <QuestionTrueFalseTopicExam type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno} prop={["True", "False"]} />
                 ) : data.que.question_type === "Multiple choice - Single answer" ? (
                   <QuestionExamTopic type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno} />
                 ) : data.que.question_type === "Yes or No" ? (
-                  <QuestionTrueFalseTopicExam
+                  <QuestionTrueFalseTopicExam type={data.que.question_type} question={data.que.question_text} options={data.que.options} answer={data.que.answer } qno={data.qno}
                     quest={["Yes", "No"]}
                 />
             ) : null

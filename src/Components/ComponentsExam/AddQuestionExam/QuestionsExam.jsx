@@ -75,7 +75,7 @@ const QuestionsExam = () => {
   };
 
   const handleAddOption = () => {
-    const newOptions = [...options, { text: '', image: null,answer: false}];
+    const newOptions = [...options, { text: '', image: null}];
     setOptions(newOptions);
   };
 

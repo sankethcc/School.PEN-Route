@@ -113,7 +113,7 @@ const CreateQuiz = () => {
     
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
-    console.log(creatorId)
+    // console.log(creatorId)
     axios
     .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
         .then((response) => {
