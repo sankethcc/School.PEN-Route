@@ -11,16 +11,37 @@ import { Link } from 'react-router-dom'
 const SideDetails = ({heading, number}) => {
   const { questions} = State();
   // console.log(questions)
+  const list = {
+    overflowY: "auto",
+    margin: 0,
+    padding: 0,
+    listStyle: "none",
+    height: "100%",
+    zIndex:'10',
+    '&::-webkit-scrollbar': {
+      width: '0.2em'
+    },
+    '&::-webkit-scrollbar-track': {
+      
+      boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+      webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: 'rgba(0,0,0,.1)',
+      outline: '1px solid slategrey'
+    }
+  }
+
   return (
     
-    <div className="side-details">
+    <Box sx={{position:'fixed', top:'0', right:'0', width:'26%', p:'38px 24px'}} className="side-details">
       <div className="amount-wrapper">
         <p className="price-heading">{heading}</p>
         <p className="price-count">{questions.length}</p>
       </div>
       <h3>Preview</h3>
       
-      <Box>
+      <Box style={{overflowY:'scroll', height:'65dvh'}} sx={list}>
         {questions?.map((data, i) => {
           // console.log(data)
         const {question, options, id } = data
@@ -57,7 +78,7 @@ const SideDetails = ({heading, number}) => {
 
       </Box>
 
-    </div>
+    </Box>
   )
 }
 

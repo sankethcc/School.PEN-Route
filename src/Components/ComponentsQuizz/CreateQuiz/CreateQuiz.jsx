@@ -40,6 +40,7 @@ const CreateQuiz = ({
     <Box
       style={style.dflex}
       sx={{
+        justifyContent:'start',
         width: {
           md: "79%",
           lg: "85%",
