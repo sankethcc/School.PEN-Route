@@ -40,17 +40,19 @@ const CreateQuiz = () => {
     setOptions(newOptions);
   };
 
-  const handleRadioChange = (event) => {
-    const selectedIndex = parseInt(event.target.value, 10);
+  const handleRadioChange = (event, index) => {
+    const selectedIndex = parseInt(index);
     
     // Create a new array with updated answer values
-    const newOptions = options.map((option, index) => ({
+    const newOptions = options.map((option, i) => ({
         ...option,
-        answer: index === selectedIndex,
+        is_answer: i === selectedIndex,
     }));
 
-    setOptions(newOptions);
-    setCorrectAnswerIndex(selectedIndex);
+    // setOptions(newOptions);
+    setCorrectAnswerIndex(parseInt(index));
+    setOptions(newOptions)
+    console.log(index)
 };
 
   const handleDeleteImage = (type) => {
@@ -254,7 +256,7 @@ const CreateQuiz = () => {
                     <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
                     <FormControlLabel
                         value={index.toString()}
-                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onChange={handleRadioChange} />}
+                        control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onClick={(e)=>handleRadioChange(e,index)} />}
                         label=""
                         labelPlacement="start"
                         

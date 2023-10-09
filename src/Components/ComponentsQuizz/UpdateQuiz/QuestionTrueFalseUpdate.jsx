@@ -31,7 +31,8 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
     setQuestion({ ...question, text: event.target.value });
   };
 
-  const handleRadioChange = (selectedIndex) => {
+  const handleRadioChange = (event, selectedIndex) => {
+    
     const newOptions = options.map((option, index) => ({
       ...option,
       is_answer: index === selectedIndex,
@@ -39,6 +40,7 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
   
     setOptions(newOptions);
     setSelectedAnswer(selectedIndex);
+    console.log(selectedIndex)
   };
 
   const handleOptionChange = (event, index) => {
@@ -211,7 +213,7 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
           <Radio
             sx={{ '& .MuiSvgIcon-root': { fontSize: 35 }, marginRight: '16px' }}
             checked={selectedAnswer === index}
-            onChange={() => handleRadioChange(index)}
+            onClick={(e) => handleRadioChange(e,index)}
           />
           <Input
             placeholder={`${prop[index]}`}

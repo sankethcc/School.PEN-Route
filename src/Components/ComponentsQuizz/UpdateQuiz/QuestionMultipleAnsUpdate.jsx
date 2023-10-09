@@ -40,7 +40,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     setOptions(newOptions);
   };
 
-  const handleCheckboxChange = (index) => {
+  const handleCheckboxChange = (event,index) => {
     const newSelectedIndices = [...selectedAnswerIndices];
     const currentIndex = newSelectedIndices.indexOf(index);
   
@@ -250,7 +250,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
                 <Checkbox
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }}
                   checked={selectedAnswerIndices.includes(index)}
-                  onChange={(event) => handleCheckboxChange(index)}
+                  onClick={(event) => handleCheckboxChange(event, index)}
                 />
               }
               label=""
