@@ -10,6 +10,8 @@ import { Link, useParams } from 'react-router-dom'
 import profile from '../../../Data//logo.svg'
 import QuestionImg from '../../../Data/QuestionImg.png'
 import axios from 'axios'
+import edit from '../../../Data/edit.png'
+import PreviewExamEdit from './PreviewExamEdit';
 
 const PreviewExamQuestions = ({heading, number}) => {
   const {updatePreviewQuestionExam} = State()
@@ -53,6 +55,12 @@ const PreviewExamQuestions = ({heading, number}) => {
     // console.log(examquest)
   }, [updatePreviewQuestionExam])
   // console.log(questions)
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const propsForPopUp = {open, setOpen, handleOpen }
+
   return (
     
     
@@ -63,7 +71,9 @@ const PreviewExamQuestions = ({heading, number}) => {
         // const {question, options, id } = data
         console.log(data)
           return (
-          <Box sx={{background:'#fff'}} className='preview-question' key={index}>
+          <Box sx={{background:'#fff', position:'relative'}} className='preview-question' key={index}>
+            <img onClick={handleOpen} style={{position:'absolute', top:'30px', right:'30px', cursor:'pointer'}} src={edit}></img>
+            <PreviewExamEdit {...propsForPopUp} />
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
                 {/* {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`http://127.0.0.1:5000/get_image/${data.img}`}></img> : <></>} */}
               <p>{data.question} </p>
