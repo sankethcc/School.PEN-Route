@@ -64,14 +64,18 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
   else {
     if (dropdownName == "Subject") {
       formData.append('subject', sub);
+      formData.append('subject_image', subImg);
+
     }
     else if (dropdownName == "Topic") {
       formData.append('topic', sub);
+      formData.append('topic_image', subImg);
       formData.append('subject', quest.Subject);
     }
     else {
       formData.append('topic', quest.Topic);
       formData.append('subject', quest.Subject);
+      formData.append('subtopic_image', subImg);
       formData.append('subtopic', sub);
     }
     axios.post("http://localhost:5000/add_Subject_quizz", formData)

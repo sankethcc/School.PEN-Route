@@ -15,20 +15,26 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
 
-const QuestionMultipleAnsTopic = () => {
-const { quest,questions, setQuestions,examquest} = State();
-const [question, setQuestion] = useState({ text: '', image: null });
-  const [options, setOptions] = useState([
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
-    { text: '', image: null, answer: false },
-  ]);
+const QuestionMultipleAnsTopic = (props) => {
+  const { setexamquest,exam,examid,setexamid, quest} = State();
+const [question, setQuestion] = useState({ text: props.question, image: null });
+  const [options, setOptions] = useState([]);
   const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
-
+  const [drop, setdrop] = useState(props.type);
+  
+  useEffect(() => {
+    setOptions([])
+    const arr = Object.values(props.options)
+    for (let i = 0; i < arr.length; i+=2){
+       setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
+    }
+  }, [])
+  
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
   };
+
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
 
   const handleOptionChange = (event, index) => {
     const newOptions = [...options];
@@ -36,25 +42,19 @@ const [question, setQuestion] = useState({ text: '', image: null });
     setOptions(newOptions);
   };
 
-  const handleCheckboxChange = (index) => {
-    const newSelectedIndices = [...selectedAnswerIndices];
-    const currentIndex = newSelectedIndices.indexOf(index);
-  
-    if (currentIndex === -1) {
-      newSelectedIndices.push(index);
-    } else {
-      newSelectedIndices.splice(currentIndex, 1);
-    }
-  
-    // Update the options with the new answer states
-    const updatedOptions = options.map((option, i) => ({
-      ...option,
-      answer: newSelectedIndices.includes(i),
-    }));
-  
-    setSelectedAnswerIndices(newSelectedIndices);
-    setOptions(updatedOptions);
-  };
+  const handleRadioChange = (event, index) => {
+    const selectedIndex = parseInt(event.target.value, 10);
+    
+    // Create a new array with updated answer values
+    // const newOptions = options.map((option, index) => ({
+    //     ...option,
+    //     answer: index === selectedIndex,
+    // }));
+
+    // setOptions(newOptions);
+    setCorrectAnswerIndex(index);
+};
+
   const handleDeleteImage = (type) => {
     if (type === 'question') {
       setQuestion({ ...question, image: null });
@@ -70,12 +70,12 @@ const [question, setQuestion] = useState({ text: '', image: null });
   };
   const handleDeleteOption = (index) => {
     const newOptions = [...options];
-    newOptions.splice(index, 1);
+        newOptions[index] = { text: '', image: null };
     setOptions(newOptions);
   };
 
   const handleAddOption = () => {
-    const newOptions = [...options, { text: '', image: null, answer: false }];
+    const newOptions = [...options, { text: '', image: null}];
     setOptions(newOptions);
   };
 
@@ -92,48 +92,37 @@ const [question, setQuestion] = useState({ text: '', image: null });
    const handlePostQuestion = () => {
     // const data = {
     const formData = new FormData();
-    formData.append('language', quest.Language); 
-    formData.append('class', quest.Class);
-    formData.append('subject', quest.Subject);
-    formData.append('topic', quest.Topic);
-    formData.append('subtopic', quest.Sub_topic);
-    formData.append('level', quest.Level);
-    formData.append('quiz_type', quest.Quiz_Type);
-    formData.append('question', question.text);
+    // formData.append('question_no', examid.qno); 
+    formData.append('question_type', drop);
+    formData.append('question_text', question.text);
     formData.append('question_image', question.image);
+    formData.append('answer', correctAnswerIndex+1);
 
-    const popt = [],QUE=question.text;
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
       const optionImageInput = options[i].image;
-      formData.append(`option_${i + 1}`, optionText);
-      formData.append(`option_${i + 1}_image`, optionImageInput);
-      const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i}`, isAnswer.toString());
-      popt.push({text:optionText});
+      formData.append(`option${i + 1}`, optionText);
+      formData.append(`option${i + 1}_image`, optionImageInput); 
     }
     
-    const creatorId = Number("651276d1abd5f9a259c30025");
+    // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+    .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 201) {
-            // setbool(!bool)
             console.log("Data added successfully");
-            try {
-              
-              setQuestions(oldArray => [{ question: QUE, options: popt },...oldArray])
-            }
-            catch (err) {
-              console.log(err)
-            }
-          } else {
-            alert("Error occured");
+            //  console.log(response.data);
+            setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            setexamquest(oldArray => [ ...oldArray,response.data])
+          }
+          else {
+             console.log(response);
           }
         })
         .catch((err) => {
           console.log(err.response.data);
         });
+    
     
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
@@ -244,6 +233,9 @@ const [question, setQuestion] = useState({ text: '', image: null });
           <span></span>
           <Box sx={{textAlign:'center'}}>
             <Button
+              onClick={()=>{
+                handlePostQuestion()
+              }} 
             sx={{
               width: "60%",
               borderRadius: "12px",

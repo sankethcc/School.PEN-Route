@@ -18,7 +18,13 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   const {exam,setexam,setdsubject,setdtopic,setdstopic} = State();
   const [open, setOpen] = React.useState(false);
   
-
+  const [subImg, setSubImg] = React.useState([{image:null}])
+  const handleImageUpload = (event, index, type) => {
+    const newImg = [...subImg]
+    newImg[0].image = event.target.files[0]
+    setSubImg(newImg)
+  };
+  
   const [sub, setSub] = React.useState('')
   const InputEvent = (event, index) => {
     const { value, name } = event.target;
@@ -59,14 +65,17 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   else {
     if (dropdownName == "Subject") {
       formData.append('subject', sub);
+      formData.append('subject_image', subImg);
     }
     else if (dropdownName == "Topic") {
       formData.append('topic', sub);
+      formData.append('topic_image', subImg);
       formData.append('subject', exam.Subject);
     }
     else {
       formData.append('topic', exam.Topic);
       formData.append('subject', exam.Subject);
+      formData.append('subtopic_image', subImg);
       formData.append('subtopic', sub);
     }
     axios.post("http://localhost:5000/add_Subject_quizz", formData)
@@ -118,7 +127,7 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
           <input
             type="file"
             accept="image/*"
-            // onChange={(e) => handleImageUpload(e, null, 'topic')}
+            onChange={(e) => handleImageUpload(e, null, 'topic')}
             style={{ display: 'none' }}
             id="topic-image-upload"
             />
