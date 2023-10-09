@@ -14,6 +14,7 @@ import QuestionTrueFalseExam from "../AddQuestionExam/QuestionTrueFalseExam";
 import QuestionsContainer from "../UpdateTopicQuestion/QuestionsContainer";
 import SelectMenuExam from "../AddQuestionExam/SelectMenuExam";
 import QueContainerEdit from "./QueContainerEdit";
+import { useParams } from "react-router-dom";
 
   const style = {
     dflex: {
@@ -27,6 +28,8 @@ import QueContainerEdit from "./QueContainerEdit";
   };
   
   const EditExam = () => {
+    const {topic_id} = useParams()
+    console.log("Topic ID Exam " + topic_id)
     const { quest } = State();
     const { exam, SetExams ,setexamid,examquest} = State();
     const {instruction, eligiblity, learning} = State()
