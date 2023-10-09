@@ -45,7 +45,8 @@ const Provider = ({ children }) => {
   const [dsubject, setdsubject] = useState([])
   const [dtopic, setdtopic] = useState([])
   const [dstopic, setdstopic] = useState([])
-  const [bool,setbool]= useState(true)
+  const [bool, setbool] = useState(true)
+  const [boo,setboo]= useState(true)
   const [questions, setQuestions] = useState([])
   const [Exams, SetExams]=useState([])
   const [subjects, setSubjects] = useState([])
@@ -218,7 +219,8 @@ const Provider = ({ children }) => {
               updatePreviewQuestionExam,
         handleUpdatePreviewQuestionExam,
         desubject, setdesubject,
-        destopic, setedstopic
+        destopic, setedstopic,
+        boo,setboo
               
       }}
     >
