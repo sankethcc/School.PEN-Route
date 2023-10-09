@@ -1,32 +1,14 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControlLabel,
-  IconButton,
-  Input,
-  Radio,
-  TextField,
-  Typography,
-} from "@mui/material";
+import {  Button,  Dialog,  DialogActions,  DialogContent,  DialogTitle,  FormControlLabel,  IconButton,  Input,  Radio,  TextField,  Tooltip,  Typography, Zoom, tooltipClasses,} from "@mui/material";
 import { Box } from "@mui/system";
+import { styled } from '@mui/material/styles';
 import React, { useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import User from '../../../Data/User.png'
-const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
-  const inputStyle = {
-    borderRadius: "8px",
-    paddingY:'12px',
-    background: "#EFF3F4",
-    width: "100%",
-    border: "none",
-    color: "#707070",
-    fontSize: "14px",
+import ClearIcon from "@mui/icons-material/Clear";
+import User from "../../../Data/User.png";
+import userImg from "../../../Data/userImg.png"
+const PreviewExamEdit = ({ open, setOpen,}) => {
 
-  };
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
   const [question, setQuestion] = useState({ text: "", image: null });
   const [options, setOptions] = useState([
@@ -67,7 +49,7 @@ const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
 
   const handleDeleteOption = (index) => {
     const newOptions = [...options];
-    newOptions[index] = { text: "", image: null };
+    newOptions.splice(index, 1);
     setOptions(newOptions);
   };
 
@@ -90,91 +72,110 @@ const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
     setOpen(false);
   };
 
-  const handleAdd = () => {
-    // Handle adding the subject
-    // ...
-
-    // Close the dialog
+  const handleUpdate = () => {
     handleClose();
+    console.log(options)
+    console.log(question)
+    console.log(correctAnswerIndex)
+
+
   };
+  const [isHovered, setIsHovered] = useState(false);
+  
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const CustomWidthTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: '400px',
+    },
+  });
   return (
-    <Dialog sx={{width:'100vw'}}  open={open} onClose={handleClose}>
-      <DialogTitle sx={{fontSize:'18px'}}>Update Question</DialogTitle>
-      <DialogContent sx={{  display: "flex", justifyContent: "center" }}>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          width="100%"
-          sx={{
-            background: "#fff",
-            width: "100%",
-            borderRadius: "40px",
-          }}
-        >
-          <Typography
-            sx={{
-              font: "700 15px Poppins",
-              color: "var(--grey, #707070)",
-              alignSelf: "start",
-              pb: "10px",
-            }}
-          >
-            Question
-          </Typography>
-          <Box sx={{ display: "flex", width: "100%" }}>
-            <img style={{height:'80px', width:'80px', objectFit:'contain'}} src={User}></img>
-            <Box sx={{display:'grid', width:'100%', gridTemplateColumns:'10fr 2fr'}}>
-            <Box>
+    <Dialog PaperProps={{
+        sx: {
+          width: "65%",
+          minHeight: 300,
+          borderRadius:'18px'
 
-            <Input
-              disableUnderline
-              placeholder="Question"
-            //   multiline
-              fullWidth
-              // value={question.text}
-              // onChange={handleQuestionChange}
-              style={inputStyle}
-              sx={{
-                color: "var(--grey, #707070)",
-                p:'0px 10px'
+        }
+      }}
+       sx={{ width: "100vw" }} open={open} onClose={handleClose}>
+        <Box sx={{position:'relative'}}>
+            <DialogTitle sx={{ fontSize: "25px", mb:'10px' }}>Update Question</DialogTitle>
+            <DialogActions sx={{position:'absolute', top:'0px', right:'0px'}}>
+                <IconButton
+                    onClick={handleClose}
+                    color="primary"
+                  >
+                    <ClearIcon />
+                  </IconButton>
+            </DialogActions>
 
-                
-              }}
+        </Box>
+      
+      <DialogContent sx={{ display: "flex", justifyContent: "center", paddingTop:'0px' }}>
+        <Box display="flex" flexDirection="column" alignItems="center" width="100%"
+          sx={{background: "#fff",width: "100%",borderRadius: "40px",}}>
+          <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
+          <CustomWidthTooltip
+            title={<img src={userImg} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
+            arrow
+            open={isHovered}
+            onClose={handleMouseLeave}
+            disableFocusListener
+            disableTouchListener
+            placement="left-start"
+            ransitionComponent={Zoom}
+            >
+            <img
+                src={userImg}
+                alt="User Image"
+                style={{ height: '80px', width: '80px', objectFit: 'contain', marginRight: '12px' }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
             />
-            </Box>
-            {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
-                <DeleteOutlineIcon />
-                </IconButton> */}
-            <input
-              type="file"
-              accept="image/*"
-              // onChange={(e) => handleImageUpload(e, null, 'question')}
-              style={{ display: "none" }}
-              id="question-image-upload"
-            />
-            <label htmlFor="question-image-upload">
-              <IconButton component="span" aria-label="Upload image">
-                <AddPhotoAlternateIcon sx={{ fontSize: "20px" }} />
-              </IconButton>
-            </label>
+            </CustomWidthTooltip>
+            {/* <img style={{ height: "80px", width: "80px", objectFit: "contain", marginRight:'12px' }} src={userImg} /> */}
+            <Box sx={{ display: "grid", width: "100%", gridTemplateColumns: "11fr 1fr", alignItems: "center",}}>
+                  <TextField
+                    label={"Question"}
+                    InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
+                    multiline
+                    fullWidth
+                    minRows={1}
+                    variant="filled"
+                    
+                    value={question.text}
+                    onChange={handleQuestionChange} 
+                  />
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, null, 'question')}
+                style={{ display: "none" }}
+                id="question-image-upload"
+              />
+              <label htmlFor="question-image-upload">
+                <IconButton component="span" aria-label="Upload image">
+                  <AddPhotoAlternateIcon sx={{ fontSize: "30px" }} />
+                </IconButton>
+              </label>
             </Box>
           </Box>
-          <Typography
-            sx={{
-              font: "700 15px Poppins",
-              color: "var(--grey, #707070)",
-              alignSelf: "start",
-
-            }}
-          >
-            Options:
-          </Typography>
           <Box
             sx={{
               width: "100%",
               display: "grid",
               gridTemplateColumns: "12fr",
+              gridRowGap:'15px'
             }}
           >
             {options.map((option, index) => (
@@ -186,14 +187,23 @@ const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
                   justifyContent: "space-between",
                   marginBottom: "8px",
                   width: "100%",
-                  gap: "32px",
                 }}
               >
+                <img
+                  style={{
+                    height: "50px",
+                    width: "50px",
+                    objectFit: "contain",
+                    marginRight:'12px',
+                  }}
+                  src={userImg}
+                ></img>
                 <FormControlLabel
                   value={index.toString()}
+                  sx={{margin:'0px'}}
                   control={
                     <Radio
-                      sx={{ "& .MuiSvgIcon-root": { fontSize: 20 }, padding:0 }}
+                    sx={{padding:'0px'}}
                       checked={correctAnswerIndex === index}
                       onClick={(e) => handleRadioChange(e, index)}
                     />
@@ -201,16 +211,19 @@ const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
                   label=""
                   labelPlacement="start"
                 />
-                <Input
-                  placeholder={`Option ${index + 1}`}
-                  style={inputStyle}
-                  disableUnderline
+
+                <TextField
+                  label={`Option ${index + 1}`}
+                  InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
+                  multiline
+                  minRows={1}
+                  variant="filled"
+                  fullWidth
                   value={option.text}
                   onChange={(e) => handleOptionChange(e, index)}
-                  variant="outlined"
-                  sx={{p:'0px 10px'}}
+                  sx={{ml: "10px" }}
                 />
-                <Box display="flex" alignItems="center">
+                <Box sx={{}} display="flex" alignItems="center">
                   {/* {option.image && (
                         <IconButton
                             onClick={() => handleDeleteImage('option')}
@@ -233,14 +246,14 @@ const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
                       component="span"
                       aria-label={`Upload image for Option ${index + 1}`}
                     >
-                      <AddPhotoAlternateIcon sx={{ fontSize: "20px" }} />
+                      <AddPhotoAlternateIcon sx={{ fontSize: "30px" }} />
                     </IconButton>
                   </label>
                   <IconButton
                     onClick={() => handleDeleteOption(index)}
                     aria-label={`Clear Option ${index + 1}`}
                   >
-                    <DeleteOutlineIcon sx={{ fontSize: "20px" }} />
+                    <DeleteOutlineIcon sx={{ fontSize: "30px" }} />
                   </IconButton>
                 </Box>
               </Box>
@@ -251,19 +264,22 @@ const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
               display: "grid",
               gridTemplateColumns: "12fr",
               justifyContent: "center",
-              mt: "32px",
+              mt: "10px",
               width: "100%",
             }}
           >
             <span></span>
 
             <Box sx={{ display: "flex", justifyContent: "end" }}>
+                <Box></Box>
+            
               <Typography
                 sx={{
                   cursor: "pointer",
                   color: "#7A58E6",
-                  font: "700 12px Poppins",
+                  font: "700 17px Poppins",
                   alignSelf: "center",
+                  mt:'10px'
                 }}
                 onClick={handleAddOption}
                 aria-label="Add option"
@@ -271,40 +287,34 @@ const PreviewExamEdit = ({ open, setOpen, handleOpen }) => {
                 Add Another Options
               </Typography>
             </Box>
+            <Box sx={{textAlign:'center', mt:'10px'}}>
+                <Button
+                sx={{
+                    width: "25%",
+                    borderRadius: "12px",
+                    background: "#7A58E6",
+                    color: "#FFF",
+                    fontSize: "18px",
+                    textTransform: "capitalize",
+                    "&:hover": {
+                      background: "#7A58E6",
+                    },
+                  }}
+                onClick={() => {
+                    handleUpdate();
+                    // handlePostQuestion()
+                }}
+                color="primary"
+                >
+                Update
+                </Button>
+
+            </Box>
           </Box>
         </Box>
-        {/* {(dropdownName == "Subject"|| dropdownName =="Topic"|| dropdownName=="Sub topic")?
-      <Box>
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) => handleImageUpload(e, null, 'topic')}
-        style={{ display: 'none' }}
-        id="topic-image-upload"
-        />
-        <label htmlFor="topic-image-upload">
-        <IconButton component="span" aria-label="Upload image">
-            <AddPhotoAlternateIcon sx={{fontSize:'30px'}} />
-        </IconButton>
-        </label>
-
-      </Box>
-        :null} */}
+        
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button
-          onClick={() => {
-            handleAdd();
-            // handlePostQuestion()
-          }}
-          color="primary"
-        >
-          Update
-        </Button>
-      </DialogActions>
+
     </Dialog>
   );
 };

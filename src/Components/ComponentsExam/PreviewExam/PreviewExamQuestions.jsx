@@ -56,9 +56,13 @@ const PreviewExamQuestions = ({heading, number}) => {
   }, [updatePreviewQuestionExam])
   // console.log(questions)
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpen = (index) => {
+    setOpen(prevOpen => ({
+      ...prevOpen,
+      [index]: true
+    }));
   };
+
   const propsForPopUp = {open, setOpen, handleOpen }
 
   return (
@@ -72,8 +76,8 @@ const PreviewExamQuestions = ({heading, number}) => {
         console.log(data)
           return (
           <Box sx={{background:'#fff', position:'relative'}} className='preview-question' key={index}>
-            <img onClick={handleOpen} style={{position:'absolute', top:'30px', right:'30px', cursor:'pointer'}} src={edit}></img>
-            <PreviewExamEdit {...propsForPopUp} />
+            <img onClick={() => handleOpen(index)} style={{position:'absolute', top:'30px', right:'30px', cursor:'pointer'}} src={edit}></img>
+            {open[index] && <PreviewExamEdit {...propsForPopUp} />}
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
                 {/* {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`http://127.0.0.1:5000/get_image/${data.img}`}></img> : <></>} */}
               <p>{data.question} </p>
