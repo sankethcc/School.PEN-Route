@@ -7,16 +7,23 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ClearIcon from "@mui/icons-material/Clear";
 import User from "../../../Data/User.png";
 import userImg from "../../../Data/userImg.png"
-const PreviewExamEdit = ({ open, setOpen,}) => {
+import axios from 'axios'
+import { State } from '../../Context/Provider'
 
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
-  const [question, setQuestion] = useState({ text: "", image: null });
-  const [options, setOptions] = useState([
-    { text: "", image: null },
-    { text: "", image: null },
-    { text: "", image: null },
-    { text: "", image: null },
-  ]);
+const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
+  // console.log(data)
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.ans);
+  const [question, setQuestion] = useState({ text: data.question, image: data.img });
+  const [options, setOptions] = useState(data.options);
+  const {boo,setboo} = State()
+
+  // useEffect(() => {
+  //   setOptions([])
+  //   const arr = Object.values(props.options)
+  //   for (let i = 0; i < arr.length; i+=2){
+  //      setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
+  //   }
+  // },[])
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -74,9 +81,37 @@ const PreviewExamEdit = ({ open, setOpen,}) => {
 
   const handleUpdate = () => {
     handleClose();
-    console.log(options)
-    console.log(question)
-    console.log(correctAnswerIndex)
+    const formData = new FormData();
+    // formData.append('question_no', examid.qno); 
+    formData.append('question_type', data.drop);
+    formData.append('question_text', question.text);
+    formData.append('question_image', question.image);
+    formData.append('answer', correctAnswerIndex);
+
+    for (let i = 0; i < options.length; i++) {
+      const optionText = options[i].text;
+      const optionImageInput = options[i].image==null?options[i].img:options[i].image;
+      formData.append(`option${i + 1}`, optionText);
+      formData.append(`option${i + 1}_image`, optionImageInput); 
+    }
+    
+    // const topicID = '65206c78d9a9b6e425e37bb6';
+    axios
+    .post(`http://localhost:5000/update_question/${data.id}/${data.qno}`, formData)
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("Data added successfully");
+            //  console.log(response.data);
+            
+            setboo(!boo)
+          }
+          else {
+             console.log(response);
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
 
 
   };
@@ -125,7 +160,7 @@ const PreviewExamEdit = ({ open, setOpen,}) => {
           sx={{background: "#fff",width: "100%",borderRadius: "40px",}}>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
           <CustomWidthTooltip
-            title={<img src={userImg} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
+            title={<img src={`http://localhost:5000/get_image/${data.img}`} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
             arrow
             open={isHovered}
             onClose={handleMouseLeave}
@@ -135,7 +170,7 @@ const PreviewExamEdit = ({ open, setOpen,}) => {
             ransitionComponent={Zoom}
             >
             <img
-                src={userImg}
+                src={`http://localhost:5000/get_image/${data.img}`}
                 alt="User Image"
                 style={{ height: '80px', width: '80px', objectFit: 'contain', marginRight: '12px' }}
                 onMouseEnter={handleMouseEnter}
@@ -196,7 +231,7 @@ const PreviewExamEdit = ({ open, setOpen,}) => {
                     objectFit: "contain",
                     marginRight:'12px',
                   }}
-                  src={userImg}
+                  src={`http://localhost:5000/get_image/${option.img}`}
                 ></img>
                 <FormControlLabel
                   value={index.toString()}

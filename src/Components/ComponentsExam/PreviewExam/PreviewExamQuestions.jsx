@@ -14,46 +14,58 @@ import edit from '../../../Data/edit.png'
 import PreviewExamEdit from './PreviewExamEdit';
 
 const PreviewExamQuestions = ({heading, number}) => {
-  const {updatePreviewQuestionExam} = State()
+  const {updatePreviewQuestionExam,boo,setboo} = State()
    const {topic_id} = useParams()
-  const [examquest,setexamquest] = useState([])
-  useEffect(()=>{
+  const [examquest, setexamquest] = useState([])
+  // const [j, setj] = useState(0);
+  useEffect(() => {
+    // setexamquest([])
     const fetchQuestions = async ()=>{
       try {
         const { data } = await axios.get(`http://localhost:5000/get_topic/${topic_id}`)
         
         const objects = data.questions
-        // console.log(objects)
+        const no = Object.keys(data.questions);
+        // console.log(data);
         // for (var i = 0; i < objects.length; i++) {
         //     arr.push(objects[i]);
         // }
         setexamquest([])
+        let j=1
         for (const key in objects) {
           const arr = Object.values(objects[key][0].options)
           const dat = []
           for (let i = 0; i < arr.length; i+=2){
-            dat.push({text:arr[i], oimg: arr[i+1]})
+            dat.push({text:arr[i], image:null, img: arr[i+1]})
           }
           // console.log(Object.values(objects[key][0].options))
-          setexamquest(oldArray => [{
+          // console.log(data._id)
+
+          setexamquest(oldArray => [...oldArray,{
             question: objects[key][0].question_text,
             img: objects[key][0].question_image,
             ans: objects[key][0].answer,
-            options:dat
-          }, ...oldArray])
-
+            options: dat,
+            id: data._id,
+            qno: j,
+            drop:objects[key][0].question_type
+          }])
+          // j = j + 1;
+          // no.unshift()
           // console.log(dat)
         }
         //  Object.keys(data[0].options)
         // console.log(Object.keys(arr[0][0].options))
         // setexamquest(arr)
+        setboo(!boo)
       } catch(error){
         console.error('Error Fetching questions: ', error)
       }
+      
     }
     fetchQuestions()
     // console.log(examquest)
-  }, [updatePreviewQuestionExam])
+  }, [updatePreviewQuestionExam,boo])
   // console.log(questions)
   const [open, setOpen] = React.useState(false);
   const handleOpen = (index) => {
@@ -73,13 +85,13 @@ const PreviewExamQuestions = ({heading, number}) => {
 
         {examquest?.map((data, index) => {
         // const {question, options, id } = data
-        console.log(data)
+        // console.log(data)
           return (
           <Box sx={{background:'#fff', position:'relative'}} className='preview-question' key={index}>
             <img onClick={() => handleOpen(index)} style={{position:'absolute', top:'30px', right:'30px', cursor:'pointer'}} src={edit}></img>
-            {open[index] && <PreviewExamEdit {...propsForPopUp} />}
+              {open[index] && <PreviewExamEdit open={open} setOpen={setOpen} handleOpen={handleOpen} data={data} />}
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
-                {/* {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`http://127.0.0.1:5000/get_image/${data.img}`}></img> : <></>} */}
+                {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`http://127.0.0.1:5000/get_image/${data.img}`}></img> : <></>}
               <p>{data.question} </p>
 
             </Box>
@@ -96,7 +108,7 @@ const PreviewExamQuestions = ({heading, number}) => {
                 // const is_answer = option.is_answer             
                 return(
                   <Box key={i} sx={{ display: 'flex', mr: '20px', mb: '20px' }}>{
-                    option.oimg?<img src={`http://127.0.0.1:5000/get_image/${option.oimg}`} alt='get-image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }}  />:<></>
+                    option.img?<img src={`http://127.0.0.1:5000/get_image/${option.img}`} alt='get-image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }}  />:<></>
                     }
                     <FormControlLabel key={i}  value="option" control={<Radio disabled={data.ans != i} /> } label={text} />
                   </Box>
