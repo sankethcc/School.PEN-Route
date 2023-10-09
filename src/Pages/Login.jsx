@@ -46,7 +46,7 @@ const Login = () => {
     color: "#707070",
   };
 
-  const [activeTab, setActiveTab] = useState("tab1");
+  const [activeTab, setActiveTab] = useState("tab2");
   const [role, setrole] = useState("user");
   const [note, setnote] = useState({
     name: "",
@@ -146,6 +146,21 @@ const Login = () => {
             </Typography>
           </Box>
           <Box sx={{ mb: "29px", background: "#EFF3F4", borderRadius: "12px" }}>
+          <Button
+              style={btnStyle}
+              sx={{
+                color: activeTab === "tab2" ? "#FFF" : "#707070",
+                fontWeight: activeTab === "tab2" ? "700" : "400",
+                background: activeTab === "tab2" ? "#7A58E6" : "transparent",
+                "&:hover": {
+                  background: activeTab === "tab2" ? "#7A58E6" : "transparent",
+                },
+              }}
+              className={`tab ${activeTab === "tab2" ? "active" : ""}`}
+              onClick={() => handleTabClick("tab2")}
+            >
+              Admin
+            </Button>
             <Button
               style={btnStyle}
               sx={{
@@ -161,21 +176,7 @@ const Login = () => {
             >
               User
             </Button>
-            <Button
-              style={btnStyle}
-              sx={{
-                color: activeTab === "tab2" ? "#FFF" : "#707070",
-                fontWeight: activeTab === "tab2" ? "700" : "400",
-                background: activeTab === "tab2" ? "#7A58E6" : "transparent",
-                "&:hover": {
-                  background: activeTab === "tab2" ? "#7A58E6" : "transparent",
-                },
-              }}
-              className={`tab ${activeTab === "tab2" ? "active" : ""}`}
-              onClick={() => handleTabClick("tab2")}
-            >
-              Admin
-            </Button>
+            
           </Box>
           <FormGroup
             onSubmit={(e) => e.preventDefault()}
