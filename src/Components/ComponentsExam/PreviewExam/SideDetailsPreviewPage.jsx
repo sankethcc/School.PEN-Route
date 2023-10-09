@@ -55,7 +55,7 @@ const SideDetailsPreviewPage = ({heading}) => {
               <NavLink to={`/admin/create-exam/${data._id}`} onClick={handleUpdatePreviewQuestionExam}>
               <Button style={{background:'var(--Linear, linear-gradient(180deg, #8C6FE9 0%, #2D00BA 100%))', color:'#fff'}} sx={styleButton}>Check</Button>
               </NavLink>
-              <NavLink to='/admin/create-exam/edit-exam'>
+              <NavLink to={`/admin/create-exam/edit-exam/${data._id}`}>
               <Button style={{background:'#fff'}} sx={styleButton}>Edit</Button>
 
               </NavLink>

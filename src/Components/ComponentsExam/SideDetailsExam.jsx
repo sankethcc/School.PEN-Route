@@ -55,7 +55,7 @@ const SideDetailsExam = ({heading}) => {
               <NavLink to={`${data._id}`}>
               <Button style={{background:'var(--Linear, linear-gradient(180deg, #8C6FE9 0%, #2D00BA 100%))', color:'#fff'}} sx={styleButton}>Check</Button>
               </NavLink>
-              <NavLink to='edit-exam'>
+              <NavLink to={`edit-exam/${data._id}`}>
               <Button style={{background:'#fff'}} sx={styleButton}>Edit</Button>
 
               </NavLink>

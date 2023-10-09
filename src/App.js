@@ -28,7 +28,7 @@ function App() {
             <Route path="create-exam" element={<MainPageOfExam />} />
             <Route path="assign-user" element={<MainPageOfAssignUser />} />
           </Route>
-            <Route path="/admin/create-exam/edit-exam" element={<ExamEditPage />} />
+            <Route path="/admin/create-exam/edit-exam/:topic_id" element={<ExamEditPage />} />
             <Route path="/update/:quiz_id" element={<UpdatePageOfQuiz />} />
 
           <Route path="*" element={<ErrorPage />} />
