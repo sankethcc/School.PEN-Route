@@ -111,7 +111,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
       formData.append(`option_${i + 1}_image`, optionImageInput);
       const isAnswer = options[i].answer;
       formData.append(`is_answer_${i + 1}`, isAnswer.toString());
-      popt.push({text:optionText});
+      popt.push({text:optionText,is_answer:isAnswer});
     }
     
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
@@ -124,7 +124,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
             console.log("Data added successfully");
             try {
               
-              setQuestions(oldArray => [{ question: QUE, options: popt },...oldArray])
+              setQuestions(oldArray => [{ question: QUE, options: popt,id: response.data._id },...oldArray])
             }
             catch (err) {
               console.log(err)
