@@ -17,12 +17,12 @@ import axios from 'axios';
 
 const QuestionMultipleAnsExam = () => {
   const { setexamquest,exam,examid,setexamid} = State();
-const [question, setQuestion] = useState({ text: '', image: null });
+  const [question, setQuestion] = useState({ text: '', question_image_url: null });
   const [options, setOptions] = useState([
-    { text: '', image: null  ,answer: false},
-    { text: '', image: null  ,answer: false},
-    { text: '', image: null  ,answer: false},
-    { text: '', image: null  ,answer: false},
+    { text: '', image: null, is_answer: '' },
+    { text: '', image: null, is_answer: '' },
+    { text: '', image: null, is_answer: '' },
+    { text: '', image: null, is_answer: '' },
   ]);
   const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
 
@@ -36,7 +36,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
     setOptions(newOptions);
   };
 
-  const handleCheckboxChange = (index) => {
+  const handleCheckboxChange = (event,index) => {
     const newSelectedIndices = [...selectedAnswerIndices];
     const currentIndex = newSelectedIndices.indexOf(index);
   
@@ -49,14 +49,11 @@ const [question, setQuestion] = useState({ text: '', image: null });
     // Update the options with the new answer states
     const updatedOptions = options.map((option, i) => ({
       ...option,
-      answer: newSelectedIndices.includes(i),
-    })
-    );
+      is_answer: newSelectedIndices.includes(i),
+    }));
   
-    setOptions(updatedOptions);
     setSelectedAnswerIndices(newSelectedIndices);
-    console.log(index)
-
+    setOptions(updatedOptions);
   };
   const handleDeleteImage = (type) => {
     if (type === 'question') {
@@ -78,7 +75,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
   };
 
   const handleAddOption = () => {
-    const newOptions = [...options, { text: '', image: null}];
+    const newOptions = [...options, { text: '', image: null, answer: false }];
     setOptions(newOptions);
   };
 
@@ -91,7 +88,6 @@ const [question, setQuestion] = useState({ text: '', image: null });
       setOptions(newOptions);
     }
   };
-
    const handlePostQuestion = () => {
     // const data = {
     const formData = new FormData();
@@ -189,7 +185,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
                 <Checkbox
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }}
                   checked={selectedAnswerIndices.includes(index)}
-                  onChange={(event) => handleCheckboxChange(event, index)}
+                  onClick={(event) => handleCheckboxChange(event, index)}
                 />
               }
               label=""
