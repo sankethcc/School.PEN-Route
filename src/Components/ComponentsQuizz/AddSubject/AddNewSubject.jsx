@@ -17,6 +17,7 @@ import {
   import { State } from "../../Context/Provider";
 import SubjectsAccordian from "./SbujectsAccordian";
 import AddDetails from "./AddDetails";
+import { mainBoxStyle, sideDetail } from "../../../styles/style";
   const style = {
     dflex: {
       display: "flex",
@@ -36,29 +37,13 @@ import AddDetails from "./AddDetails";
     const { quest } = State();
     return (
       <Box
-        style={style.dflex}
-        sx={{
-          width: {
-            md: "79%",
-            lg: "85%",
-          },
-          minHeight: "100dvh",
-          background: "#F5F6F7",
-        }}
+      style={style.dflex}
+      sx={ mainBoxStyle.first
+      }
+    >
+      <Box
+        sx={mainBoxStyle.second}
       >
-        <Box
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "100%",
-              md: "63%",
-              lg: "65%",
-              xl: "69%",
-            },
-            px: "40px",
-            pt: "38px",
-          }}
-        >
            <ProfileWrapper pageName={"Create Subject"}  /> {/* // add props for menu name */}
             <Box>
               <LanguageAndDotMenu  />
@@ -68,17 +53,7 @@ import AddDetails from "./AddDetails";
         {/* preview question section */}
   
         <Box
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "100%",
-              md: "37%",
-              lg: "35%",
-              xl: "31%",
-            },
-            background: "#fff",
-            p: "38px 32px",
-          }}
+          sx={sideDetail.first}
         >
   
           <AddDetails />

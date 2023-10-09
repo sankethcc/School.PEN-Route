@@ -15,6 +15,7 @@ import QuestionsContainer from "../UpdateTopicQuestion/QuestionsContainer";
 import SelectMenuExam from "../AddQuestionExam/SelectMenuExam";
 import QueContainerEdit from "./QueContainerEdit";
 import { useParams } from "react-router-dom";
+import { mainBoxStyle, sideDetail } from "../../../styles/style";
 
   const style = {
     dflex: {
@@ -66,29 +67,13 @@ import { useParams } from "react-router-dom";
     
     return (
       <Box
-        style={style.dflex}
-        sx={{
-          width: {
-            md: "79%",
-            lg: "85%",
-          },
-          minHeight: "100dvh",
-          background: "#F5F6F7",
-        }}
+      style={style.dflex}
+      sx={ mainBoxStyle.first
+      }
+    >
+      <Box
+        sx={mainBoxStyle.second}
       >
-        <Box
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "100%",
-              md: "63%",
-              lg: "65%",
-              xl: "69%",
-            },
-            px: "40px",
-            pt: "38px",
-          }}
-        >
            <ProfileWrapper pageName='Edit Exam'  /> {/* // add props for menu name */}
             <Box>
            
@@ -149,17 +134,7 @@ import { useParams } from "react-router-dom";
   
         </Box>
         <Box
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "100%",
-              md: "37%",
-              lg: "35%",
-              xl: "31%",
-            },
-            background: "#fff",
-            p: "38px 32px",
-          }}
+          sx={sideDetail.first}
         >
   
           <SideDetailsEditExam heading='Total Exam' />
