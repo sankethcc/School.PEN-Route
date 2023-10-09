@@ -15,7 +15,7 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   const style = (dropdownName == "Language") ? "#fff" :(dropdownName == "Quiz Type")? '#fff' :(dropdownName == "Topic Quiz Type")? "#fff": '#F5F6F7'
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
 
-  const {exam,setexam,setdsubject,setdtopic,setdstopic} = State();
+  const {exam,setexam,setdsubject,setdtopic,setdstopic,setedstopic,setdesubject} = State();
   const [open, setOpen] = React.useState(false);
   
   const [subImg, setSubImg] = React.useState([{image:null}])
@@ -49,42 +49,39 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   const submithandler = () => {
   const formData = new FormData();
   if (dropdownName == "Language") {
-    formData.append('language', sub);
-    axios.post("http://localhost:5000/create_language", formData)
-      .then((response) => {
-        if (response.status === 201) {
-          console.log("Data added successfully");
-        } else {
-          alert("Error occured");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-    });
+    // formData.append('language', sub);
+    // axios.post("http://localhost:5000/create_language", formData)
+    //   .then((response) => {
+    //     if (response.status === 201) {
+    //       console.log("Data added successfully");
+    //     } else {
+    //       alert(response);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    // });
   }
   else {
     if (dropdownName == "Subject") {
       formData.append('subject', sub);
-      formData.append('subject_image', subImg);
+      formData.append('subject_image', subImg[0].image);
     }
-    else if (dropdownName == "Topic") {
+    else  {
       formData.append('topic', sub);
-      formData.append('topic_image', subImg);
+      formData.append('topic_image', subImg[0].image);
       formData.append('subject', exam.Subject);
     }
-    else {
-      formData.append('topic', exam.Topic);
-      formData.append('subject', exam.Subject);
-      formData.append('subtopic_image', subImg);
-      formData.append('subtopic', sub);
-    }
-    axios.post("http://localhost:5000/add_Subject_quizz", formData)
+    
+    axios.post("http://localhost:5000/add_Subject_exams", formData)
       .then((response) => {
         if (response.status === 200) {
           console.log("Data added successfully");
           // console.log(response)
-          (dropdownName=="Subject")?setdsubject(oldArray => [sub,...oldArray]):(dropdownName=="Topic")?setdtopic(oldArray => [sub,...oldArray]):setdstopic(oldArray => [sub,...oldArray])
+          (dropdownName=="Subject")?setdesubject(oldArray => [sub,...oldArray]):setedstopic(oldArray => [sub,...oldArray])
         } else {
+          console.log(response)
+
           alert("Error occured");
         }
       })

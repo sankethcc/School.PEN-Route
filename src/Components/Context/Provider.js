@@ -50,7 +50,9 @@ const Provider = ({ children }) => {
   const [Exams, SetExams]=useState([])
   const [subjects, setSubjects] = useState([])
   const [fdata, setfdata] = useState([])
-  
+  const [desubject, setdesubject] = useState([])
+  const [destopic, setedstopic] = useState([])
+
   useEffect(()=>{
     const fetchQuestions = async ()=>{
       try {
@@ -108,31 +110,7 @@ const Provider = ({ children }) => {
   
   useEffect(()=>{
     const fetchQuestions = async ()=>{
-      // try{
-        
-      //   const fun= (quet) => {
-      //     quet?.map((data, i) => {
-      //     const { question, options } = data.question_container
-      //     setQuestions(oldArray => [{ question: question, options: options, id: data._id }, ...oldArray])
-      //     })
-      //   }
-      //   setQuestions([]);
-        
-      //   const quet = fdata.filter((data) => (
-      //                     (!quest.Subject || data.subject == quest.Subject) &&
-      //                     (!quest.Topic || data.topic == quest.Topic) &&
-      //                     (!quest.Sub_topic || data.subtopic == quest.Sub_topic) &&
-      //                     (!quest.Language || data.language == quest.Language) &&
-      //                     (!quest.Level || data.level == quest.Level) &&
-      //                     (!quest.Quiz_Type || data.quiz_type == quest.Quiz_Type) &&
-      //                     (!quest.Class || data.class == quest.Class)                           
-      //     ))
-      //     fun(quet)
-      // } catch(error){
-      //   console.error('Error Fetching questions: ', error)
-      // }
-      
-      
+  
         try {
           const formData = new FormData();
           formData.append('subject', quest.Subject);
@@ -140,14 +118,7 @@ const Provider = ({ children }) => {
           formData.append('subtopic', quest.Sub_topic);
           formData.append('level', quest.Level);
           const { data } = await axios.get("http://localhost:5000/get_quizzes_by_filter", formData)
-          // const question = (data)
-          // data.map((dat, i) => {
-          //   setQuestions(oldArray => [{ question: dat.question, options: dat.options, id: dat._id }, ...oldArray])
-          // })
-        //   question.forEach(dat => {
-        //     setQuestions(oldArray => [{ question: dat.question, options: dat.options, id: dat._id }, ...oldArray])
-          // });
-          // setQuestions(data)
+          
           setQuestions([]);
           const quet = data.filter((data) => (
                           (!quest.Subject || data.subject == quest.Subject) &&
@@ -172,52 +143,37 @@ const Provider = ({ children }) => {
   }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language,openPage,bool])
   
   
-  // useEffect(() => {
+  useEffect(() => {
     
-  //   const fetchSubjec = async ()=>{
-  //     try {
-  //       // console.log(quest.Subject)
-        
-  //       const { data } = await axios.get("http://localhost:5000/get_all_subject_quizz")
-  //       // const temp= JSON.parse(data)
-  //       // console.log(data)
-
-  //       data.forEach(object => {
-  //         setdsubject(oldArray => [object.subject,...oldArray])
-  //         // console.log(object.subject)
-  //       });
-
-  //     } catch(error){
-  //       console.error('Error Fetching questions: ', error)
-  //     }
-  //   }
-  //   fetchSubjec()
-  // }, [])
+    const fetchSubjec = async ()=>{
+      try {
+        // console.log(quest.Subject)
+        setdesubject([])
+        const { data } = await axios.get("http://localhost:5000/get_all_subjects")
+        console.log(data)
+        setdesubject(data);
+      
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchSubjec()
+  }, [])
 
   useEffect(()=>{
     const fetchtopic = async ()=>{
       try {
         // console.log(dsubject)
         setdstopic([]);
-        if (quest.Subject) {
-          const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${quest.Subject}`)
-          setdtopic(data);
-        }
-        else {
-          const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${exam.Subject}`)
-          setdtopic(data);
-        }
-        // const temp= JSON.parse(data)
-        // console.log(data)
-        // console.log(Exams)
-
+        const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${quest.Subject}`)
+        setdtopic(data);
       } catch(error){
         console.error('Error Fetching questions: ', error)
       }
     }
-    if(quest.Subject || exam.Subject)
+    if(quest.Subject )
     fetchtopic()
-  }, [quest.Subject, exam.Subject])
+  }, [quest.Subject])
 
   useEffect(()=>{
     const fetchstopic = async ()=>{
@@ -228,7 +184,7 @@ const Provider = ({ children }) => {
         // console.log(data)
 
       } catch(error){
-        console.error('Error Fetching questions: ', error)
+        console.log( error)
       }
     }
     if(quest.Topic && quest.Subject)
@@ -260,7 +216,10 @@ const Provider = ({ children }) => {
               eligiblity, setEligiblity,
               learning, setLearning,
               updatePreviewQuestionExam,
-              handleUpdatePreviewQuestionExam,
+        handleUpdatePreviewQuestionExam,
+        desubject, setdesubject,
+        destopic, setedstopic
+              
       }}
     >
       {children}
