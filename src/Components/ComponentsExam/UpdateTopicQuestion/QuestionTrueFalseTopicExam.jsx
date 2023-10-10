@@ -18,7 +18,7 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
     const { setexamquest,exam,examid,setexamid, quest} = State();
 
   const [question, setQuestion] = useState({ text: props.question, image: null });
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState(parseInt(props.answer));
   const [options, setOptions] = useState([]);
 
   const handleQuestionChange = (event) => {
@@ -66,13 +66,15 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
   };
 
   const handlePostQuestion = () => {
+    const answer = parseInt(selectedAnswer)
+    console.log(answer)
     // const data = {selectedAnswer
       const formData = new FormData();
     // formData.append('question_no', examid.qno); 
     formData.append('question_type', drop);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
-    formData.append('answer', selectedAnswer);
+    formData.append('answer', answer);
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;

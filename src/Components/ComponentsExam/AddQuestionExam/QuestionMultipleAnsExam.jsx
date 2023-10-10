@@ -91,12 +91,13 @@ const QuestionMultipleAnsExam = () => {
   };
    const handlePostQuestion = () => {
     // const data = {
+    const answer = selectedAnswerIndices.map(data=>data+1)
     const formData = new FormData();
     formData.append('question_no', examid.qno); 
     formData.append('question_type', exam.Quiz_Type);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
-    formData.append('answer', '1');
+    formData.append('answer', answer);
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;

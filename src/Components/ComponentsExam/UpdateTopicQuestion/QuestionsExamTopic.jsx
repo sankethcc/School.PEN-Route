@@ -34,7 +34,7 @@ const QuestionsExamTopic = (props) => {
        setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
     }
   },[])
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(props.answer));
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });

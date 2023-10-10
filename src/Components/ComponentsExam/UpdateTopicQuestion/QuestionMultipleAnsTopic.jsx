@@ -16,25 +16,29 @@ import { State } from "../../Context/Provider"
 import axios from 'axios';
 
 const QuestionMultipleAnsTopic = (props) => {
+  const answer = props.answer.split(',')
   const { setexamquest,exam,examid,setexamid, quest} = State();
-const [question, setQuestion] = useState({ text: props.question, image: null });
+  const [question, setQuestion] = useState({ text: props.question, image: null });
   const [options, setOptions] = useState([]);
   const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
   const [drop, setdrop] = useState(props.type);
-  
+  useEffect(()=>{
+    
+  },[])
   useEffect(() => {
     setOptions([])
     const arr = Object.values(props.options)
     for (let i = 0; i < arr.length; i+=2){
        setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
     }
+    const corrAns = answer.map((ans)=>parseInt(ans-1))
+    setSelectedAnswerIndices(corrAns)
   }, [])
   
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
   };
 
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
 
   const handleOptionChange = (event, index) => {
     const newOptions = [...options];
@@ -42,18 +46,25 @@ const [question, setQuestion] = useState({ text: props.question, image: null });
     setOptions(newOptions);
   };
 
-  const handleCheckboxChange = (event, index) => {
-    const selectedIndex = parseInt(event.target.value, 10);
-    
-    // Create a new array with updated answer values
-    // const newOptions = options.map((option, index) => ({
-    //     ...option,
-    //     answer: index === selectedIndex,
-    // }));
-
-    // setOptions(newOptions);
-    setCorrectAnswerIndex(index);
-};
+  const handleCheckboxChange = (event,index) => {
+    const newSelectedIndices = [...selectedAnswerIndices];
+    const currentIndex = newSelectedIndices.indexOf(index);
+  
+    if (currentIndex === -1) {
+      newSelectedIndices.push(index);
+    } else {
+      newSelectedIndices.splice(currentIndex, 1);
+    }
+  
+    // Update the options with the new answer states
+    const updatedOptions = options.map((option, i) => ({
+      ...option,
+      is_answer: newSelectedIndices.includes(i),
+    }));
+  
+    setSelectedAnswerIndices(newSelectedIndices);
+  
+  };
 
   const handleDeleteImage = (type) => {
     if (type === 'question') {
@@ -91,12 +102,13 @@ const [question, setQuestion] = useState({ text: props.question, image: null });
 
    const handlePostQuestion = () => {
     // const data = {
+      const selectedAns = selectedAnswerIndices.map((ans)=>ans+1)
     const formData = new FormData();
     // formData.append('question_no', examid.qno); 
     formData.append('question_type', drop);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
-    formData.append('answer', correctAnswerIndex+1);
+    formData.append('answer', selectedAns);
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
@@ -105,7 +117,6 @@ const [question, setQuestion] = useState({ text: props.question, image: null });
       formData.append(`option${i + 1}_image`, optionImageInput); 
     }
     
-    // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
     .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
