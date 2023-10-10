@@ -15,7 +15,7 @@ const TrueFalse = (props, { open, setOpen, }) => {
   const { editid,seteditid} = State();
   // const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
-  const [selectedAnswer, setSelectedAnswer] = useState(data.answer);
+  const [selectedAnswer, setSelectedAnswer] = useState(parseInt(data.answer));
   const [options, setOptions] = useState([]);
   useEffect(() => {
     setOptions([])

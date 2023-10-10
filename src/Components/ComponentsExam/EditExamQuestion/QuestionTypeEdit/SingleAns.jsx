@@ -13,7 +13,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
   // console.log(data)
   const { editid,seteditid} = State();
 
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.answer));
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
   const [options, setOptions] = useState([]);
 
@@ -137,10 +137,11 @@ const SingleAns = (props,{ open, setOpen,}) => {
       
      
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
-          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'56px 48px'}}>
+          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'20px 20px', mb:'20px'}}>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
+
           <CustomWidthTooltip
-            title={<img src={userImg} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
+            title={<img src={`http://localhost:5000/get_image/${question.img}`} alt="Que Img" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
             arrow
             open={isHovered}
             onClose={handleMouseLeave}
@@ -151,7 +152,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
             >
             <img
                 src={`http://localhost:5000/get_image/${question.img}`}
-                alt="User Image"
+                alt="Que Img"
                 style={{ height: '80px', width: '80px', objectFit: 'contain', marginRight: '12px' }}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}

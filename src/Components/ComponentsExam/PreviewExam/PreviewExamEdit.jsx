@@ -12,11 +12,11 @@ import { State } from '../../Context/Provider'
 
 const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
   // console.log(data)
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.ans);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.ans));
   const [question, setQuestion] = useState({ text: data.question, image: data.img });
   const [options, setOptions] = useState(data.options);
   const {boo,setboo} = State()
-
+  console.log(correctAnswerIndex)
   // useEffect(() => {
   //   setOptions([])
   //   const arr = Object.values(props.options)
