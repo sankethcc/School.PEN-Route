@@ -67,7 +67,8 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
       formData.append('subject', sub);
       formData.append('subject_image', subImg[0].image);
     }
-    else  {
+    else {
+      // console.log(exam.Subject)
       formData.append('topic', sub);
       formData.append('topic_image', subImg[0].image);
       formData.append('subject', exam.Subject);

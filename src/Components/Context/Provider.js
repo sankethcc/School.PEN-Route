@@ -44,6 +44,8 @@ const Provider = ({ children }) => {
   });
 
   const [examquest, setexamquest] = useState([]);
+  const [editexam, seteditexam] = useState('');
+
   const [examid, setexamid] = useState({id:null, qno:1});
   // const [prevnote, setprevnote] = useState([])
   const [dsubject, setdsubject] = useState([])
@@ -226,8 +228,8 @@ const Provider = ({ children }) => {
         handleUpdatePreviewQuestionExam,
         desubject, setdesubject,
         destopic, setedstopic,
-        boo,setboo
-              
+        boo,setboo,
+         editexam, seteditexam     
       }}
     >
       {children}
