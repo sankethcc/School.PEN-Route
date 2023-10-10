@@ -121,7 +121,8 @@ const QuestionsExamTopic = (props) => {
             console.log("Data added successfully");
             //  console.log(response.data);
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
-            setexamquest(oldArray => [ ...oldArray,response.data])
+            setexamquest(oldArray => [...oldArray, response.data])
+            // console.log(response.data)
           }
           else {
              console.log(response);

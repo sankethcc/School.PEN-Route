@@ -29,7 +29,7 @@ import { useParams } from "react-router-dom";
   
   const EditExam = () => {
     const {topic_id} = useParams()
-    console.log("Topic ID Exam " + topic_id)
+    // console.log("Topic ID Exam " + topic_id)
     const { quest } = State();
     const { exam, SetExams ,setexamid,examquest} = State();
     const {instruction, eligiblity, learning} = State()
@@ -48,18 +48,19 @@ import { useParams } from "react-router-dom";
     formData.append('eligiblity', eligiblity); 
 
     axios
-  .post("http://localhost:5000/create_topic", formData)
+  .post(`http://localhost:5000/update_topic/${topic_id}`, formData)
       .then((response) => {
-        if (response.status === 201) {
-          SetExams(oldArray => [response.data, ...oldArray])
-          setexamid({id:response.data._id,qno:1})
+        if (response.status === 202) {
+          // SetExams(oldArray => [response.data, ...oldArray])
+          // setexamid({id:response.data._id,qno:1})
           console.log("Data added successfully");
+          console.log(response)
         } else {
           alert("Error occured");
         }
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err);
       });
   }
   
@@ -118,7 +119,7 @@ import { useParams } from "react-router-dom";
                           },
                         }}
                     >
-                      Create Exam
+                      Update Exam
                     </Button>
               </Box>
                   <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
@@ -141,7 +142,7 @@ import { useParams } from "react-router-dom";
             ) : null}
             
 
-               <QueContainerEdit />
+                <QueContainerEdit topic_id={topic_id} />
               </Box>
           </Box>
             </Box>
