@@ -7,8 +7,8 @@ import TrueFalse from './QuestionTypeEdit/TrueFalse';
 import axios from 'axios';
 const QueContainerEdit = (props) => {
   const topic_id=props.topic_id
-  const { quest, setexam,editexam, seteditexam } = State();
-  const [examquest,setexamquest]=useState([])
+  const { quest, setexam,editexam, seteditexam ,editid,seteditid} = State();
+  // const [examquest,setexamquest]=useState([])
   const {setInstruction, setEligiblity, setLearning} = State()
   useEffect(() => {
     // setexamquest([])
@@ -30,13 +30,19 @@ const QueContainerEdit = (props) => {
         setInstruction(data.instruction)
         setEligiblity (data.eligibility)
         setLearning(data.learning)
-        console.log(data)
+        // console.log(data._id)
 
         setexam (obj);
         const objects = data.questions
-        
-        // console.log(data.questions)
-        seteditexam(data.questions)
+        seteditid({ id: data._id, qno: Object.keys(objects).length+1 })
+        seteditexam([])
+        // console.log(objects)
+        // seteditexam(data.questions)
+        for (const key in objects) {
+            // console.log(objects[key][0])
+            seteditexam(oldArray => [...oldArray, {que:objects[key][0], qno:key}])
+        }
+
           
       } catch(error){
         console.error('Error Fetching questions: ', error)
@@ -50,21 +56,19 @@ const QueContainerEdit = (props) => {
   
   return (
     <Box>
-                  <MultipleAns />
-                  <SingleAns />
-                  <TrueFalse />
+                  
       {
-        editexam.map((data, index) =>(
+        editexam?.map((data, index) =>(
                 data.que.question_type === "" ? (
-                 <SingleAns /> 
+                 <SingleAns qdata={data.que} qno={data.qno}/> 
                 ) : data.que.question_type === "Multiple choice - multiple answers" ? (
                   MultipleAns 
                 ) : data.que.question_type === "True or False" ? (
-                  <TrueFalse /> 
+                  <TrueFalse qdata={data.que} qno={data.qno}/> 
                 ) : data.que.question_type === "Multiple choice - Single answer" ? (
-                  <SingleAns />  
+                  <SingleAns qdata={data.que} qno={data.qno}/>  
                 ) : data.que.question_type === "Yes or No" ? (
-                  <TrueFalse 
+                  <TrueFalse  qdata={data.que} qno={data.qno}
                     quest={["Yes", "No"]}
                 />
             ) : null

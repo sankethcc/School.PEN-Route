@@ -1,22 +1,29 @@
 import {  Button,  Dialog,  DialogActions,  DialogContent,  DialogTitle,  FormControlLabel,  IconButton,  Input,  Radio,  TextField,  Tooltip,  Typography, Zoom, tooltipClasses,} from "@mui/material";
 import { Box } from "@mui/system";
 import { styled } from '@mui/material/styles';
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ClearIcon from "@mui/icons-material/Clear";
 import userImg from "../../../../Data/userImg.png"
-const SingleAns = ({ open, setOpen,}) => {
+import { State } from "../../../Context/Provider";
+import axios from "axios";
+const SingleAns = (props,{ open, setOpen,}) => {
+  const data=props.qdata
+  // console.log(data)
+  const { editid,seteditid} = State();
 
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(null);
-  const [question, setQuestion] = useState({ text: "", image: null });
-  const [options, setOptions] = useState([
-    { text: "", image: null },
-    { text: "", image: null },
-    { text: "", image: null },
-    { text: "", image: null },
-  ]);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
+  const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
+  const [options, setOptions] = useState([]);
 
+  useEffect(() => {
+    setOptions([])
+    const arr = Object.values(data.options)
+    for (let i = 0; i < arr.length; i+=2){
+       setOptions(oldArray => [{text: arr[i], image:null,img:arr[i+1]},...oldArray])
+    }
+  },[])
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
   };
@@ -72,10 +79,39 @@ const SingleAns = ({ open, setOpen,}) => {
   };
 
   const handleUpdate = () => {
-    handleClose();
-    console.log(options)
-    console.log(question)
-    console.log(correctAnswerIndex)
+    // handleClose();
+    const formData = new FormData();
+    // formData.append('question_no', examid.qno); 
+    formData.append('question_type', data.question_type);
+    formData.append('question_text', question.text);
+    formData.append('question_image', question.image);
+    formData.append('answer', correctAnswerIndex);
+
+    for (let i = 0; i < options.length; i++) {
+      const optionText = options[i].text;
+      const optionImageInput = options[i].image;
+      formData.append(`option${i + 1}`, optionText);
+      formData.append(`option${i + 1}_image`, optionImageInput); 
+    }
+    
+    // const topicID = '65206c78d9a9b6e425e37bb6';
+    axios
+    .post(`http://localhost:5000/update_question/${editid.id}/${props.qno}`, formData)
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("Data added successfully");
+            //  console.log(response.data);
+            seteditid({ id: editid.id, qno: (editid.qno + 1) })
+            // setexamquest(oldArray => [...oldArray, response.data])
+            // console.log(response.data)
+          }
+          else {
+             console.log(response);
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
 
 
   };
@@ -114,7 +150,7 @@ const SingleAns = ({ open, setOpen,}) => {
             ransitionComponent={Zoom}
             >
             <img
-                src={userImg}
+                src={`http://localhost:5000/get_image/${question.img}`}
                 alt="User Image"
                 style={{ height: '80px', width: '80px', objectFit: 'contain', marginRight: '12px' }}
                 onMouseEnter={handleMouseEnter}
@@ -175,7 +211,8 @@ const SingleAns = ({ open, setOpen,}) => {
                     objectFit: "contain",
                     marginRight:'12px',
                   }}
-                  src={userImg}
+                  
+                  src={option.img?`http://localhost:5000/get_image/${option.img}`:null}
                 ></img>
                 <FormControlLabel
                   value={index.toString()}
@@ -267,7 +304,10 @@ const SingleAns = ({ open, setOpen,}) => {
               </Typography>
             </Box>
             <Box sx={{textAlign:'center', mt:'10px'}}>
-                <Button
+          <Button onClick={()=>{
+                handleUpdate()
+              }} 
+              
                 sx={{
                     width: "25%",
                     borderRadius: "12px",
@@ -279,10 +319,7 @@ const SingleAns = ({ open, setOpen,}) => {
                       background: "#7A58E6",
                     },
                   }}
-                onClick={() => {
-                    // handleUpdate();
-                    // handlePostQuestion()
-                }}
+                
                 color="primary"
                 >
                 Update

@@ -16,8 +16,9 @@ import { State } from "../../Context/Provider"
 import axios from 'axios';
 import { qStyle } from '../../../styles/style';
 
-const QuestionsExam = () => {
-  const { setexamquest,exam,examid,setexamid} = State();
+const QuestionsExam = (props) => {
+  const doit=props.doit
+  const { setexamquest,exam,examid,setexamid,editid,seteditid,seteditexam} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
     { text: '', image: null ,answer: false},
@@ -93,7 +94,6 @@ const QuestionsExam = () => {
   const handlePostQuestion = () => {
     // const data = {
     const formData = new FormData();
-    formData.append('question_no', examid.qno); 
     formData.append('question_type', exam.Quiz_Type);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
@@ -107,25 +107,50 @@ const QuestionsExam = () => {
     }
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
-    axios
-    .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
+    if (doit) {
+      formData.append('question_no', editid.qno);
+      axios
+        .post(`http://localhost:5000/create_questions/${editid.id}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");
+            seteditexam(oldArray => [...oldArray, {que:response.data, qno:editid.qno}])
+            seteditid({ id: editid.id, qno: editid.qno + 1 })
             console.log(response.data);
-            setexamquest(oldArray => [...oldArray, {que:response.data, qno:examid.qno}])
-            setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            // setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
+            // setexamid({ id: examid.id, qno: (examid.qno + 1) })
 
             // console.log(response.data.question_type);
           }
           else {
-             console.log(response);
+            console.log(response);
           }
         })
         .catch((err) => {
           console.log(err.response.data);
         });
-    
+    }
+    else {
+      formData.append('question_no', examid.qno); 
+      axios
+        .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("Data added successfully");
+            console.log(response.data);
+            setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
+            setexamid({ id: examid.id, qno: (examid.qno + 1) })
+
+            // console.log(response.data.question_type);
+          }
+          else {
+            console.log(response);
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
 

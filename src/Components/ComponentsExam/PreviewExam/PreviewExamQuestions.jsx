@@ -25,8 +25,9 @@ const PreviewExamQuestions = ({heading, number}) => {
         const { data } = await axios.get(`http://localhost:5000/get_topic/${topic_id}`)
         
         const objects = data.questions
-        const no = Object.keys(data.questions);
-        // console.log(data);
+        // const no = Object.keys(data.questions);
+        // console.log(Object.keys(data.questions));
+    
         // for (var i = 0; i < objects.length; i++) {
         //     arr.push(objects[i]);
         // }
@@ -47,17 +48,17 @@ const PreviewExamQuestions = ({heading, number}) => {
             ans: objects[key][0].answer,
             options: dat,
             id: data._id,
-            qno: j,
+            qno: key,
             drop:objects[key][0].question_type
           }])
           // j = j + 1;
           // no.unshift()
-          // console.log(dat)
+          // console.log(Object.keys(objects[key]))
         }
         //  Object.keys(data[0].options)
         // console.log(Object.keys(arr[0][0].options))
         // setexamquest(arr)
-        setboo(!boo)
+        // setboo(!boo)
       } catch(error){
         console.error('Error Fetching questions: ', error)
       }

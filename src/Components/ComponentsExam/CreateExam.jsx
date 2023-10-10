@@ -109,22 +109,23 @@ const CreateQuiz = ({
                     >
                       Create Exam
                     </Button>
-              </Box>
+            </Box>
+                  <QuestionsContainer />
                   <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
                 <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={exam.Quiz_Type}/>
 
                 </Box>
                 {exam.Quiz_Type === "" ? (
-                  <QuestionsExam  />
+                  <QuestionsExam  doit={false}/>
                 ) : exam.Quiz_Type === "Multiple choice - multiple answers" ? (
-                  <QuestionMultipleAnsExam
+                  <QuestionMultipleAnsExam doit={false}
                   />
                 ) : exam.Quiz_Type === "True or False" ? (
-                  <QuestionTrueFalseExam prop={["True", "False"]} />
+                  <QuestionTrueFalseExam doit={false} prop={["True", "False"]} />
                 ) : exam.Quiz_Type === "Multiple choice - Single answer" ? (
-                  <QuestionsExam />
+                  <QuestionsExam doit={false}/>
                 ) : exam.Quiz_Type === "Yes or No" ? (
-                  <QuestionTrueFalseExam
+                  <QuestionTrueFalseExam doit={false}
                     prop={["Yes", "No"]}
                   />
             ) : null}
@@ -137,7 +138,7 @@ const CreateQuiz = ({
               })
                   
                } */}
-               <QuestionsContainer />
+               
               </Box>
           </Box>
 
