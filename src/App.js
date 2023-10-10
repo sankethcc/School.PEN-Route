@@ -14,6 +14,7 @@ import AddLanguagePage from "./Pages/AddLanguagePage";
 import PreviewPageExam from "./Pages/PreviewPageExam";
 import ExamEditPage from "./Pages/ExamEditPage";
 import UserPage from "./Pages/UserPage";
+import UserSetting from "./Components/ComponentsAssignUser/UserProfile/UserSetting";
 
 function App() {
   return (
@@ -33,7 +34,9 @@ function App() {
             <Route path="/update/:quiz_id" element={<UpdatePageOfQuiz />} />
           <Route path="*" element={<ErrorPage />} />
           <Route path="/admin/create-exam/:topic_id" element={<PreviewPageExam />} />
-          <Route path='/user' element={<UserPage />} />
+          <Route path='/user' element={<UserPage />}>
+            <Route path='setting' element={<UserSetting />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

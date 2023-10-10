@@ -4,6 +4,8 @@ import UserDataBox from './UserDataBox'
 import ProfileWrapper from '../../ComponentsQuizz/ProfileWrapper'
 import { mainBoxStyle, sideDetail } from '../../../styles/style'
 import UserData from './UserData'
+import UserSetting from './UserSetting'
+import { Outlet } from 'react-router-dom'
 
 
 
@@ -30,6 +32,9 @@ const UserProfile = () => {
     >
             <Box >
              <ProfileWrapper pageName="User Profile" />
+             <Outlet>
+             <Box>
+
              <Box sx={{display:'flex', justifyContent:'space-between', mt:'70px', flexWrap:'wrap'}}>
                 <UserDataBox name={"Total Task"} number={"1,000"} />
                 <UserDataBox name={"Complete"} number={"500"} />
@@ -51,10 +56,15 @@ const UserProfile = () => {
                     <Divider style={{ opacity: 0.5, height: 1, backgroundColor: '#707070' }} />
                 </Box>
             </Box>
+             </Box>
+         
+            <UserSetting />
+              
+              </Outlet>
             </Box>
-           
+          
 
-         </Box>
+            </Box>
             <Box sx={sideDetail.first}>
             <UserData />
 

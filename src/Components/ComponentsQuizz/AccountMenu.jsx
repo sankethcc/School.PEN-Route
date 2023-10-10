@@ -11,8 +11,11 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function AccountMenu() {
+  const navigate = useNavigate()
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -74,20 +77,31 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
+        
+        <MenuItem 
+        onClick={()=>{
+          handleClose() 
+          navigate('/user')
+          }}>
           <Avatar /> Profile
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <Avatar /> My account
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={()=>{
+          handleClose()
+          navigate('/user/setting')
+          }}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={()=>{
+          handleClose()
+          navigate('/')
+          }}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
