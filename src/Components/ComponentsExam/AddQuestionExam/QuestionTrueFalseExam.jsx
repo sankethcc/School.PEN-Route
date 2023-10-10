@@ -14,9 +14,9 @@ import { State } from '../../Context/Provider';
 import axios from 'axios';
 import { qStyle } from '../../../styles/style';
 
-const QuestionTrueFalseExam = () => {
-
-  const { setexamquest,exam,examid,setexamid} = State();
+const QuestionTrueFalseExam = (props) => {
+  const doit=props.doit
+  const { setexamquest,exam,examid,setexamid,editid,seteditid,seteditexam} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [options, setOptions] = useState([
@@ -66,39 +66,61 @@ const QuestionTrueFalseExam = () => {
     // const data = {selectedAnswer
     
     const formData = new FormData();
-    formData.append('question_no', examid.qno); 
     formData.append('question_type', exam.Quiz_Type);
-    formData.append('question_text', question.text);
-    formData.append('question_image', question.image);
-    formData.append('answer', selectedAnswer);
+      formData.append('question_text', question.text);
+      formData.append('question_image', question.image);
+      formData.append('answer', selectedAnswer);
 
-    for (let i = 0; i < options.length; i++) {
-      const optionText = options[i].text;
-      const optionImageInput = options[i].image;
-      formData.append(`option${i + 1}`, optionText);
-      formData.append(`option${i + 1}_image`, optionImageInput);
-    }
-    
-    // const topicID = '65206c78d9a9b6e425e37bb6';
-    axios
-    .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
+      for (let i = 0; i < options.length; i++) {
+        const optionText = options[i].text;
+        const optionImageInput = options[i].image;
+        formData.append(`option${i + 1}`, optionText);
+        formData.append(`option${i + 1}_image`, optionImageInput);
+      }
+    if (doit) {
+      
+      axios
+        .post(`http://localhost:5000/create_questions/${editid.id}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");
             console.log(response.data);
-            setexamquest(oldArray => [...oldArray, {que:response.data, qno:examid.qno}])
-            setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
+            setexamid({ id: examid.id, qno: (editid.qno + 1) })
 
             // console.log(response.data.question_type);
           }
           else {
-             console.log(response);
+            console.log(response);
           }
         })
         .catch((err) => {
           console.log(err.response.data);
         });
-    
+      // const topicID = '65206c78d9a9b6e425e37bb6';
+      
+    }
+    else {
+      formData.append('question_no', examid.qno);
+      axios
+        .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
+        .then((response) => {
+          if (response.status === 201) {
+            console.log("Data added successfully");
+            console.log(response.data);
+            setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
+            setexamid({ id: examid.id, qno: (examid.qno + 1) })
+
+            // console.log(response.data.question_type);
+          }
+          else {
+            console.log(response);
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+    }
     }
   const inputStyle = {
     padding: '11px 27px',

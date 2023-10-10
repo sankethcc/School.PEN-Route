@@ -44,7 +44,7 @@ const Provider = ({ children }) => {
   });
 
   const [examquest, setexamquest] = useState([]);
-  const [editexam, seteditexam] = useState('');
+  const [editexam, seteditexam] = useState([]);
 
   const [examid, setexamid] = useState({id:null, qno:1});
   // const [prevnote, setprevnote] = useState([])
@@ -59,7 +59,7 @@ const Provider = ({ children }) => {
   const [fdata, setfdata] = useState([])
   const [desubject, setdesubject] = useState([])
   const [destopic, setedstopic] = useState([])
-
+  const [editid,seteditid]= useState({})
   useEffect(()=>{
     const fetchQuestions = async ()=>{
       try {
@@ -229,7 +229,8 @@ const Provider = ({ children }) => {
         desubject, setdesubject,
         destopic, setedstopic,
         boo,setboo,
-         editexam, seteditexam     
+        editexam, seteditexam,
+         editid,seteditid
       }}
     >
       {children}
