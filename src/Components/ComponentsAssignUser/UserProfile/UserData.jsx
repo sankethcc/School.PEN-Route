@@ -5,11 +5,12 @@ import userImg from './userImg.png'
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import { sideDetail } from '../../../styles/style';
 
 const UserData = () => {
   return (
     <Box>
-        <Box sx={{display:'flex', alignItems:'center', flexDirection:'column', mb:'35px' }}>
+        <Box sx={{ mb:'35px', textAlign:'-webkit-center' }}>
           <Avatar src={userImg} 
             alt="User Image"
             style={{

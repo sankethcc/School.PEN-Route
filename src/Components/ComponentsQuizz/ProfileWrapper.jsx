@@ -5,6 +5,7 @@ import React from 'react'
 import userImg from '../../Data/userImg.png'
 import { State } from '../Context/Provider';
 import { styleProfile } from '../../styles/style';
+import AccountMenu from './AccountMenu';
 const style ={
     dflex:{
         display:'flex'
@@ -36,11 +37,12 @@ const ProfileWrapper = ({pageName}) => {
             onClick={()=>{
             }}
         >
-            <Avatar 
+            <AccountMenu />
+            {/* <Avatar 
                 src={userImg}
                 style={{borderRadius:'300px', cursor:'pointer', objectFit:'contain'}}
                 sx={styleProfile.topIcon}   
-            />
+            /> */}
         </Box>
         <Box onClick={handleHamburger} sx={{
             display:{

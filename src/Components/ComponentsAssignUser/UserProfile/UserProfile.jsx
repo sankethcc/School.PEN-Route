@@ -1,37 +1,35 @@
 import React, { useState } from 'react'
 import { Box, Button, ButtonGroup, Divider, Typography } from '@mui/material'
 import UserDataBox from './UserDataBox'
+import ProfileWrapper from '../../ComponentsQuizz/ProfileWrapper'
+import { mainBoxStyle, sideDetail } from '../../../styles/style'
+import UserData from './UserData'
 
 
 
 const UserProfile = () => {
-   // hamburger functionality for responsive page
-   const [toggle, setToggle] = useState(true)
-   const [close, setClose] = useState("")
-   const [dBlock, setDBlock] = useState("")
-   const toggleMenu = ()=>{
-     if(toggle){
-       setToggle(!toggle)
-       setClose("close-hamburger")
-       setDBlock("d-block")
-     }else{
-       setToggle(!toggle)
-       setClose("")
-       setDBlock("")
-     }
-   }
-   const props = {
-     toggle,
-     close,
-     toggleMenu, 
-     dBlock
-   }
+  const style = {
+    dflex: {
+      display: "flex",
+    },
+    bellIcon: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  };
+  
    return (
-     <Box >
-         <Box >
-             {/* <Menu {...props} /> */}
+    <Box
+    style={style.dflex}
+    sx={ mainBoxStyle.first
+    }
+  >
+    <Box
+      sx={mainBoxStyle.second}
+    >
             <Box >
-             {/* <ProfileWrapper name="User Profile" /> */}
+             <ProfileWrapper pageName="User Profile" />
              <Box sx={{display:'flex', justifyContent:'space-between', mt:'70px', flexWrap:'wrap'}}>
                 <UserDataBox name={"Total Task"} number={"1,000"} />
                 <UserDataBox name={"Complete"} number={"500"} />
@@ -54,10 +52,13 @@ const UserProfile = () => {
                 </Box>
             </Box>
             </Box>
-            {/* <UserData /> */}
            
 
          </Box>
+            <Box sx={sideDetail.first}>
+            <UserData />
+
+            </Box>
      </Box>
    )
 }

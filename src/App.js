@@ -13,6 +13,7 @@ import AddSubjectSubtopic from "./Pages/AddSubjectSubtopic";
 import AddLanguagePage from "./Pages/AddLanguagePage";
 import PreviewPageExam from "./Pages/PreviewPageExam";
 import ExamEditPage from "./Pages/ExamEditPage";
+import UserPage from "./Pages/UserPage";
 
 function App() {
   return (
@@ -30,9 +31,9 @@ function App() {
           </Route>
             <Route path="/admin/create-exam/edit-exam/:topic_id" element={<ExamEditPage />} />
             <Route path="/update/:quiz_id" element={<UpdatePageOfQuiz />} />
-
           <Route path="*" element={<ErrorPage />} />
-            <Route path="/admin/create-exam/:topic_id" element={<PreviewPageExam />} />
+          <Route path="/admin/create-exam/:topic_id" element={<PreviewPageExam />} />
+          <Route path='/user' element={<UserPage />} />
         </Routes>
       </BrowserRouter>
     </div>
