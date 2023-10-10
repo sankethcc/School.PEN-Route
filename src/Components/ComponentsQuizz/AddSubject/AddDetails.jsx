@@ -110,7 +110,7 @@ const AddDetails = () => {
   }
 
   return (
-    <Box sx={sideDetail.second} className="side-details page2">
+    <Box className="side-details page2">
       <h3>Create subject/topic/subtopic</h3>
       {/* <DropDown dropdownName={"Add new or select existing"} listArray={["Science", "Mathematics", "History"]} add={true} adddetailsId={"page2Extra"} /> */}
 

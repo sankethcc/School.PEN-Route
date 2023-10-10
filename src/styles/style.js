@@ -55,13 +55,20 @@ export const sideDetail = {
           },
           background: "#fff",
           p:{
-            xs:"0 0",
-            sm:"0 0",
+            xs:"15px 15px",
+            sm:"15px 15px",
             md:"38px 32px",
             lg:"38px 32px",
             xl:"38px 32px",
 
-          } 
+          },
+          // mx:{
+          //   xs:"15px",
+          //   sm:"15px",
+          //   md:"0",
+          //   lg:"0",
+          //   xl:"0",
+          // }
     },
     second:{
       px:{

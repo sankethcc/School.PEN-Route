@@ -16,7 +16,7 @@ const Menu = () => {
   const [onClick, setOnClick] = useState("")
   const [toggle, setToggle] = useState(false)
   const [lightBox, setLightBox] = useState('')
-  const { activeTab, setActiveTab, openPage, toggleMenu } = State();
+  const { activeTab, setActiveTab, openPage, toggleMenu, handleHamburger } = State();
 
 
 
@@ -85,6 +85,7 @@ const Menu = () => {
             onClick={() => {
             
             handleTabClick('tab1')
+            handleHamburger()
           }} 
           >
             <img src={openPage==="Create Quiz"?TestWhite:Test707070} alt="" className="menuelog " />
@@ -95,6 +96,7 @@ const Menu = () => {
           <li className={`tab ${openPage === 'Create Exam' ? 'active' : ''}`} 
             onClick={() => {
               handleTabClick('tab2')
+              handleHamburger()
             }}>
             {/* <img src={Exam} className="menuelog" alt="" /> */}
             <DescriptionIcon sx={{fontSize:'30px'}} htmlColor={`${openPage === 'Create Exam'?"#fff":"#707070"}`} />
@@ -105,6 +107,7 @@ const Menu = () => {
           <li className={`tab ${openPage === 'Assign User' ? 'active' : ''}`} 
           onClick={() => {
             handleTabClick('tab3')
+            handleHamburger()
             }}>
             {/* <img src={User} className="menuelog" alt="" /> */}
             <PersonIcon sx={{fontSize:'30px'}} htmlColor={`${openPage === 'Assign User'?"#fff":"#707070"}`} />

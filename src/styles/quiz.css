@@ -417,9 +417,7 @@ button.btnt{
 }
 
 /* page2 css */
-.side-details.page2 h3 {
-    padding-top: 0px;
-}
+
 .side-details.page2 .dropdown-defult a.inner-select {
     background-color: #F5F6F7 !important;
     width: 100%;
