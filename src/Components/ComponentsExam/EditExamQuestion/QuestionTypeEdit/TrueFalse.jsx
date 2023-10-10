@@ -121,7 +121,7 @@ const TrueFalse = (props, { open, setOpen, }) => {
       
      
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
-          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'56px 48px'}}>
+          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'56px 48px', mb:'20px'}}>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
           <CustomWidthTooltip
             title={<img src={userImg} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
