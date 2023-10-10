@@ -5,6 +5,7 @@ import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { Link,NavLink, useNavigate } from 'react-router-dom';
 import {State} from '../Context/Provider'
+import { sideDetail } from '../../styles/style';
 
 const SideDetailsExam = ({heading}) => {
   const { Exams} = State();
@@ -17,7 +18,7 @@ const SideDetailsExam = ({heading}) => {
   }
   
   return (
-    <div className="side-details">
+    <div sx={sideDetail.second} className="side-details">
       <div className="amount-wrapper">
         <p className="price-heading">{heading}</p>
         <p className="price-count">{Exams.length}</p>

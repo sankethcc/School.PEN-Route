@@ -12,7 +12,9 @@ const style ={
     bellIcon:{
         display:'flex',
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        borderRadius:'34px', border:'3px solid #4F78FE',
+        objectFit:'contain'
     }
 }
 
@@ -22,11 +24,11 @@ const ProfileWrapper = ({pageName}) => {
 
     
   return (
-    <Box style={style.dflex} sx={{justifyContent:'space-between', width:'100%'}}>
+    <Box style={style.dflex} sx={{justifyContent:'space-between', width:'100%', alignItems:'center'}}>
     <Typography sx={styleProfile.pageName}>{pageName}</Typography>
-    <Box style={style.dflex} sx={{gap:'35px'}}>
+    <Box style={style.dflex} sx={styleProfile.menuGap}>
 
-        <Box style={style.bellIcon} sx={{borderRadius:'34px', border:'3px solid #4F78FE', height:'60px', width:'60px' }}>
+        <Box style={style.bellIcon} sx={styleProfile.topIcon}>
             <CircleNotificationsIcon sx={{fontSize:'32px', color:'#4F78FE'}} />
         </Box>
 
@@ -36,7 +38,8 @@ const ProfileWrapper = ({pageName}) => {
         >
             <Avatar 
                 src={userImg}
-                sx={{ height:'60px', width:'60px',borderRadius:'300px', cursor:'pointer' }}   
+                style={{borderRadius:'300px', cursor:'pointer', objectFit:'contain'}}
+                sx={styleProfile.topIcon}   
             />
         </Box>
         <Box onClick={handleHamburger} sx={{

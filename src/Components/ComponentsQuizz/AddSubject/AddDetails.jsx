@@ -4,6 +4,8 @@ import axios from "axios";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { IconButton } from '@mui/material';
 import { State } from '../../Context/Provider';
+import { sideDetail } from '../../../styles/style';
+import { Box } from '@mui/system';
 
 const AddDetails = () => {
   
@@ -108,7 +110,7 @@ const AddDetails = () => {
   }
 
   return (
-    <div className="side-details page2">
+    <Box sx={sideDetail.second} className="side-details page2">
       <h3>Create subject/topic/subtopic</h3>
       {/* <DropDown dropdownName={"Add new or select existing"} listArray={["Science", "Mathematics", "History"]} add={true} adddetailsId={"page2Extra"} /> */}
 
@@ -255,7 +257,7 @@ const AddDetails = () => {
       </div>
       :null}
       {/* <AddNewSubject /> */}
-    </div>
+    </Box>
   )
 }
 

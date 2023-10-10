@@ -476,9 +476,9 @@ button.btnt{
     .main-container{
         width: 100%;      
     }
-    .side-details{
+    /* .side-details{
         width: 100%;
-    }
+    } */
     .main-wrapper {
         flex-direction: column;
     }
@@ -558,9 +558,7 @@ button.btnt{
         top: 10px;
         right: 10px;
     }
-    .side-details {
-        padding: 20px 20px 300px;
-    }
+
     .btn-div {
         text-align: center;
         margin-bottom: 50px

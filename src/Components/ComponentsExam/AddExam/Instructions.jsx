@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import StyledArea from './StyledArea';
 import { useState } from 'react';
 import { State } from '../../Context/Provider';
+import { qStyle } from '../../../styles/style';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -65,14 +66,7 @@ export default function Instructions() {
 
 
   return (
-    <Box sx={{
-      background:'#FFF',
-      padding:'56px 48px',
-      mt:'32px',
-      borderRadius:'24px',
-      textAlign:'center',
-      width:'100%'
-    }}>
+    <Box sx={qStyle.question}>
     
     <Box sx={{ width: '100%' }}>
       <Box className='instructions-exam'>

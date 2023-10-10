@@ -64,7 +64,14 @@ export const sideDetail = {
           } 
     },
     second:{
-        
+      px:{
+        xs:"15px",
+        sm:"15px",
+        md:"40px",
+        lg:"40px",
+        xl:"40px",
+
+      } ,
     }
 
 }
@@ -79,6 +86,31 @@ export const styleProfile = {
         },
         textWrap:'noWrap'
 
+    },
+    menuGap:{
+      gap:{
+        xs:'11px',
+        sm:'11px',
+        md:'35px',
+        lg:'35px',
+        xl:'35px',
+      }
+    },
+    topIcon:{
+       height:{
+        xs:'45px',
+        sm:'45px',
+        md:'60px',
+        lg:'60px',
+        xl:'60px',
+       },
+       width:{
+        xs:'45px',
+        sm:'45px',
+        md:'60px',
+        lg:'60px',
+        xl:'60px',
+       },
     }
 }
 export const selectStyle = {

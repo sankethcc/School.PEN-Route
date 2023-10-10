@@ -8,12 +8,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Link } from 'react-router-dom'
+import { sideDetail } from '../../styles/style';
 const SideDetails = ({heading, number}) => {
   const { questions} = State();
   // console.log(questions)
   return (
     
-    <Box className="side-details">
+    <Box sx={sideDetail.second} className="side-details">
       <div className="amount-wrapper">
         <p className="price-heading">{heading}</p>
         <p className="price-count">{questions.length}</p>
