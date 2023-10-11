@@ -5,11 +5,14 @@ import ProfileWrapper from '../../ComponentsQuizz/ProfileWrapper'
 import { mainBoxStyle, sideDetail } from '../../../styles/style'
 import UserData from './UserData'
 import UserSetting from './UserSetting'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useParams } from 'react-router-dom'
 
 
 
 const UserProfile = () => {
+  const {userId} = useParams()
+  console.log(userId)
+  
   const style = {
     dflex: {
       display: "flex",

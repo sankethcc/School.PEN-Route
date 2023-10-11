@@ -26,8 +26,6 @@ const SideDetails = ({heading, number}) => {
           var usersdata = JSON.parse(localStorage.getItem('user' )) ;
           const creatorId = usersdata.user._id
           const role=usersdata.user.role
-          console.log(role)
-          console.log(creatorId)
 
 
           const formData = new FormData();
@@ -35,7 +33,6 @@ const SideDetails = ({heading, number}) => {
           formData.append('role', role);
 
           const { data } = await axios.get(`http://localhost:5000/get_all_quizz/${role}/${creatorId}`)
-          console.log(data)
           // console.log(quest)
 
           const quet = data.filter((data) => (

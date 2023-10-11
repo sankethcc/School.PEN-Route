@@ -8,6 +8,7 @@ const AssignNewUser = () => {
   const { assign,dasubject, setdasubject,
         datopic, setdatopic,
          dalanguage, setdalanguage} = State();
+  const { user, setUser} = State();
   // setdalanguage(["English"])
   useEffect(() => {
 
@@ -102,8 +103,7 @@ const AssignNewUser = () => {
     formData.append('class',assign.class);
     formData.append('subject',assign.subject);
     formData.append('topic',assign.Topic);
-
-    const userid="713363"
+    const userid=assign.user
     axios
         .put(`http://localhost:5000/assign_user/${userid}`, formData)
         .then((response) => {
@@ -147,7 +147,7 @@ const AssignNewUser = () => {
           <SelectMenuAssign dropdownName={"Class"} value={"class"} listArray={["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"]} add={false} />
           <SelectMenuAssign dropdownName={"Subject"} value={"subject"} listArray={dasubject} add={true} />
           <SelectMenuAssign dropdownName={"Topic"} value={"Topic"} listArray={datopic} add={true} />
-          <SelectMenuAssign dropdownName={"Select User"} value={"user"} listArray={["Hindi", "English", "Urdu"]} add={false} />
+          <SelectMenuAssign dropdownName={"Select User"} value={"user"} listArray={user} add={false} />
           
         </Container>
         <Box>

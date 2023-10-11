@@ -1,18 +1,22 @@
 import React from 'react'
 import { Box, Typography  } from '@mui/material'
 import userlogo from './userlogo.png'
+import { Link, useNavigate } from 'react-router-dom'
 
 const UserList = ({user}) => {
+  const navigate = useNavigate()
 
   return (
     <Box>   
         {user 
         ? user.map((user)=>{
             return(
-                <Box sx={{bgcolor:'#F5F6F7', borderRadius:'10px', p:'6px 14px',m:'16px 0px', display:'flex', alignItems:'center', gap:'23px'}}>
-                <img src={userlogo} alt='user' style={{width:'55px', borderRadius:'6px'}}/>
-                <Typography sx={{color:'#707070', fontSize:'20px', }}>{user.name}</Typography>
+                <Link to={`/user/${user._id}`} style={{textDecoration:'none'}}>
+                <Box sx={{bgcolor:'#F5F6F7', cursor:'pointer', borderRadius:'10px', p:'6px 14px',m:'16px 0px', display:'flex', flexDirection:'column', gap:'5px'}}>
+                <Typography sx={{color:'#707070', fontSize:'20px', }}>User Name : <span>{user.name}</span></Typography>
+                <Typography sx={{color:'#707070', fontSize:'20px', }}>User Id : <span>{user.email}</span></Typography>
                 </Box>
+                </Link>
             )
         }):null}
         </Box>

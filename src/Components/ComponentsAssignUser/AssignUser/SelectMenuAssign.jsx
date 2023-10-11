@@ -8,7 +8,7 @@ import { Box, fontSize, styled } from '@mui/system';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 // import { useState } from 'react';
 import {State} from "../../Context/Provider"
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 
 export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
@@ -129,21 +129,54 @@ export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
   
   return (
     <>
+    {dropdownName == 'Select User'?(
 
+    <CustomSelect id={dropdownName} placeholder={dropdownName}
+    onChange={(event, newValue) =>setassign((prevData) => {
+      return {
+        ...prevData,
+        [value]: newValue,
+      };
+    })}
+    
+    >
+      
+      {listArray 
+        ? listArray.map((user, index)=>{
+            return(
+                <StyledOption key={index} value={user._id} >
+                  <Box sx={{display:'grid', gridTemplateColumns:'6fr 6fr'}}>
+                  <Typography> {user.name}</Typography>
+                  <Typography>{user.email}</Typography>
+
+                  </Box>
+                </StyledOption>
+            )
+        }):null}
+
+
+    </CustomSelect>
+    
+    ):
     <CustomSelect id={dropdownName}  onChange={(event, newValue) =>setassign((prevData) => {
       return {
         ...prevData,
         [value]: newValue,
       };
     })} sx={{background:`${style}`}} placeholder={dropdownName} >
-        {listArray.map((itemVal, index) => (
+        
+        {listArray?.map((itemVal, index) => {
+          return (
+          
           <StyledOption
           sx={{}}
           key={index} value={itemVal} >{itemVal}
           </StyledOption>
-                ))}
+                )
+        })}
         {add?<StyledOption onClick={handleOpen}  sx={{color:'blue'}}>Add New</StyledOption>:null}
     </CustomSelect>
+    }
     
     <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add New {dropdownName}</DialogTitle>

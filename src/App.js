@@ -42,7 +42,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
           <Route path="/admin/create-exam/:topic_id" element={<PreviewPageExam />} />
           <Route path='/user' element={<UserPage />}>
-            <Route path='profile' element={<UserProfile />} />
+            <Route path=':userId' element={<UserProfile />} />
             <Route path='setting' element={<UserSetting />} />
           </Route>
         </Routes>

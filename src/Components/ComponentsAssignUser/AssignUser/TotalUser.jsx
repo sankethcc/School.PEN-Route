@@ -19,7 +19,6 @@ const TotalUser = () => {
         // &limit=10
     (response) => {
         setUser(response.data);
-        console.log(response.data);
     }
   ).catch((error) => {
       console.error(error);
