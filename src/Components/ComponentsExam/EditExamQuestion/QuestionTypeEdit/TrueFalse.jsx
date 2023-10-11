@@ -17,6 +17,12 @@ const TrueFalse = (props, { open, setOpen, }) => {
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
   const [selectedAnswer, setSelectedAnswer] = useState(parseInt(data.answer));
   const [options, setOptions] = useState([]);
+  const [explanation, setExplanation] = useState('')
+
+  const handleExplanationChange = (event)=>{
+    setExplanation(event.target.value)
+  }
+
   useEffect(() => {
     setOptions([])
     const arr = Object.values(data.options)
@@ -268,6 +274,21 @@ const TrueFalse = (props, { open, setOpen, }) => {
             }}
           >
             <span></span>
+            <Box sx={{width:'100%'}}>
+        <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
+          <TextField 
+           InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
+           multiline
+           placeholder='Explain the answer'
+           fullWidth
+           minRows={2}
+           sx={{border: 'none',"& fieldset": { border: 'none' },}}
+           value={explanation}
+           onChange={handleExplanationChange}
+
+          
+          />
+        </Box>
 
             <Box sx={{textAlign:'center', mt:'10px'}}>
                 <Button

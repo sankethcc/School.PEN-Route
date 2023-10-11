@@ -30,6 +30,11 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     { text: '', image: null, is_answer: '' },
   ]);
   const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
+  const [explanation, setExplanation] = useState('')
+
+  const handleExplanationChange = (event)=>{
+    setExplanation(event.target.value)
+  }
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -294,6 +299,21 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
                 ))}
         </Box>
         <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'end', mt:'32px'}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
+        <Box sx={{width:'100%'}}>
+        <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
+          <TextField 
+           InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
+           multiline
+           placeholder='Explain the answer'
+           fullWidth
+           minRows={2}
+           sx={{border: 'none',"& fieldset": { border: 'none' },}}
+           value={explanation}
+           onChange={handleExplanationChange}
+
+          
+          />
+        </Box>
     </Box>
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'space-between'}}>
       <Button variant="contained" onClick={()=>{
