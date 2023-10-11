@@ -1,17 +1,56 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import SelectMenuExam from './SelectMenuExam'
 import { Box } from '@mui/system'
 import { State } from '../../Context/Provider'
 import { selectStyle } from '../../../styles/style'
-
+import axios from 'axios'
 
 const SelectContainerExam = () => {
-  const { exam,  desubject, destopic} = State();
+  const { exam,  desubject, destopic,setdesubject,setedstopic} = State();
   // console.log(quest)
+  const [classs,setclasss]=useState(["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"])
+  useEffect(() => {
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const role = usersdata.user.role
+    const fetchSubjec = async ()=>{
+      try {
+        // console.log(quest.Subject)
+        setdesubject([])
+        const { data } = await axios.get("http://localhost:5000/get_all_subjects")
+        // console.log(data)
+        if(data)
+        setdesubject(data);
+      
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    if(role=="admin")
+      fetchSubjec()
+    
+     const fetchuSubject = async ()=>{
+      try {
+        // console.log(usersdata.user._id)
+        
+        const { data } = await axios.get(`http://localhost:5000/get_assign_details/${usersdata.user.user_id}`)
+        setdesubject(data.subject)
+        setedstopic(data.topic)
+        setclasss(data.class)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+
+    if(role=="user")
+      fetchuSubject()
+
+  }, [])
+
+
   return (
     <Box 
     sx={selectStyle.first}>
-        <SelectMenuExam dropdownName={"Class"} listArray={["1", "2", "3", "4", "5", "6", "7", "8", "9"]} classList={"classChange"} add={true} value={"Class"} val={exam.Class} />
+        <SelectMenuExam dropdownName={"Class"} listArray={classs} classList={"classChange"} add={false} value={"Class"} val={exam.Class} />
         <SelectMenuExam dropdownName={"Subject"} listArray={desubject} add={true} value={"Subject"} val={exam.Subject}/>
         <SelectMenuExam dropdownName={"Topic"} listArray={destopic} add={true} value={"Topic"} val={exam.Topic}/>
         <SelectMenuExam dropdownName={"Level"} listArray={["Beginner", "Intermediate" , "Advance"]} add={false} value={"Level"} val={exam.Level}/>
