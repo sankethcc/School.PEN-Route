@@ -9,9 +9,59 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { Link } from 'react-router-dom'
 import { sideDetail } from '../../styles/style';
+import axios from 'axios';
 const SideDetails = ({heading, number}) => {
-  const { questions} = State();
+  const { questions,bool,openPage,quest,setQuestions} = State();
   // console.log(questions)
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+  
+        try {
+          // const formData = new FormData();
+          // formData.append('subject', quest.Subject);
+          // formData.append('topic', quest.Topic);
+          // formData.append('subtopic', quest.Sub_topic);
+          // formData.append('level', quest.Level);
+          // const { data } = await axios.get("http://localhost:5000/get_quizzes_by_filter", formData)
+          var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+          const creatorId = usersdata.user._id
+          const role=usersdata.user.role
+          console.log(role)
+          console.log(creatorId)
+
+
+          const formData = new FormData();
+          formData.append('creator_id', creatorId);
+          formData.append('role', role);
+
+          const { data } = await axios.get(`http://localhost:5000/get_all_quizz/${role}/${creatorId}`)
+          console.log(data)
+          // console.log(quest)
+
+          const quet = data.filter((data) => (
+                          (!quest.Subject || data.subject == quest.Subject) &&
+                          (!quest.Topic || data.topic == quest.Topic) &&
+                          (!quest.Sub_topic || data.subtopic == quest.Sub_topic) &&
+                          (!quest.Language || data.language == quest.Language) &&
+                          (!quest.Level || data.level == quest.Level) &&
+                          (!quest.Quiz_Type || data.quiz_type == quest.Quiz_Type) &&
+                          (!quest.Class || data.class == quest.Class)                           
+          ))
+
+          // console.log(quet)
+          setQuestions([]);
+          quet?.map((dat, i) => {
+          const { question, options } = dat.question_container
+          setQuestions(oldArray => [{ question: question, options: options, id: dat._id }, ...oldArray])
+          })
+        // console.log(data)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchQuestions()
+    
+  }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language,openPage,bool])
   return (
     
     <Box  className="side-details">

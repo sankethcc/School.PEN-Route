@@ -60,13 +60,18 @@ const Provider = ({ children }) => {
   const [fdata, setfdata] = useState([])
   const [desubject, setdesubject] = useState([])
   const [destopic, setedstopic] = useState([])
-  const [editid,seteditid]= useState({})
+  const [editid, seteditid] = useState({})
+  // const [creatorId, setcreatorId] = useState({id:JSON.parse(localStorage.getItem('user'))._id, role:JSON.parse(localStorage.getItem('user' )).role})
+  // const id = JSON.parse(localStorage.getItem('user' )).user._id;
+  // const role=JSON.parse(localStorage.getItem('user' )).user.role;
+    
+ 
   useEffect(()=>{
     const fetchQuestions = async ()=>{
       try {
         var usersdata = JSON.parse(localStorage.getItem('user' )) ;
-        const creatorId = usersdata.user._id
-        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorId}`)
+        const creatorI = usersdata.user._id
+        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
         // console.log(data)
         SetExams(data)
 
@@ -77,92 +82,94 @@ const Provider = ({ children }) => {
     fetchQuestions()
   }, [])
 
-  useEffect(()=>{
-    const fetchQuestions = async ()=>{
-      try {
+  // useEffect(()=>{
+  //   const fetchQuestions = async ()=>{
+  //     try {
         
-        const { data } = await axios.get(`http://localhost:5000/get_languages`)
-        console.log(data)
-        if(data)
-        setdlanguage(data)
-      } catch(error){
-        console.error('Error Fetching questions: ', error)
-      }
-    }
-    fetchQuestions()
-  }, [])
+  //       const { data } = await axios.get(`http://localhost:5000/get_languages`)
+  //       // console.log(data)
+  //       if(data)
+  //       setdlanguage(data)
+  //     } catch(error){
+  //       console.error('Error Fetching questions: ', error)
+  //     }
+  //   }
+  //   fetchQuestions()
+  // }, [])
 
-  useEffect(()=>{
-    const fetchQuestions = async ()=>{
-      try{
-        const { data } = await axios.get("http://localhost:5000/get_all_quizz")
-        // const question = JSON.parse(data)
-        // const quet= question.filter((data)=>(data.subject==quest.Subject))
-        // console.log(quet)
-        const question = (data)
-        setfdata(question)
-        question?.map((data, i) => {
-          const { question, options } = data.question_container
-          setQuestions(oldArray => [{question: question, options: options, id: data._id},...oldArray])
+  // useEffect(()=>{
+  //   const fetchQuestions = async ()=>{
+  //     try{
+  //       const { data } = await axios.get("http://localhost:5000/get_all_quizz")
+  //       // const question = JSON.parse(data)
+  //       // const quet= question.filter((data)=>(data.subject==quest.Subject))
+  //       // console.log(quet)
+  //       const question = (data)
+  //       setfdata(question)
+  //       question?.map((data, i) => {
+  //         const { question, options } = data.question_container
+  //         setQuestions(oldArray => [{question: question, options: options, id: data._id},...oldArray])
           
-        })
-        // console.log(question)
+  //       })
+  //       // console.log(question)
+        
 
-      } catch(error){
-        console.error('Error Fetching questions: ', error)
-      }
-    }
-    fetchQuestions()
-    const fetchSubject = async ()=>{
-      try{
-        const { data } = await axios.get("http://localhost:5000/get_all_subject_quizz")
-        // const subjects = JSON.parse(data)
-        const subjects = (data)
-        data.forEach(object => {
-          setdsubject(oldArray => [object.subject,...oldArray])
-          // console.log(object.subject)
-        });
-        setSubjects(subjects)
-      } catch(error){
-        console.error('Error Fetching questions: ', error)
-      }
-    }
-    fetchSubject()
-  }, [])
+  //     } catch(error){
+  //       console.error('Error Fetching questions: ', error)
+  //     }
+  //   }
+  //   fetchQuestions()
+  //   const fetchSubject = async ()=>{
+  //     try{
+  //       const { data } = await axios.get("http://localhost:5000/get_all_subject_quizz")
+  //       // const subjects = JSON.parse(data)
+  //       const subjects = (data)
+  //       data.forEach(object => {
+  //         setdsubject(oldArray => [object.subject,...oldArray])
+  //         // console.log(object.subject)
+  //       });
+  //       setSubjects(subjects)
+  //       console.log(subjects)
+  //     } catch(error){
+  //       console.error('Error Fetching questions: ', error)
+  //     }
+  //   }
+  //   fetchSubject()
+  // }, [])
   
-  useEffect(()=>{
-    const fetchQuestions = async ()=>{
+  // useEffect(()=>{
+  //   const fetchQuestions = async ()=>{
   
-        try {
-          const formData = new FormData();
-          formData.append('subject', quest.Subject);
-          formData.append('topic', quest.Topic);
-          formData.append('subtopic', quest.Sub_topic);
-          formData.append('level', quest.Level);
-          const { data } = await axios.get("http://localhost:5000/get_quizzes_by_filter", formData)
+  //       try {
+  //         const formData = new FormData();
+  //         formData.append('subject', quest.Subject);
+  //         formData.append('topic', quest.Topic);
+  //         formData.append('subtopic', quest.Sub_topic);
+  //         formData.append('level', quest.Level);
+  //         const { data } = await axios.get("http://localhost:5000/get_quizzes_by_filter", formData)
           
-          setQuestions([]);
-          const quet = data.filter((data) => (
-                          (!quest.Subject || data.subject == quest.Subject) &&
-                          (!quest.Topic || data.topic == quest.Topic) &&
-                          (!quest.Sub_topic || data.subtopic == quest.Sub_topic) &&
-                          (!quest.Language || data.language == quest.Language) &&
-                          (!quest.Level || data.level == quest.Level) &&
-                          (!quest.Quiz_Type || data.quiz_type == quest.Quiz_Type) &&
-                          (!quest.Class || data.class == quest.Class)                           
-          ))
-          quet?.map((dat, i) => {
-          const { question, options } = dat.question_container
-          setQuestions(oldArray => [{ question: question, options: options, id: dat._id }, ...oldArray])
-          })
-        // console.log(data)
-      } catch(error){
-        console.error('Error Fetching questions: ', error)
-      }
-    }
-    fetchQuestions()
+  //         setQuestions([]);
+  //         const quet = data.filter((data) => (
+  //                         (!quest.Subject || data.subject == quest.Subject) &&
+  //                         (!quest.Topic || data.topic == quest.Topic) &&
+  //                         (!quest.Sub_topic || data.subtopic == quest.Sub_topic) &&
+  //                         (!quest.Language || data.language == quest.Language) &&
+  //                         (!quest.Level || data.level == quest.Level) &&
+  //                         (!quest.Quiz_Type || data.quiz_type == quest.Quiz_Type) &&
+  //                         (!quest.Class || data.class == quest.Class)                           
+  //         ))
+  //         quet?.map((dat, i) => {
+  //         const { question, options } = dat.question_container
+  //         setQuestions(oldArray => [{ question: question, options: options, id: dat._id }, ...oldArray])
+  //         })
+  //       // console.log(data)
+  //     } catch(error){
+  //       console.error('Error Fetching questions: ', error)
+  //     }
+  //   }
+  //   fetchQuestions()
     
-  }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language,openPage,bool])
+  // }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language,openPage,bool])
   
   
   useEffect(() => {
@@ -183,36 +190,36 @@ const Provider = ({ children }) => {
     fetchSubjec()
   }, [])
 
-  useEffect(()=>{
-    const fetchtopic = async ()=>{
-      try {
-        // console.log(dsubject)
-        setdstopic([]);
-        const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${quest.Subject}`)
-        setdtopic(data);
-      } catch(error){
-        console.error('Error Fetching questions: ', error)
-      }
-    }
-    if(quest.Subject )
-    fetchtopic()
-  }, [quest.Subject])
+  // useEffect(()=>{
+  //   const fetchtopic = async ()=>{
+  //     try {
+  //       // console.log(dsubject)
+  //       setdstopic([]);
+  //       const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${quest.Subject}`)
+  //       setdtopic(data);
+  //     } catch(error){
+  //       console.error('Error Fetching questions: ', error)
+  //     }
+  //   }
+  //   if(quest.Subject )
+  //   fetchtopic()
+  // }, [quest.Subject])
 
-  useEffect(()=>{
-    const fetchstopic = async ()=>{
-      try {
-        const { data } = await axios.get(`http://localhost:5000/get_subject_subtopics/${quest.Subject}/${quest.Topic}`)
-        // const temp= JSON.parse(data)
-        setdstopic(data)
-        // console.log(data)
+  // useEffect(()=>{
+  //   const fetchstopic = async ()=>{
+  //     try {
+  //       const { data } = await axios.get(`http://localhost:5000/get_subject_subtopics/${quest.Subject}/${quest.Topic}`)
+  //       // const temp= JSON.parse(data)
+  //       setdstopic(data)
+  //       // console.log(data)
 
-      } catch(error){
-        console.log( error)
-      }
-    }
-    if(quest.Topic && quest.Subject)
-    fetchstopic()
-  }, [quest.Topic])
+  //     } catch(error){
+  //       console.log( error)
+  //     }
+  //   }
+  //   if(quest.Topic && quest.Subject)
+  //   fetchstopic()
+  // }, [quest.Topic])
 
   return (
     <ChatContext.Provider
@@ -247,7 +254,7 @@ const Provider = ({ children }) => {
         boo,setboo,
         editexam, seteditexam,
         editid, seteditid,
-         dlanguage, setdlanguage
+         dlanguage, setdlanguage,setSubjects
       }}
     >
       {children}

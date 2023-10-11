@@ -32,14 +32,14 @@ const AddNewUser = ({user, setUser, toggleShowAddUser}) => {
       const addNewUser = () => {
         let temp = {
           name: note.name,
-          email: note.email,
+          user_id: note.email,
           password: note.password
         };
         
         axios
         .post("http://localhost:5000/user", {
           name: note.name,
-          email: note.email,
+          user_id: note.email,
           password: note.password
         })
         .then((response) => {
