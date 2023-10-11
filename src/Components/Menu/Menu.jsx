@@ -4,7 +4,7 @@ import Logo from '../../Data/logo.svg'
 import Test707070 from './Test (3).png'
 import TestWhite from './Test (2).png'
 import { Box, List, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { State } from "../Context/Provider";
 import PersonIcon from '@mui/icons-material/Person';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -29,7 +29,7 @@ const Menu = () => {
        navigate("/admin/create-exam");
     }
     else {
-      navigate("/admin/assign-user");
+      navigate("/admin/user/assign-user");
     }
   };
   
@@ -115,8 +115,12 @@ const Menu = () => {
           </li>
           {(openPage==="Assign User"&&"Create User"&&"User Profile")?
           <Box sx={{textAlign:'left', ml:'56px', }}>
-              <Typography sx={{font:'700 14px Poppins', color:'#707070', pt:'24px', cursor:'pointer'}}>Create User</Typography>
-              <Typography sx={{font:'700 14px Poppins', color:'#707070', pt:'24px', cursor:'pointer'}}>Assign User</Typography>
+            <Link to='assign-user' >
+              <Typography  sx={{font:'700 14px Poppins', color:'#707070', pt:'24px', cursor:'pointer'}}>Assign User</Typography>
+            </Link>
+            <Link to='create-user' >
+              <Typography  sx={{font:'700 14px Poppins', color:'#707070', pt:'24px', cursor:'pointer'}}>Create User</Typography>
+            </Link>
           </Box>
           :null}
           {/* comment */}

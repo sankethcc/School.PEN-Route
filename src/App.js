@@ -15,6 +15,8 @@ import PreviewPageExam from "./Pages/PreviewPageExam";
 import ExamEditPage from "./Pages/ExamEditPage";
 import UserPage from "./Pages/UserPage";
 import UserSetting from "./Components/ComponentsAssignUser/UserProfile/UserSetting";
+import AssignNewUser from "./Components/ComponentsAssignUser/AssignUser/AssignNewUser";
+import CreateUser from "./Components/ComponentsAssignUser/AssignUser/CreateUser";
 
 function App() {
   return (
@@ -28,7 +30,11 @@ function App() {
             <Route path="creae-subject" element={<AddSubjectSubtopic />} />
             <Route path="add-language" element={<AddLanguagePage />} />
             <Route path="create-exam" element={<MainPageOfExam />} />
-            <Route path="assign-user" element={<MainPageOfAssignUser />} />
+            <Route path="user" element={<MainPageOfAssignUser />}>
+              <Route path='assign-user' element={<AssignNewUser />} />
+              <Route path='create-user' element={<CreateUser />} />
+
+            </Route>
           </Route>
             <Route path="/admin/create-exam/edit-exam/:topic_id" element={<ExamEditPage />} />
             <Route path="/update/:quiz_id" element={<UpdatePageOfQuiz />} />

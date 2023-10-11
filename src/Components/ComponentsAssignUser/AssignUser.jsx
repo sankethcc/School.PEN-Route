@@ -15,6 +15,9 @@ import {
   import { State } from "../Context/Provider"; 
 import AssignNewUser from "./AssignUser/AssignNewUser";
 import TotalUser from "./AssignUser/TotalUser";
+import { Outlet } from "react-router-dom";
+import CreateUser from "./AssignUser/CreateUser";
+import { mainBoxStyle, sideDetail } from "../../styles/style";
   const style = {
     dflex: {
       display: "flex",
@@ -34,46 +37,23 @@ import TotalUser from "./AssignUser/TotalUser";
     const { quest } = State();
     return (
       <Box
-        style={style.dflex}
-        sx={{
-          width: {
-            md: "79%",
-            lg: "85%",
-          },
-          minHeight: "100dvh",
-          background: "#F5F6F7",
-        }}
+      style={style.dflex}
+      sx={ mainBoxStyle.first
+      }
+    >
+      <Box
+        sx={mainBoxStyle.second}
       >
-        <Box
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "100%",
-              md: "63%",
-              lg: "65%",
-              xl: "69%",
-            },
-            px: "40px",
-            pt: "38px",
-          }}
-        >
            <ProfileWrapper pageName='Assign User'  /> {/* // add props for menu name */}
-            <AssignNewUser />
+           <Outlet>
+           </Outlet>
+
+            {/* <CreateUser /> */}
         </Box>
         {/* preview question section */}
   
         <Box
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "100%",
-              md: "37%",
-              lg: "35%",
-              xl: "31%",
-            },
-            background: "#fff",
-            p: "38px 32px",
-          }}
+          sx={sideDetail.first}
         >
   
           <TotalUser />
