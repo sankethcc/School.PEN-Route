@@ -35,12 +35,25 @@ const style = {
   },
 };
 //jnjnkkjn
+
 const CreateQuiz = ({
 
 }) => {
-  const { exam, SetExams ,setexamid,examquest} = State();
+  const { exam, SetExams ,setexamid,examquest,examid} = State();
   const {instruction, eligiblity, learning} = State()
   // console.log(Exams)
+
+  const [chuk,setchuk]=useState(true)
+  const Submitexam =async () => {
+    try {
+      
+        const { data } = await axios.get(`http://localhost:5000/enable_disable_exam/${examid.id}`)
+        
+        console.log(data)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
   const handlePostQuestion = () => {
     // console.log(exam)
      const formData = new FormData();
@@ -59,7 +72,8 @@ const CreateQuiz = ({
       .then((response) => {
         if (response.status === 201) {
           SetExams(oldArray => [response.data, ...oldArray])
-          setexamid({id:response.data._id,qno:1})
+          setexamid({ id: response.data._id, qno: 1 })
+          setchuk(false)
           console.log("Data added successfully");
         } else {
           alert("Error occured");
@@ -87,7 +101,7 @@ const CreateQuiz = ({
                 <SelectContainerExam />
                 <Instructions />
                 <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
-                    <Button variant="contained" onClick={()=>{
+              <Button variant="contained" disabled={examid.id}  onClick={()=>{
                       handlePostQuestion()
                     }} 
                       color="primary"
@@ -121,7 +135,7 @@ const CreateQuiz = ({
                   <QuestionMultipleAnsExam doit={false}
                   />
                 ) : exam.Quiz_Type === "True or False" ? (
-                  <QuestionTrueFalseExam doit={false} prop={["True", "False"]} />
+                  <QuestionTrueFalseExam doit={false}prop={["True", "False"]} />
                 ) : exam.Quiz_Type === "Multiple choice - Single answer" ? (
                   <QuestionsExam doit={false}/>
                 ) : exam.Quiz_Type === "Yes or No" ? (
@@ -130,6 +144,34 @@ const CreateQuiz = ({
                   />
             ) : null}
             
+
+
+
+              <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
+                    <Button variant="contained"  onClick={()=>{
+                      Submitexam()
+                    }} 
+                      color="primary"
+                sx={{
+                         
+                          width: "375px",
+                          borderRadius: "12px",
+                          background: "#7A58E6",
+                          cursor: "pointer",
+                          border: "none",
+                          color: "#FFF",
+                          fontSize: "18px",
+                          fontWeight: "500",
+                          textTransform: "capitalize",
+                          p: "10px 10px",
+                          "&:hover": {
+                            background: "#7A58E6",
+                          },
+                        }}
+                    >
+                      Submit Exam
+                    </Button>
+            </Box>
               {/* {
               examquest?.map((data, i)=>{
 

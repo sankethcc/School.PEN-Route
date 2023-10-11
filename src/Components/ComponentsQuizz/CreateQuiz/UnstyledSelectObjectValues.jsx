@@ -13,7 +13,7 @@ import axios from 'axios';
 
 export default function UnstyledSelectObjectValues({dropdownName,listArray,add,value,val }) {
   const style = dropdownName == "Language" ? "#fff" : '#F5F6F7'
-  const { quest, setquest,setdsubject,setdtopic,setdstopic } = State();
+  const { quest, setquest,setdsubject,setdtopic,setdstopic , setdlanguage} = State();
   const [open, setOpen] = React.useState(false);
   // const [subject, setSubject] = React.useState('');
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
@@ -54,6 +54,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
       .then((response) => {
         if (response.status === 201) {
           console.log("Data added successfully");
+          setdlanguage(oldArray => [sub,...oldArray])
         } else {
           alert("Error occured");
         }

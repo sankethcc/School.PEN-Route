@@ -50,6 +50,7 @@ const Provider = ({ children }) => {
   // const [prevnote, setprevnote] = useState([])
   const [dsubject, setdsubject] = useState([])
   const [dtopic, setdtopic] = useState([])
+  const [dlanguage, setdlanguage] = useState([])
   const [dstopic, setdstopic] = useState([])
   const [bool, setbool] = useState(true)
   const [boo,setboo]= useState(true)
@@ -76,6 +77,20 @@ const Provider = ({ children }) => {
     fetchQuestions()
   }, [])
 
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+      try {
+        
+        const { data } = await axios.get(`http://localhost:5000/get_languages`)
+        console.log(data)
+        if(data)
+        setdlanguage(data)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchQuestions()
+  }, [])
 
   useEffect(()=>{
     const fetchQuestions = async ()=>{
@@ -157,7 +172,8 @@ const Provider = ({ children }) => {
         // console.log(quest.Subject)
         setdesubject([])
         const { data } = await axios.get("http://localhost:5000/get_all_subjects")
-        console.log(data)
+        // console.log(data)
+        if(data)
         setdesubject(data);
       
       } catch(error){
@@ -230,7 +246,8 @@ const Provider = ({ children }) => {
         destopic, setedstopic,
         boo,setboo,
         editexam, seteditexam,
-         editid,seteditid
+        editid, seteditid,
+         dlanguage, setdlanguage
       }}
     >
       {children}

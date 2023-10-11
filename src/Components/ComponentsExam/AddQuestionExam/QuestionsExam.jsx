@@ -93,6 +93,11 @@ const QuestionsExam = (props) => {
 
   const handlePostQuestion = () => {
     // const data = {
+    // console.log("**********")
+    
+    // console.log(question)
+    // console.log(options)
+
     const formData = new FormData();
     formData.append('question_type', exam.Quiz_Type);
     formData.append('question_text', question.text);
@@ -114,12 +119,21 @@ const QuestionsExam = (props) => {
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");
-            seteditexam(oldArray => [...oldArray, {que:response.data, qno:editid.qno}])
+            seteditexam(oldArray => [...oldArray, { que: response.data, qno: editid.qno }])
             seteditid({ id: editid.id, qno: editid.qno + 1 })
             console.log(response.data);
             // setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
             // setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            setOptions([
+              { text: '', image: null, answer: false },
+              { text: '', image: null, answer: false },
+              { text: '', image: null, answer: false },
+              { text: '', image: null, answer: false }
+            ]
+            );
 
+            setQuestion( {text: '', image: null });
+            
             // console.log(response.data.question_type);
           }
           else {
@@ -142,6 +156,14 @@ const QuestionsExam = (props) => {
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
 
             // console.log(response.data.question_type);
+            setOptions([
+                { text: '', image: null ,answer: false},
+                { text: '', image: null ,answer: false},
+                { text: '', image: null ,answer: false},
+                { text: '', image: null ,answer: false}]
+            );
+
+            setQuestion( {text: '', image: null });
           }
           else {
             console.log(response);
@@ -212,7 +234,7 @@ const QuestionsExam = (props) => {
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Options:</Typography>
         <Box sx={{width:"100%", display:'grid', gridTemplateColumns:"12fr", gridRowGap:'24px'}}>
 
-                {options.map((option, index) => (
+                {options?.map((option, index) => (
                     <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
                     <FormControlLabel
                         value={index}
