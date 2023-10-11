@@ -32,7 +32,6 @@ const UserProfile = () => {
     >
             <Box >
              <ProfileWrapper pageName="User Profile" />
-             <Outlet>
              <Box>
 
              <Box sx={{display:'flex', justifyContent:'space-between', mt:'70px', flexWrap:'wrap'}}>
@@ -58,9 +57,7 @@ const UserProfile = () => {
             </Box>
              </Box>
          
-            <UserSetting />
               
-              </Outlet>
             </Box>
           
 

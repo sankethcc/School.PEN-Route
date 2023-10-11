@@ -17,6 +17,7 @@ import UserPage from "./Pages/UserPage";
 import UserSetting from "./Components/ComponentsAssignUser/UserProfile/UserSetting";
 import AssignNewUser from "./Components/ComponentsAssignUser/AssignUser/AssignNewUser";
 import CreateUser from "./Components/ComponentsAssignUser/AssignUser/CreateUser";
+import UserProfile from "./Components/ComponentsAssignUser/UserProfile/UserProfile";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="*" element={<ErrorPage />} />
           <Route path="/admin/create-exam/:topic_id" element={<PreviewPageExam />} />
           <Route path='/user' element={<UserPage />}>
+            <Route path='profile' element={<UserProfile />} />
             <Route path='setting' element={<UserSetting />} />
           </Route>
         </Routes>

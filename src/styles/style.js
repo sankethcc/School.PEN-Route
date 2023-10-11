@@ -156,3 +156,18 @@ export const inputStyle = {
   width:'100%'
 
 };
+export const btnStyle = {  
+    borderRadius: "12px",
+    background: "#7A58E6",
+    cursor: "pointer",
+    border: "none",
+    color: "#FFF",
+    fontSize: "18px",
+    fontWeight: "500",
+    textTransform: "capitalize",
+    p: "10px 10px",
+    "&:hover": {
+      background: "#7A58E6",
+    },
+  
+}

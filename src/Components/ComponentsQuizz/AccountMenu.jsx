@@ -81,7 +81,7 @@ export default function AccountMenu() {
         <MenuItem 
         onClick={()=>{
           handleClose() 
-          navigate('/user')
+          navigate('/user/profile')
           }}>
           <Avatar /> Profile
         </MenuItem>
