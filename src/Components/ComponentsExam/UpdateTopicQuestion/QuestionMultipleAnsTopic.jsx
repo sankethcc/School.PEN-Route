@@ -29,7 +29,7 @@ const QuestionMultipleAnsTopic = (props) => {
     setOptions([])
     const arr = Object.values(props.options)
     for (let i = 0; i < arr.length; i+=2){
-       setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
+       setOptions(oldArray => [...oldArray,{text: arr[i], image:null}])
     }
     const corrAns = answer.map((ans)=>parseInt(ans-1))
     setSelectedAnswerIndices(corrAns)

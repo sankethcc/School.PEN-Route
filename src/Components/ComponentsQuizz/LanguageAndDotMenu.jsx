@@ -16,7 +16,7 @@ const style = {
 };
 
 const LanguageAndDotMenu = () => {
-  const {setActiveTab, openPage} = State()
+  const {setActiveTab, openPage,dlanguage} = State()
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -38,7 +38,7 @@ const LanguageAndDotMenu = () => {
         <Box >
           <UnstyledSelectObjectValues
             dropdownName={"Language"}
-            listArray={["Hindi", "English", "Urdu"]}
+            listArray={dlanguage}
             add={true}
           />
         </Box>

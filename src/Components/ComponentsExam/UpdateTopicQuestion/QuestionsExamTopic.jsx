@@ -30,11 +30,12 @@ const QuestionsExamTopic = (props) => {
   useEffect(() => {
     setOptions([])
     const arr = Object.values(props.options)
+    // console.log(arr)
     for (let i = 0; i < arr.length; i+=2){
-       setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
+       setOptions(oldArray => [...oldArray,{text: arr[i], image:null}])
     }
   },[])
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(props.answer));
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(props.answer)-1);
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -99,6 +100,7 @@ const QuestionsExamTopic = (props) => {
 
   const handlePostQuestion = () => {
     // const data = {
+    // console.log(options)
     const formData = new FormData();
     // formData.append('question_no', examid.qno); 
     formData.append('question_type', drop);
