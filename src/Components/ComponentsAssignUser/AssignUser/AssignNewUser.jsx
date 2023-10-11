@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Button, Container } from '@mui/material'
 import DropDown from './DropDown'
+import SelectMenuAssign from './SelectMenuAssign'
 
 const AssignNewUser = () => {
   return (
@@ -26,11 +27,13 @@ const AssignNewUser = () => {
 
         }}
         >
-        <DropDown dropdownName={"Language"} listArray={["Hindi", "English", "Urdu"]} add={true}/>
-        <DropDown  dropdownName={"Class"} listArray={["1", "2", "3", "4", "5", "6", "7", "8", "9"]} classList={"classChange"} add={true} />
-        <DropDown dropdownName={"Subject"} listArray={["Science", "Mathematics", "History"]} add={true}/>
-        <DropDown dropdownName={"Topic"} listArray={["Biology", "Chemistry", "Physics"] } add={true}/>
-        <DropDown dropdownName={"Add"} listArray={[]} add={false}/>
+          <SelectMenuAssign dropdownName={"Function"} listArray={['Quiz', 'Exam']} add={false} />
+          <SelectMenuAssign dropdownName={"Language"} listArray={["Hindi", "English", "Urdu"]} add={true} />
+          <SelectMenuAssign dropdownName={"Class"} listArray={["Hindi", "English", "Urdu"]} add={true} />
+          <SelectMenuAssign dropdownName={"Subject"} listArray={["Hindi", "English", "Urdu"]} add={true} />
+          <SelectMenuAssign dropdownName={"Topic"} listArray={["Hindi", "English", "Urdu"]} add={true} />
+          <SelectMenuAssign dropdownName={"Select User"} listArray={["Hindi", "English", "Urdu"]} add={false} />
+          
         </Container>
         <Box>
           <Button

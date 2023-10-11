@@ -115,10 +115,10 @@ const Menu = () => {
           </li>
           {(openPage==="Assign User"&&"Create User"&&"User Profile")?
           <Box sx={{textAlign:'left', ml:'56px', }}>
-            <Link to='assign-user' >
+            <Link style={{textDecoration:'none'}} to='assign-user' >
               <Typography  sx={{font:'700 14px Poppins', color:'#707070', pt:'24px', cursor:'pointer'}}>Assign User</Typography>
             </Link>
-            <Link to='create-user' >
+            <Link style={{textDecoration:'none'}} to='create-user' >
               <Typography  sx={{font:'700 14px Poppins', color:'#707070', pt:'24px', cursor:'pointer'}}>Create User</Typography>
             </Link>
           </Box>
