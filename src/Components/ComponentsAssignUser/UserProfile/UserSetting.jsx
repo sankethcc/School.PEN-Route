@@ -1,5 +1,5 @@
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useRef, useState } from 'react'
 
 import { mainBoxStyle } from '../../../styles/style'
 import PropTypes from 'prop-types';
@@ -9,13 +9,14 @@ import Typography from '@mui/material/Typography';
 import ProfileWrapper from '../../ComponentsQuizz/ProfileWrapper';
 import General from './General';
 import IDPassword from './IDPassword';
-import { Avatar, Button, IconButton } from '@mui/material';
+import { Avatar, Button, IconButton, Tooltip } from '@mui/material';
 import userImg from '../../../Data/userImg.png'
 
 
 
 const UserSetting = () => {
     const [value, setValue] = React.useState(0);
+    const inputRef = useRef(null)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -42,6 +43,14 @@ const UserSetting = () => {
       },
     }
   };
+  const [image, setImage] = useState('')
+  const handleImageClick= ()=>{
+    inputRef.current.click();
+  }
+  const handleImageUpload = (event)=>{
+    const image = event.target.files[0]
+    setImage(image)
+  }
   return (
     <Box
     // style={style.dflex}
@@ -56,20 +65,38 @@ const UserSetting = () => {
              <Box>
             <Box sx={{background:'#fff', mt:'32px', borderRadius:'16px', p:'32px' }}>
               <Box sx={{display:'flex', alignItems:'center'}}>
-                <Avatar src={userImg} sx={{width:'200px', height:'200px', objectFit:'contain'}}></Avatar>
-                <Box sx={{ display:'flex', px:'25px', gap:'20px'}}>
-                <input
-                type="file"
-                accept="image/*"
-                // onChange={(e) => handleImageUpload(e, null, 'question')}
-                style={{ display: 'none' }}
-                id="question-image-upload"
-                />
-                <label htmlFor="question-image-upload">
-                <Button component="span" aria-label="Upload image" style={{background: "#7A58E6",color: "#FFF",padding:'10px 20px',}} sx={style.btnStyle}>Upload Image</Button>
+                <Box sx={{ display:'flex', px:'25px', gap:'20px', alignItems:'center'}}>
+                  <Box onClick={handleImageClick}>
+                    {image?(
+                      <Tooltip title='Click to Change Image'>
+                        <img src={URL.createObjectURL(image)} style={{width:'200px', height:'200px', objectFit:'contain'}}></img>
+                    </Tooltip>
+                      
+                      ):( 
+                        <Tooltip title='Click to Upload Image'>
+                        <Avatar sx={{width:'200px', height:'200px', objectFit:'contain'}}></Avatar>
+                        </Tooltip>
+                        
+                    )}
+
+                    <input
+                    type="file"
+                    ref={inputRef}
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    style={{ display: 'none' }}
+                    id="question-image-upload"
+                    />
+
+                  </Box>
+                {/* <label htmlFor="question-image-upload">
                 
-                </label>
+                </label> */}
+                <Box sx={{ display:'flex', px:'25px', gap:'20px', alignItems:'center'}}>
+                <Button component="span" aria-label="Upload image" style={{background: "#7A58E6",color: "#FFF",padding:'10px 20px',}} sx={style.btnStyle}>Upload Image</Button>
                 <Button style={{background: "#F5F6F7",color: "#707070",padding:'10px 20px',}} sx={style.btnStyle}>Delete</Button>
+
+                </Box>
 
                 </Box>
               </Box>
