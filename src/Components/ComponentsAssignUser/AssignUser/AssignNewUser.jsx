@@ -1,9 +1,124 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button, Container } from '@mui/material'
 import DropDown from './DropDown'
 import SelectMenuAssign from './SelectMenuAssign'
-
+import { State } from '../../Context/Provider'
+import axios from 'axios'
 const AssignNewUser = () => {
+  const { assign,dasubject, setdasubject,
+        datopic, setdatopic,
+         dalanguage, setdalanguage} = State();
+  // setdalanguage(["English"])
+  useEffect(() => {
+
+    const fetchuSubject = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:5000/get_all_subject_quizz")
+        // console.log(data)
+        setdasubject([])
+        data.forEach(object => {
+          setdasubject(oldArray => [object.subject, ...oldArray])
+        });
+      } catch (error) {
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+
+    const fetchuSubjecte = async () => {
+      try {
+        setdasubject([])
+        const { data } = await axios.get("http://localhost:5000/get_all_subjects")
+        if(data)
+         setdasubject(data)
+      } catch (error) {
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    if (assign.fun == 'Quiz') {
+      fetchuSubject()
+    }
+    else if (assign.fun == 'Exam') {
+      fetchuSubjecte()
+    }
+  }, [assign.fun])
+  
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+      try {
+        
+        const { data } = await axios.get(`http://localhost:5000/get_languages`)
+        // console.log(data)
+        if(data)
+        setdalanguage(data)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+
+    if (assign.fun == 'Quiz') {
+      fetchQuestions()
+    }
+    else if (assign.fun == 'Exam') {
+      // fetchuSubjecte()
+    }
+    
+  }, [assign.fun])
+
+  useEffect(() => {
+
+    const fetchuSubject = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${assign.subject}`)
+        if(data)
+         setdatopic(data)
+      } catch (error) {
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+
+    const fetchuSubjecte = async () => {
+      // setdatopic(dtopic)
+      // try {
+      //   setdasubject([])
+      //   const { data } = await axios.get("http://localhost:5000/get_all_subjects")
+      //   if(data)
+      //    setdasubject(data)
+      // } catch (error) {
+      //   console.error('Error Fetching questions: ', error)
+      // }
+    }
+    if (assign.fun == 'Quiz') {
+      fetchuSubject()
+    }
+    else if (assign.fun == 'Exam') {
+      fetchuSubjecte()
+    }
+  }, [assign.subject])
+  
+  const handleAssign = () => {
+    const formData = new FormData();
+    formData.append('category',assign.fun);
+    formData.append('language',assign.language);
+    formData.append('class',assign.class);
+    formData.append('subject',assign.subject);
+    formData.append('topic',assign.Topic);
+
+    const userid="713363"
+    axios
+        .put(`http://localhost:5000/assign_user/${userid}`, formData)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("Data added successfully");
+            
+          }
+          else {
+            console.log(response);
+          }
+        })
+        .catch((err) => {
+          console.log(err.response.data);
+        });
+  }
   return (
     <Box
       
@@ -27,16 +142,17 @@ const AssignNewUser = () => {
 
         }}
         >
-          <SelectMenuAssign dropdownName={"Function"} listArray={['Quiz', 'Exam']} add={false} />
-          <SelectMenuAssign dropdownName={"Language"} listArray={["Hindi", "English", "Urdu"]} add={true} />
-          <SelectMenuAssign dropdownName={"Class"} listArray={["Hindi", "English", "Urdu"]} add={true} />
-          <SelectMenuAssign dropdownName={"Subject"} listArray={["Hindi", "English", "Urdu"]} add={true} />
-          <SelectMenuAssign dropdownName={"Topic"} listArray={["Hindi", "English", "Urdu"]} add={true} />
-          <SelectMenuAssign dropdownName={"Select User"} listArray={["Hindi", "English", "Urdu"]} add={false} />
+          <SelectMenuAssign dropdownName={"Function"} value={"fun"} listArray={['Quiz', 'Exam']} add={false} />
+          <SelectMenuAssign dropdownName={"Language"} value={"language"}  listArray={dalanguage} add={true} />
+          <SelectMenuAssign dropdownName={"Class"} value={"class"} listArray={["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"]} add={false} />
+          <SelectMenuAssign dropdownName={"Subject"} value={"subject"} listArray={dasubject} add={true} />
+          <SelectMenuAssign dropdownName={"Topic"} value={"Topic"} listArray={datopic} add={true} />
+          <SelectMenuAssign dropdownName={"Select User"} value={"user"} listArray={["Hindi", "English", "Urdu"]} add={false} />
           
         </Container>
         <Box>
-          <Button
+        <Button
+          onClick={handleAssign}
           sx={{
             width: "375px",
             height:'75px',

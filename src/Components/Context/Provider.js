@@ -61,6 +61,19 @@ const Provider = ({ children }) => {
   const [desubject, setdesubject] = useState([])
   const [destopic, setedstopic] = useState([])
   const [editid, seteditid] = useState({})
+  const [user, setUser] = useState([])
+  const [assign, setassign] = useState({
+    fun: '',
+    language: '',
+    class: '',
+    subject: '',
+    Topic: '',
+    user:''
+  })
+
+  const [dasubject, setdasubject] = useState([])
+  const [datopic, setdatopic] = useState([])
+  const [dalanguage, setdalanguage] = useState([])
   // const [creatorId, setcreatorId] = useState({id:JSON.parse(localStorage.getItem('user'))._id, role:JSON.parse(localStorage.getItem('user' )).role})
   // const id = JSON.parse(localStorage.getItem('user' )).user._id;
   // const role=JSON.parse(localStorage.getItem('user' )).user.role;
@@ -172,23 +185,23 @@ const Provider = ({ children }) => {
   // }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language,openPage,bool])
   
   
-  useEffect(() => {
+  // useEffect(() => {
     
-    const fetchSubjec = async ()=>{
-      try {
-        // console.log(quest.Subject)
-        setdesubject([])
-        const { data } = await axios.get("http://localhost:5000/get_all_subjects")
-        // console.log(data)
-        if(data)
-        setdesubject(data);
+  //   const fetchSubjec = async ()=>{
+  //     try {
+  //       // console.log(quest.Subject)
+  //       setdesubject([])
+  //       const { data } = await axios.get("http://localhost:5000/get_all_subjects")
+  //       // console.log(data)
+  //       if(data)
+  //       setdesubject(data);
       
-      } catch(error){
-        console.error('Error Fetching questions: ', error)
-      }
-    }
-    fetchSubjec()
-  }, [])
+  //     } catch(error){
+  //       console.error('Error Fetching questions: ', error)
+  //     }
+  //   }
+  //   fetchSubjec()
+  // }, [])
 
   // useEffect(()=>{
   //   const fetchtopic = async ()=>{
@@ -254,7 +267,12 @@ const Provider = ({ children }) => {
         boo,setboo,
         editexam, seteditexam,
         editid, seteditid,
-         dlanguage, setdlanguage,setSubjects
+        dlanguage, setdlanguage, setSubjects,
+        user, setUser,
+        assign, setassign,
+        dasubject, setdasubject,
+        datopic, setdatopic,
+         dalanguage, setdalanguage
       }}
     >
       {children}

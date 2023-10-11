@@ -11,9 +11,9 @@ import {State} from "../../Context/Provider"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
 import axios from 'axios';
 
-export default function SelectMenuAssign({dropdownName,listArray,add,value,val }) {
+export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
   const style = '#F5F6F7'
-  const { quest, setquest,setdsubject,setdtopic,setdstopic , setdlanguage} = State();
+  const { setassign,assign,dasubject, setdasubject,setdatopic,setdalanguage} = State();
   const [open, setOpen] = React.useState(false);
   // const [subject, setSubject] = React.useState('');
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
@@ -48,51 +48,81 @@ export default function SelectMenuAssign({dropdownName,listArray,add,value,val }
   };
   const submithandler = () => {
   const formData = new FormData();
-  if (dropdownName == "Language") {
-    formData.append('language', sub);
-    axios.post("http://localhost:5000/create_language", formData)
-      .then((response) => {
-        if (response.status === 201) {
-          console.log("Data added successfully");
-          setdlanguage(oldArray => [sub,...oldArray])
-        } else {
-          alert("Error occured");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-    });
+    if (dropdownName == "Language") {
+      if (assign.fun == 'Quiz') {
+        formData.append('language', sub);
+        axios.post("http://localhost:5000/create_language", formData)
+          .then((response) => {
+            if (response.status === 201) {
+              console.log("Data added successfully");
+              setdalanguage(oldArray => [sub, ...oldArray])
+            } else {
+              alert("Error occured");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      else {
+        //for exam
+      }
   }
-  else {
-    if (dropdownName == "Subject") {
+    else {
+      if (assign.fun == 'Quiz') {
+        if (dropdownName == "Subject") {
+          formData.append('subject', sub);
+          formData.append('subject_image', subImg[0].image);
+
+        }
+        else {
+          formData.append('topic', sub);
+          formData.append('topic_image', subImg[0].image);
+          formData.append('subject', assign.subject);
+        }
+        
+        axios.post("http://localhost:5000/add_Subject_quizz", formData)
+          .then((response) => {
+            if (response.status === 200) {
+              console.log("Data added successfully");
+              // console.log(response)
+              (dropdownName == "Subject") ? setdasubject(oldArray => [sub, ...oldArray]) : setdatopic(oldArray => [sub, ...oldArray]) 
+            } else {
+              alert("Error occured");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      else {
+        if (dropdownName == "Subject") {
       formData.append('subject', sub);
       formData.append('subject_image', subImg[0].image);
-
-    }
-    else if (dropdownName == "Topic") {
-      formData.append('topic', sub);
-      formData.append('topic_image', subImg[0].image);
-      formData.append('subject', quest.Subject);
     }
     else {
-      formData.append('topic', quest.Topic);
-      formData.append('subject', quest.Subject);
-      formData.append('subtopic_image', subImg[0].image);
-      formData.append('subtopic', sub);
+      // console.log(exam.Subject)
+      formData.append('topic', sub);
+      formData.append('topic_image', subImg[0].image);
+      formData.append('subject', assign.subject);
     }
-    axios.post("http://localhost:5000/add_Subject_quizz", formData)
+    
+    axios.post("http://localhost:5000/add_Subject_exams", formData)
       .then((response) => {
         if (response.status === 200) {
           console.log("Data added successfully");
           // console.log(response)
-          (dropdownName=="Subject")?setdsubject(oldArray => [sub,...oldArray]):(dropdownName=="Topic")?setdtopic(oldArray => [sub,...oldArray]):setdstopic(oldArray => [sub,...oldArray])
+          (dropdownName=="Subject")?setdasubject(oldArray => [sub,...oldArray]):setdatopic(oldArray => [sub,...oldArray])
         } else {
+          console.log(response)
+
           alert("Error occured");
         }
       })
       .catch((err) => {
         console.log(err);
       });
+      }
   }
 
   }
@@ -100,12 +130,12 @@ export default function SelectMenuAssign({dropdownName,listArray,add,value,val }
   return (
     <>
 
-    <CustomSelect id={dropdownName}  onChange={(event, newValue) =>setquest((prevData) => {
+    <CustomSelect id={dropdownName}  onChange={(event, newValue) =>setassign((prevData) => {
       return {
         ...prevData,
         [value]: newValue,
       };
-    })} sx={{background:`${style}`}} placeholder={val?val:dropdownName} >
+    })} sx={{background:`${style}`}} placeholder={dropdownName} >
         {listArray.map((itemVal, index) => (
           <StyledOption
           sx={{}}
