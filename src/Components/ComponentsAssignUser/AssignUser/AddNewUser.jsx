@@ -45,7 +45,7 @@ const AddNewUser = ({user, setUser, toggleShowAddUser}) => {
         .then((response) => {
           if (response.status === 200) {
             // Success
-            setUser([...user, temp]);
+            setUser([temp,...user]);
             console.log(response);
           } else {
             alert("Error occured");

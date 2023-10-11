@@ -3,10 +3,11 @@ import React, { useState ,useEffect} from 'react'
 import axios from 'axios'
 import AddNewUser from './AddNewUser'
 import UserList from './UserList'
+import { State } from '../../Context/Provider'
 
 const TotalUser = () => {
-    const [user, setUser] = useState([])
-
+    // const [user, setUser] = useState([])
+    const { user, setUser} = State();
     const [showAddUser, setShowAddUser] = useState(false);
 
     const toggleShowAddUser = () => {

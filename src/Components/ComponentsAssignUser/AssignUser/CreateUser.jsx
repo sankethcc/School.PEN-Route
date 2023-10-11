@@ -15,8 +15,11 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { inputStyle, mainBoxStyle, selectStyle } from '../../../styles/style';
 import axios from 'axios';
+import { State } from '../../Context/Provider'
+
 
 const CreateUser = () => {
+    const { user, setUser} = State();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -98,6 +101,11 @@ const CreateUser = () => {
   };
 
   const handleSubmit = () => {
+    let temp = {
+          name: fullName,
+          user_id: email,
+          password: password
+    };
     if (!validateForm()) {
       setFullNameError(fullName.trim() === '');
       setEmailError(!/^[^\s@]{6,}$/.test(email));
@@ -107,12 +115,13 @@ const CreateUser = () => {
       axios
       .post("http://localhost:5000/user", {
         name: fullName,
-        email: email,
+        user_id: email,
         password: password
       })
       .then((response) => {
         if (response.status === 200) {
           // Success
+            setUser([temp,...user]);
           console.log(response);
         } else {
           alert("Error occured");
