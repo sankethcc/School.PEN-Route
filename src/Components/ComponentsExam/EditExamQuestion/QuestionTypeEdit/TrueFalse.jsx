@@ -151,7 +151,7 @@ const TrueFalse = (props, { open, setOpen, }) => {
             <Box sx={{ display: "grid", width: "100%", gridTemplateColumns: "11fr 1fr", alignItems: "center",}}>
                   <TextField
                     label={"Question"}
-                    InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
+                    InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
                     multiline
                     fullWidth
                     minRows={1}
@@ -219,7 +219,7 @@ const TrueFalse = (props, { open, setOpen, }) => {
 
                 <TextField
                   label={`Option ${index + 1}`}
-                  InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
+                  InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
                   multiline
                   minRows={1}
                   variant="filled"
@@ -277,7 +277,7 @@ const TrueFalse = (props, { open, setOpen, }) => {
             <Box sx={{width:'100%'}}>
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
           <TextField 
-           InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
+           InputProps={{ style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
            multiline
            placeholder='Explain the answer'
            fullWidth

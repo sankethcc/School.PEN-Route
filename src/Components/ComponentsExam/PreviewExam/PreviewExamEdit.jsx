@@ -181,7 +181,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
             <Box sx={{ display: "grid", width: "100%", gridTemplateColumns: "11fr 1fr", alignItems: "center",}}>
                   <TextField
                     label={"Question"}
-                    InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
+                    InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
                     multiline
                     fullWidth
                     minRows={1}
@@ -249,7 +249,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
 
                 <TextField
                   label={`Option ${index + 1}`}
-                  InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
+                  InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
                   multiline
                   minRows={1}
                   variant="filled"

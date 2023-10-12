@@ -1,7 +1,7 @@
 import { Avatar, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
-import React from 'react'
+import React, { useEffect } from 'react'
 import userImg from '../../Data/userImg.png'
 import { State } from '../Context/Provider';
 import { styleProfile } from '../../styles/style';
@@ -20,8 +20,11 @@ const style ={
 }
 
 const ProfileWrapper = ({pageName}) => {
-    const {setOpenPage, Hamburger, handleHamburger} = State()
-    setOpenPage(pageName)
+    const {Hamburger, handleHamburger, handleOpenPage} = State()
+    useEffect(()=>{
+       handleOpenPage(pageName)
+    },[])
+   
 
     
   return (

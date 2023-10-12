@@ -31,7 +31,7 @@ const General = () => {
       <Input
       name="name"
       required
-        disableUnderline
+        disableUnderline ={true}
         placeholder="Name"
         multiline
         fullWidth
@@ -44,7 +44,7 @@ const General = () => {
       />
       <Input
       name="email"
-        disableUnderline
+        disableUnderline ={true}
         placeholder="email"
         multiline
         fullWidth
@@ -57,7 +57,7 @@ const General = () => {
       />
       <Input
       name="phoneno"
-        disableUnderline
+        disableUnderline ={true}
         placeholder="Phone no."
         multiline
         fullWidth
@@ -70,7 +70,7 @@ const General = () => {
       />
       <Input
         name="address"
-        disableUnderline
+        disableUnderline ={true}
         placeholder="Address"
         multiline
         fullWidth
@@ -83,7 +83,7 @@ const General = () => {
       />
       <Input
       name="country"
-        disableUnderline
+        disableUnderline ={true}
         placeholder="Country"
         multiline
         fullWidth
@@ -96,7 +96,7 @@ const General = () => {
       />
       <Input
       name="state"
-         disableUnderline
+         disableUnderline ={true}
          placeholder="State"
          multiline
          fullWidth
@@ -109,7 +109,7 @@ const General = () => {
       />
       <Input
       name='city'
-       disableUnderline
+       disableUnderline ={true}
        placeholder="City"
        multiline
        fullWidth
@@ -122,7 +122,7 @@ const General = () => {
       />
       <Input
       name="pincode"
-       disableUnderline
+       disableUnderline ={true}
        placeholder="Pincode"
        multiline
        fullWidth

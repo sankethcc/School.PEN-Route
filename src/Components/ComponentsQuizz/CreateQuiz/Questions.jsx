@@ -15,8 +15,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
 import { qStyle } from '../../../styles/style';
+import { useSnackbar } from 'notistack';
 
 const CreateQuiz = () => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const { quest,questions, setQuestions} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
@@ -125,16 +127,20 @@ const CreateQuiz = () => {
           if (response.status === 201) {
             // setbool(!bool)
             console.log("Data added successfully");
+           
             try {
               
               setQuestions(oldArray => [{ question: QUE, options: popt,id: response.data._id }, ...oldArray])
               // console.log(response.data._id)
+              enqueueSnackbar('Quiz Posted Successfully', {variant:'success'})
             }
             catch (err) {
               console.log(err)
+
             }
           } else {
             alert("Error occured");
+            
           }
         })
         .catch((err) => {
@@ -170,7 +176,7 @@ const CreateQuiz = () => {
         <Box sx={{display:'flex', width:'100%'}}>
 
             <Input
-                disableUnderline
+                disableUnderline = {true}
                 placeholder='Question'
                 multiline
                 fullWidth
@@ -212,7 +218,7 @@ const CreateQuiz = () => {
                     <Input
                         placeholder={`Option ${index+1}`}
                         style={inputStyle}
-                        disableUnderline
+                        disableUnderline = {true}
                         value={option.text}
                         onChange={(e) => handleOptionChange(e, index)}
                         variant="outlined"
@@ -252,7 +258,7 @@ const CreateQuiz = () => {
         <Box sx={{width:'100%'}}>
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
           <TextField 
-           InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
+           InputProps={{ style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
            multiline
            placeholder='Explain the answer'
            fullWidth

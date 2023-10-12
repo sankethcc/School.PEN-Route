@@ -28,7 +28,7 @@ const IDPassword = () => {
       <Input
       name="userId"
       required
-        disableUnderline
+        disableUnderline ={true}
         placeholder="User ID"
         fullWidth
         value={user.userId}
@@ -41,7 +41,7 @@ const IDPassword = () => {
       <Input
       type="password"
       name="oldPassword"
-        disableUnderline
+        disableUnderline ={true}
         placeholder="Old Password"
         fullWidth
         value={user.oldPassword}
@@ -54,7 +54,7 @@ const IDPassword = () => {
       <Input
       type="password"
       name="newPassword"
-        disableUnderline
+        disableUnderline ={true}
         placeholder="New Password"
         fullWidth
         value={user.newPassword}

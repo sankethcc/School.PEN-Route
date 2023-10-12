@@ -177,7 +177,7 @@ const QuestionsExamTopic = (props) => {
         <Box sx={{display:'flex', width:'100%'}}>
 
             <Input
-                disableUnderline
+                disableUnderline = {true}
                 placeholder='Question'
                 multiline
                 fullWidth
@@ -219,7 +219,7 @@ const QuestionsExamTopic = (props) => {
                     <Input
                         placeholder={`Option ${index+1}`}
                         style={inputStyle}
-                        disableUnderline
+                        disableUnderline = {true}
                         value={option.text}
                         onChange={(e) => handleOptionChange(e, index)}
                         variant="outlined"
@@ -286,7 +286,7 @@ const QuestionsExamTopic = (props) => {
         <Box sx={{width:'100%'}}>
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
           <TextField 
-           InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
+           InputProps={{ style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
            multiline
            placeholder='Explain the answer'
            fullWidth

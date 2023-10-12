@@ -61,7 +61,7 @@ const AddNewUser = ({user, setUser, toggleShowAddUser}) => {
     <Box>
     <FormGroup>
         <Input 
-            disableUnderline 
+            disableUnderline ={true}
             style={inputStyle} 
             name='name' type='text' 
             placeholder='User Name' 
@@ -69,7 +69,7 @@ const AddNewUser = ({user, setUser, toggleShowAddUser}) => {
             value={note.name}
         />
         <Input 
-            disableUnderline 
+            disableUnderline ={true} 
             name='email' type='email' 
             style={inputStyle} 
             placeholder='User ID' 
@@ -77,7 +77,7 @@ const AddNewUser = ({user, setUser, toggleShowAddUser}) => {
             value={note.email}
         />
         <Input 
-            disableUnderline 
+            disableUnderline ={true} 
             name='password' type='password' 
             style={inputStyle} 
             placeholder='Password' 

@@ -163,7 +163,7 @@ sx={{
           <FormControl fullWidth>
             <Input
             sx={inputStyle}
-            disableUnderline
+            disableUnderline ={true}
               type="text"
               name="fullName"
               value={fullName}
@@ -179,7 +179,7 @@ sx={{
           <FormControl fullWidth >
             <Input
             sx={inputStyle}
-            disableUnderline
+            disableUnderline ={true}
               type="email"
               name="email"
               value={email}
@@ -195,7 +195,7 @@ sx={{
           <FormControl fullWidth>
             <Input
             sx={inputStyle}
-              disableUnderline
+              disableUnderline ={true}
               type={showPassword ? 'text' : 'password'}
               name="password"
               value={password}
@@ -232,7 +232,7 @@ sx={{
           <FormControl fullWidth>
             <Input
             sx={inputStyle}
-              disableUnderline
+              disableUnderline ={true}
               type={showPassword ? 'text' : 'password'}
               name="password"
               value={reTypePassword}
