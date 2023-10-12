@@ -2,20 +2,12 @@ import { Button, FormControl, Input } from "@mui/material";
 import React, { useState } from "react";
 import { btnStyle, inputStyle } from "../../../styles/style";
 import { Box } from "@mui/system";
+import { State } from "../../Context/Provider";
 
 
 const General = () => {
-  const [userData, setUserData] = useState({
-    name:'',
-    email:'',
-    phoneno:'',
-    address:'',
-    country:'',
-    state:'',
-    city:'',
-    pincode:'',
-  })
-  const handleInputChange = (e)=>{
+  const{userData, setUserData} = State()
+    const handleInputChange = (e)=>{
     const {name, value} = e.target
     setUserData({...userData, [name]: value} )
   }

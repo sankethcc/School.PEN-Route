@@ -106,6 +106,7 @@ const CreateQuiz = () => {
     formData.append('quiz_type', quest.Quiz_Type);
     formData.append('question', question.text);
     formData.append('question_image', question.image);
+    formData.append('explanation', explanation);
 
     const popt = [],QUE=question.text;
     for (let i = 0; i < options.length; i++) {
@@ -156,6 +157,14 @@ const CreateQuiz = () => {
 //     // setprevu({});
 //     // setbool(false)
 // }, [bool]);
+const required = (e,i)=>{
+  const {name, validity} = e.target
+  if(e.target.validity.valueMissing){
+    if(name ==='Question'||name=== `Option ${i}`){
+    enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+    }
+  }
+}
   
   const inputStyle = {
     padding: "11px 27px",
@@ -168,7 +177,10 @@ const CreateQuiz = () => {
   };
 
   return (
-    <Box >
+    <form onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }} >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={qStyle.question}
     >
@@ -176,7 +188,9 @@ const CreateQuiz = () => {
         <Box sx={{display:'flex', width:'100%'}}>
 
             <Input
+            name='Question'
                 disableUnderline = {true}
+                required
                 placeholder='Question'
                 multiline
                 fullWidth
@@ -186,6 +200,7 @@ const CreateQuiz = () => {
                 sx={{
                     color:'var(--grey, #707070)'
                 }}
+                onInvalid={required}
             />
                 {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
                 <DeleteOutlineIcon />
@@ -209,19 +224,25 @@ const CreateQuiz = () => {
                 {options.map((option, index) => (
                     <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
                     <FormControlLabel
+                        required={correctAnswerIndex==null}
+                        name='Answer'
                         value={index.toString()}
                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onChange={handleRadioChange} />}
                         label=""
                         labelPlacement="start"
+                        onInvalid={required}
                         
                     />
                     <Input
+                      required
+                      name={`Option ${index+1}`}
                         placeholder={`Option ${index+1}`}
                         style={inputStyle}
                         disableUnderline = {true}
                         value={option.text}
                         onChange={(e) => handleOptionChange(e, index)}
                         variant="outlined"
+                        onInvalid={(e)=>{required(e,index+1)}}
                     />
                     <Box display="flex" alignItems="center">
                         {/* {option.image && (
@@ -272,10 +293,9 @@ const CreateQuiz = () => {
         </Box>
     </Box>
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
-      <Button variant="contained" onClick={()=>{
-        handlePostQuestion()
-      }} 
+      <Button variant="contained"
         color="primary"
+        type='submit'
         sx={{
             width: "375px",
             borderRadius: "12px",
@@ -297,7 +317,7 @@ const CreateQuiz = () => {
 
 
     </Box>
-    </Box>
+    </form>
   );
 };
 

@@ -77,6 +77,18 @@ const Provider = ({ children }) => {
   // const [creatorId, setcreatorId] = useState({id:JSON.parse(localStorage.getItem('user'))._id, role:JSON.parse(localStorage.getItem('user' )).role})
   // const id = JSON.parse(localStorage.getItem('user' )).user._id;
   // const role=JSON.parse(localStorage.getItem('user' )).user.role;
+
+  // state for update user profile
+  const [userData, setUserData] = useState({
+    name:'',
+    email:'',
+    phoneno:'',
+    address:'',
+    country:'',
+    state:'',
+    city:'',
+    pincode:'',
+  })
     
  
   useEffect(()=>{
@@ -272,7 +284,8 @@ const Provider = ({ children }) => {
         assign, setassign,
         dasubject, setdasubject,
         datopic, setdatopic,
-         dalanguage, setdalanguage
+         dalanguage, setdalanguage,
+         userData, setUserData,
       }}
     >
       {children}

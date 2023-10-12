@@ -132,6 +132,7 @@ const CreateQuiz = () => {
     formData.append('quiz_type',  quest.Quiz_Type);
     formData.append('question', question.text);
     formData.append('question_image', question.question_image_url);
+    formData.append('explanation', explanation)
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
@@ -182,6 +183,7 @@ const CreateQuiz = () => {
         setOptions(data.question_container.options)
         setQuestion({ text: data.question_container.question, question_image_url: data.question_container.question_image_url })
         // console.log(obj)
+        setExplanation(data.question_container.explanation)
         setquest(obj)
         data.question_container.options.map((option, i)=>{
           if(option.is_answer == true){

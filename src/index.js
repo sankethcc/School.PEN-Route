@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider>
     <React.StrictMode>
-    <SnackbarProvider maxSnack={3}
+    <SnackbarProvider autoHideDuration={6000} maxSnack={7}
     action={(snackbarId) => (
       <IconButton component="span" onClick={() => closeSnackbar(snackbarId)}>
       <CloseIcon sx={{color:'#fff'}} />

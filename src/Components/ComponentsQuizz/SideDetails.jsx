@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import edits  from '../../Data/edit.png'
-import { Box } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { State } from '../Context/Provider'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -45,11 +45,12 @@ const SideDetails = ({heading, number}) => {
                           (!quest.Class || data.class == quest.Class)                           
           ))
 
-          // console.log(quet)
           setQuestions([]);
           quet?.map((dat, i) => {
-          const { question, options } = dat.question_container
-          setQuestions(oldArray => [{ question: question, options: options, id: dat._id }, ...oldArray])
+          const { question, options, explanation} = dat.question_container
+          // console.log(dat)
+
+          setQuestions(oldArray => [{ question: question, options: options, id: dat._id, explanation: explanation }, ...oldArray])
           })
         // console.log(data)
       } catch(error){
@@ -57,6 +58,7 @@ const SideDetails = ({heading, number}) => {
       }
     }
     fetchQuestions()
+    
     
   }, [quest.Subject,quest.Topic,quest.Sub_topic,quest.Level,quest.Class,quest.Quiz_Type,quest.Language,openPage,bool])
   return (
@@ -71,14 +73,14 @@ const SideDetails = ({heading, number}) => {
       <Box>
         {questions?.map((data, i) => {
           // console.log(data)
-        const {question, options, id } = data
+        const {question, options, id, explanation } = data
           return (
           // <textarea className='preview-question'>
           <div className='preview-question' key={i}>
             <Link to={`/update/${id}`} >
           <img src={edits} className='edit-logo' alt="" />
             </Link>
-            <p>{question}</p>
+            <Typography>{question}</Typography>
             
             <FormControl>
             <RadioGroup
@@ -97,6 +99,7 @@ const SideDetails = ({heading, number}) => {
                 )
               })}
             </RadioGroup>
+            <Typography sx={{font:'500 20px Poppins'}}><strong>Explanation: </strong>{explanation}</Typography>
           </FormControl>
               </div>
           // </textarea>

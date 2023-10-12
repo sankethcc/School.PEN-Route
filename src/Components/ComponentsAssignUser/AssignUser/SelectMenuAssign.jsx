@@ -144,7 +144,7 @@ export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
       {listArray 
         ? listArray.map((user, index)=>{
             return(
-                <StyledOption key={index} value={user._id} >
+                <StyledOption key={index} value={user.user_id} >
                   <Box sx={{display:'grid', gridTemplateColumns:'6fr 6fr'}}>
                   <Typography> {user.name}</Typography>
                   <Typography>{user.email}</Typography>

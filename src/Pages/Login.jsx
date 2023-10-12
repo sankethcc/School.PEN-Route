@@ -47,7 +47,7 @@ const Login = () => {
   };
 
   const [activeTab, setActiveTab] = useState("tab2");
-  const [role, setrole] = useState("user");
+  const [role, setrole] = useState("admin");
   const [note, setnote] = useState({
     name: "",
     email: "",

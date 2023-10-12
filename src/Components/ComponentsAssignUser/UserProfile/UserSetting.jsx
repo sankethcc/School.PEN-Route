@@ -17,6 +17,7 @@ import userImg from '../../../Data/userImg.png'
 const UserSetting = () => {
     const [value, setValue] = React.useState(0);
     const inputRef = useRef(null)
+    const [userImage, setUserImage] = useState('')
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -43,13 +44,13 @@ const UserSetting = () => {
       },
     }
   };
-  const [image, setImage] = useState('')
+  
   const handleImageClick= ()=>{
     inputRef.current.click();
   }
   const handleImageUpload = (event)=>{
     const image = event.target.files[0]
-    setImage(image)
+    setUserImage(image)
   }
   return (
     <Box
@@ -67,9 +68,9 @@ const UserSetting = () => {
               <Box sx={{display:'flex', alignItems:'center'}}>
                 <Box sx={{ display:'flex', px:'25px', gap:'20px', alignItems:'center'}}>
                   <Box onClick={handleImageClick}>
-                    {image?(
+                    {userImage?(
                       <Tooltip title='Click to Change Image'>
-                        <img src={URL.createObjectURL(image)} style={{width:'200px', height:'200px', objectFit:'contain'}}></img>
+                        <img src={URL.createObjectURL(userImage)} style={{width:'200px', height:'200px', objectFit:'contain'}}></img>
                     </Tooltip>
                       
                       ):( 
