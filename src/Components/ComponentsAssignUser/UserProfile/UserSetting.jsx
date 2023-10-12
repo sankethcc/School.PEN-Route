@@ -11,13 +11,14 @@ import General from './General';
 import IDPassword from './IDPassword';
 import { Avatar, Button, IconButton, Tooltip } from '@mui/material';
 import userImg from '../../../Data/userImg.png'
+import { State } from '../../Context/Provider';
 
 
 
 const UserSetting = () => {
     const [value, setValue] = React.useState(0);
     const inputRef = useRef(null)
-    const [userImage, setUserImage] = useState('')
+    const {userImage, setUserImage} = State()
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

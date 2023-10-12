@@ -89,6 +89,12 @@ const Provider = ({ children }) => {
     city:'',
     pincode:'',
   })
+  const [updateUser, setUpdateUser] = useState({
+    userId:'',
+    oldPassword:'',
+    newPassword:'',
+  })
+  const [userImage, setUserImage] = useState('')
     
  
   useEffect(()=>{
@@ -286,6 +292,8 @@ const Provider = ({ children }) => {
         datopic, setdatopic,
          dalanguage, setdalanguage,
          userData, setUserData,
+         updateUser, setUpdateUser,
+         userImage, setUserImage,
       }}
     >
       {children}

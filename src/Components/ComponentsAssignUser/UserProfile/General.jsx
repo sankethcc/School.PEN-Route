@@ -3,16 +3,52 @@ import React, { useState } from "react";
 import { btnStyle, inputStyle } from "../../../styles/style";
 import { Box } from "@mui/system";
 import { State } from "../../Context/Provider";
+import axios from "axios";
 
 
 const General = () => {
-  const{userData, setUserData} = State()
+  const{userData, setUserData, updateUser, userImage} = State()
     const handleInputChange = (e)=>{
     const {name, value} = e.target
     setUserData({...userData, [name]: value} )
   }
   const handleSave = ()=>{
-    console.log(userData)
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const userId = usersdata.user.user_id
+    console.log(userId)
+
+    const formData = new FormData();
+
+    formData.append('password', updateUser.oldPassword);
+    formData.append('new-password', updateUser.newPassword);
+    formData.append('email', userData.email);
+    formData.append('phone', userData.phoneno);
+    formData.append('street', userData.address);
+    formData.append('country', userData.country);
+    formData.append('city', userData.city);
+    formData.append('state', userData.state);
+    formData.append('pincode', userData.pincode);
+    formData.append('user_image', userImage);
+    // console.log(updateUser)
+    // console.log(userImage)
+    // console.log(userData)
+
+    // console.log(formData)
+    axios
+    .put(`http://localhost:5000/update_user_profile/${userId}`, formData)
+        .then((response) => {
+          if (response.status === 200) {
+            // setbool(!bool)
+            console.log("Data updated successfully");
+            
+          } else {
+            alert("Error occured");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
   }
   return (
     <>

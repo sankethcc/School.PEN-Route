@@ -2,22 +2,54 @@ import { Button, FormControl, Input } from "@mui/material";
 import React, { useState } from "react";
 import { btnStyle, inputStyle } from "../../../styles/style";
 import { Box } from "@mui/system";
+import { State } from "../../Context/Provider";
+import axios from "axios";
 
 
 const IDPassword = () => {
-  const [user, setUser] = useState({
-    userId:'',
-    oldPassword:'',
-    newPassword:'',
-  })
+  const {updateUser, setUpdateUser, userData, userImage} = State()
   const handleInputChange = (e)=>{
     const {name, value} = e.target
-    setUser({...user, [name]:value})
-
+    setUpdateUser({...updateUser, [name]:value})
   }
 
   const handleHave = ()=>{
-    console.log(user)
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const userId = usersdata.user.user_id
+    console.log(userId)
+
+    const formData = new FormData();
+
+    formData.append('password', updateUser.oldPassword);
+    formData.append('new-password', updateUser.newPassword);
+    formData.append('email', userData.email);
+    formData.append('phone', userData.phoneno);
+    formData.append('street', userData.address);
+    formData.append('country', userData.country);
+    formData.append('city', userData.city);
+    formData.append('state', userData.state);
+    formData.append('pincode', userData.pincode);
+    formData.append('user_image', userImage);
+    // console.log(updateUser)
+    // console.log(userImage)
+    // console.log(userData)
+
+    // console.log(formData)
+    axios
+    .put(`http://localhost:5000/update_user_profile/${userId}`, formData)
+        .then((response) => {
+          if (response.status === 200) {
+            // setbool(!bool)
+            console.log("Data updated successfully");
+            
+          } else {
+            alert("Error occured");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    
   }
   return (
     <>
@@ -28,10 +60,10 @@ const IDPassword = () => {
       <Input
       name="userId"
       required
-        disableUnderline ={true}
+        disableUnderline
         placeholder="User ID"
         fullWidth
-        value={user.userId}
+        value={updateUser.userId}
         onChange={handleInputChange}
         style={inputStyle}
         sx={{
@@ -41,10 +73,10 @@ const IDPassword = () => {
       <Input
       type="password"
       name="oldPassword"
-        disableUnderline ={true}
+        disableUnderline
         placeholder="Old Password"
         fullWidth
-        value={user.oldPassword}
+        value={updateUser.oldPassword}
         onChange={handleInputChange}
         style={inputStyle}
         sx={{
@@ -54,10 +86,10 @@ const IDPassword = () => {
       <Input
       type="password"
       name="newPassword"
-        disableUnderline ={true}
+        disableUnderline
         placeholder="New Password"
         fullWidth
-        value={user.newPassword}
+        value={updateUser.newPassword}
         onChange={handleInputChange}
         style={inputStyle}
         sx={{
