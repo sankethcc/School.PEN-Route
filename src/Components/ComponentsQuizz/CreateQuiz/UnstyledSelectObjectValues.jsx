@@ -106,12 +106,12 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
         [value]: newValue,
       };
     })} sx={{background:`${style}`}} placeholder={val?val:dropdownName} >
-        {listArray.map((itemVal, index) => (
+        {listArray?listArray?.map((itemVal, index) => (
           <StyledOption
           sx={{}}
           key={index} value={itemVal} >{itemVal}
           </StyledOption>
-                ))}
+                )):null}
         {add?<StyledOption onClick={handleOpen}  sx={{color:'blue'}}>Add New</StyledOption>:null}
     </CustomSelect>
     

@@ -202,7 +202,7 @@ const Login = () => {
                 value={note.email}
                 onChange={InputEvent}
                 style={inputStyle}
-                placeholder="Enter Your Email"
+                placeholder="Enter Your Userid"
                 disableUnderline ={true}
               />
               <Input

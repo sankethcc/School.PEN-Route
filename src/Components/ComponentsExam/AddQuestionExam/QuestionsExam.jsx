@@ -328,7 +328,7 @@ const QuestionsExam = (props) => {
             },
           }}
       >
-        ADD Question
+        Add Question
       </Button>
 
 

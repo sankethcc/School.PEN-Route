@@ -80,12 +80,12 @@ const AddDetails = () => {
             if (!dsubject.includes(sub[0].name)){
               setdsubject(oldArray => [sub[0].name, ...oldArray])
             }
-            if (!dtopic.includes(sub[1].topic)){
-              setdtopic(oldArray => [sub[1].topic, ...oldArray])
-            }
-            if (!dstopic.includes(sub[2].subt1)){
-              setdstopic(oldArray => [sub[2].subt1,...oldArray])
-            }
+            // if (!dtopic.includes(sub[1].topic)){
+            //   setdtopic(oldArray => [sub[1].topic, ...oldArray])
+            // }
+            // if (!dstopic.includes(sub[2].subt1)){
+            //   setdstopic(oldArray => [sub[2].subt1,...oldArray])
+            // }
 
             // window.location.reload();
            

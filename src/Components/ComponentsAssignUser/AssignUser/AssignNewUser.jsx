@@ -88,10 +88,10 @@ const AssignNewUser = () => {
       //   console.error('Error Fetching questions: ', error)
       // }
     }
-    if (assign.fun == 'Quiz') {
+    if (assign.fun == 'Quiz' && assign.subject) {
       fetchuSubject()
     }
-    else if (assign.fun == 'Exam') {
+    else if (assign.fun == 'Exam' && assign.subject) {
       fetchuSubjecte()
     }
   }, [assign.subject])

@@ -10,11 +10,12 @@ const DropDown = ({dropdownName,listArray, classList, adddetailsId ,add}) => {
             </Link>
             {/* all dropdown items display using map function */}
             <ul className="dropdown-menu" id={classList}>
-                {listArray.map((itemVal, index) => (
+                {listArray 
+        ? listArray.map((itemVal, index) => (
                     <li key={index}>
                     <Link className="dropdown-item" >{itemVal}</Link>
                     </li>
-                ))}
+                )):null}
               {add?<li><NavLink className="dropdown-item add-item" to={"/page2"}>Add {dropdownName}</NavLink></li>:<li/>
               }
             </ul>
