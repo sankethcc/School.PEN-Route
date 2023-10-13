@@ -56,7 +56,7 @@ const CreateQuiz = ({
       }
     }
   const handlePostQuestion = () => {
-    if (!exam.Language || !exam.Class || !exam.Subject || !exam.Topic|| !exam.perquest||!exam.Level|| !exam.assigned_time  ) {
+    if (!exam.Language || !exam.Class || !exam.Subject || !exam.Topic|| !exam.perquest||!exam.Level|| !exam.assigned_time   ) {
       enqueueSnackbar('Please select all dropdown', { variant: 'error' })
     }else{
     // console.log(exam)

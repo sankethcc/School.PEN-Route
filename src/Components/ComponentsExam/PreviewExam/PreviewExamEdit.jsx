@@ -9,6 +9,7 @@ import User from "../../../Data/User.png";
 import userImg from "../../../Data/userImg.png"
 import axios from 'axios'
 import { State } from '../../Context/Provider'
+import { enqueueSnackbar } from "notistack";
 
 const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
   // console.log(data)
@@ -16,7 +17,6 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
   const [question, setQuestion] = useState({ text: data.question, image: data.img });
   const [options, setOptions] = useState(data.options);
   const {boo,setboo} = State()
-  console.log(correctAnswerIndex)
   // useEffect(() => {
   //   setOptions([])
   //   const arr = Object.values(props.options)
@@ -99,13 +99,15 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
     axios
     .post(`http://localhost:5000/update_question/${data.id}/${data.qno}`, formData)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             console.log("Data added successfully");
+            enqueueSnackbar('Question updated', { variant: 'success' })
             //  console.log(response.data);
             
             setboo(!boo)
           }
           else {
+            enqueueSnackbar('Network Error', { variant: 'error' })
              console.log(response);
           }
         })
@@ -132,7 +134,20 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
       maxWidth: '400px',
     },
   });
+
+
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
   return (
+
+
+  
     <Dialog PaperProps={{
         sx: {
           width: "65%",
@@ -156,7 +171,14 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
         </Box>
       
       <DialogContent sx={{ display: "flex", justifyContent: "center", paddingTop:'0px' }}>
-        <Box display="flex" flexDirection="column" alignItems="center" width="100%"
+
+        <form
+        onSubmit={(e)=>{
+          e.preventDefault()
+          handleUpdate();
+          }}
+        
+        display="flex" flexDirection="column" alignItems="center" width="100%"
           sx={{background: "#fff",width: "100%",borderRadius: "40px",}}>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
           <CustomWidthTooltip
@@ -182,6 +204,9 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
             {/* <img style={{ height: "80px", width: "80px", objectFit: "contain", marginRight:'12px' }} src={userImg} /> */}
             <Box sx={{ display: "grid", width: "100%", gridTemplateColumns: "11fr 1fr", alignItems: "center",}}>
                   <TextField
+                  name='Question'
+                  required
+                  onInvalid={required}
                     label={"Question"}
                     InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
                     multiline
@@ -252,6 +277,9 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
                 />
 
                 <TextField
+                required
+                name={`Option ${index+1}`}
+                onInvalid={(e)=>{required(e,index+1)}}
                   label={`Option ${index + 1}`}
                   InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
                   multiline
@@ -328,6 +356,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
             </Box>
             <Box sx={{textAlign:'center', mt:'10px'}}>
                 <Button
+                type="submit"
                 sx={{
                     width: "25%",
                     borderRadius: "12px",
@@ -339,10 +368,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
                       background: "#7A58E6",
                     },
                   }}
-                onClick={() => {
-                    handleUpdate();
-                    // handlePostQuestion()
-                }}
+                
                 color="primary"
                 >
                 Update
@@ -350,11 +376,12 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
 
             </Box>
           </Box>
-        </Box>
+        </form>
         
       </DialogContent>
 
     </Dialog>
+
   );
 };
 

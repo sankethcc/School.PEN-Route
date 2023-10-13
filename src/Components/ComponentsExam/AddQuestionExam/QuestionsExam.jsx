@@ -104,13 +104,14 @@ const QuestionsExam = (props) => {
     
     // console.log(question)
     // console.log(options)
-
+    if(!exam.Quiz_Type){
+      enqueueSnackbar('Select Question Type', { variant: 'error' })
+    }else{
     const formData = new FormData();
     formData.append('question_type', exam.Quiz_Type);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
     formData.append('answer', correctAnswerIndex);
-
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
       const optionImageInput = options[i].image;
@@ -149,10 +150,12 @@ const QuestionsExam = (props) => {
           }
           else {
             console.log(response);
+            enqueueSnackbar('Network Error', { variant: 'error' })
           }
         })
         .catch((err) => {
           console.log(err.response.data);
+          enqueueSnackbar('Network Error', { variant: 'error' })
         });
     }
     else {
@@ -180,12 +183,15 @@ const QuestionsExam = (props) => {
           }
           else {
             console.log(response);
+            enqueueSnackbar('Network Error', { variant: 'error' })
           }
         })
         .catch((err) => {
           console.log(err.response.data);
+          enqueueSnackbar('Network Error', { variant: 'error' })
         });
     }
+  }
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
 
