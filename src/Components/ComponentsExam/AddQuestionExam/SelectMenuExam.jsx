@@ -102,12 +102,21 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
         [value]: newValue,
       };
     })} sx={{background:`${style}`}} placeholder={val?val:dropdownName} >
-        {listArray.map((itemVal, index) => (
+        {/* {listArray.map((itemVal, index) => (
           <StyledOption
           sx={{}}
           key={index} value={itemVal} >{itemVal}
           </StyledOption>
-                ))}
+                ))} */}
+      {listArray 
+        ? listArray?.map((itemVal, index)=>{
+            return(
+              <StyledOption
+              sx={{}}
+              key={index} value={itemVal} >{itemVal}
+              </StyledOption>
+            )
+        }):null}
         {add?<StyledOption onClick={handleOpen}  sx={{color:'blue'}}>Add New</StyledOption>:null}
     </CustomSelect>
     <Dialog open={open} onClose={handleClose}>
