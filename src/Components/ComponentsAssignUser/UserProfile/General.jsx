@@ -23,7 +23,7 @@ const General = () => {
     formData.append('new-password', updateUser.newPassword);
     formData.append('email', userData.email);
     formData.append('phone', userData.phoneno);
-    formData.append('street', userData.address);
+    formData.append('street', userData.street);
     formData.append('country', userData.country);
     formData.append('city', userData.city);
     formData.append('state', userData.state);
@@ -97,12 +97,12 @@ const General = () => {
         }}
       />
       <Input
-        name="address"
+        name="street"
         disableUnderline ={true}
         placeholder="Address"
         multiline
         fullWidth
-        value={userData.address}
+        value={userData.street}
         onChange={handleInputChange}
         style={inputStyle}
         sx={{

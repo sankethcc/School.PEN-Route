@@ -83,7 +83,7 @@ const Provider = ({ children }) => {
     name:'',
     email:'',
     phoneno:'',
-    address:'',
+    street:'',
     country:'',
     state:'',
     city:'',
