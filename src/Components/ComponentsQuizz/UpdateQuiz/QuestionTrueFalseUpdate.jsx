@@ -15,6 +15,7 @@ import { State } from "../../Context/Provider"
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { qStyle } from '../../../styles/style';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
   const navigate = useNavigate()
@@ -85,7 +86,8 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
           if (response.status === 200) {
             // setbool(!bool)
             console.log("Data updated successfully");
-            
+
+            enqueueSnackbar('Quiz Deleted Successfully', { variant: 'success' })
           } else {
             alert("Error occured");
           }
@@ -95,6 +97,9 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
         });
   }
   const handlePostQuestion = () => {
+    if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
+      enqueueSnackbar('Please select all dropdown', { variant: 'error' })
+    }else{
     
     const formData = new FormData();
     formData.append('language', quest.Language);
@@ -126,6 +131,7 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
           if (response.status === 200) {
             // setbool(!bool)
             console.log("Data updated successfully");
+            enqueueSnackbar('Quiz Updated Successfully', { variant: 'success' })
             
           } else {
             alert("Error occured");
@@ -137,6 +143,7 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
     
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
+}
   useEffect(()=>{
     const fetchstopic = async ()=>{
       try {
@@ -179,9 +186,23 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
     color: '#707070',
     fontSize: '18px',
   };
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
 
   return (
-    <Box>
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      navigate('/admin')
+      }}
+    >
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
        sx={qStyle.question}
     >
@@ -190,11 +211,14 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
       </Typography>
       <Box sx={{display:'flex', width:'100%'}}>
       <Input
+      name='Question'
+      required
         placeholder='Question'
         style={{ ...inputStyle, resize: 'vertical' }}
         value={question.text}
         onChange={handleQuestionChange}
         disableUnderline = {true}
+        onInvalid={required}
       />
                 <input
                 type="file"
@@ -220,11 +244,14 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
             onClick={(e) => handleRadioChange(e,index)}
           />
           <Input
+           required
+           name={`Option ${index+1}`}
             placeholder={`${prop[index]}`}
             style={inputStyle}
             value={option.text}
             onChange={(e) => handleOptionChange(e, index)}
             disableUnderline = {true}
+            onInvalid={(e)=>{required(e,index+1)}}
           />
           <input
             type='file'
@@ -262,9 +289,9 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
       </Box>
       <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'space-between'}}>
       <Button variant="contained" onClick={()=>{
-        handlePostQuestion()
-        navigate('/admin')
+       
       }} 
+      type='submit'
         color="primary"
         sx={{
             width: "40%",
@@ -311,7 +338,7 @@ const QuestionTrueFalseUpdate = ({ handleThreeDotMenu, prop  }) => {
 
     </Box>
 
-    </Box>
+    </form>
   );
 };
 

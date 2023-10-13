@@ -1,13 +1,15 @@
 import { Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React,{useEffect} from 'react'
+import React, { useEffect} from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { Link,NavLink, useNavigate } from 'react-router-dom';
-import { State } from '../../Context/Provider'; 
+import {State} from '../../Context/Provider'
+import { sideDetail } from '../../../styles/style';
 import axios from 'axios';
-const SideDetailsEditExam = ({ heading }) => {
-  const { Exams, SetExams } = State();
+
+const SideDetailsExam = ({heading}) => {
+  const { Exams, SetExams, handleUpdatePreviewQuestionExam } = State();
   useEffect(()=>{
     const fetchQuestions = async ()=>{
       try {
@@ -32,7 +34,7 @@ const SideDetailsEditExam = ({ heading }) => {
   }
   
   return (
-    <div className="side-details">
+    <div sx={sideDetail.second} className="side-details">
       <div className="amount-wrapper">
         <p className="price-heading">{heading}</p>
         <p className="price-count">{Exams.length}</p>
@@ -59,7 +61,7 @@ const SideDetailsEditExam = ({ heading }) => {
               <Typography sx={{ font: '700 24px Poppins', color: '#383838', }} variant='h4'>{data.topic_class}</Typography>
               <Box>
                 <Typography sx={{ font: '700 16px Lato', mb: '15px' }} variant='p'>{data.subject}</Typography>
-                <Typography sx={{ color: '#707070' }}> <QuizIcon /> {data.no_of_questions}</Typography>
+                <Typography sx={{ color: '#707070' }}> <QuizIcon /> {data.questions?Object.keys(data.questions).length:0} Questions</Typography>
 
               </Box>
               <Box >
@@ -75,6 +77,7 @@ const SideDetailsEditExam = ({ heading }) => {
 
               </NavLink>
 
+
         </Box>
       )
         })}
@@ -85,4 +88,4 @@ const SideDetailsEditExam = ({ heading }) => {
   )
 }
 
-export default SideDetailsEditExam
+export default SideDetailsExam

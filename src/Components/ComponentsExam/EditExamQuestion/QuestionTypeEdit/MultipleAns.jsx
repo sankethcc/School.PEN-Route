@@ -8,15 +8,17 @@ import ClearIcon from "@mui/icons-material/Clear";
 import userImg from "../../../../Data/userImg.png"
 import { State } from "../../../Context/Provider";
 import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 const MultipleAns = (props,{ open, setOpen,}) => {
   const data = props.qdata
   const { editid,seteditid} = State();
+  const answer = data.answer.split(',')
   
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
   const [options, setOptions] = useState([]);
-  const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([data.answer]);
+  const [selectedAnswerIndices, setSelectedAnswerIndices] = useState([]);
   const [explanation, setExplanation] = useState('')
 
   const handleExplanationChange = (event)=>{
@@ -30,6 +32,8 @@ const MultipleAns = (props,{ open, setOpen,}) => {
     for (let i = 0; i < arr.length; i+=2){
        setOptions(oldArray => [...oldArray,{text: arr[i], image:null,img:arr[i+1]}])
     }
+    const corrAns = answer.map((ans)=>parseInt(ans-1))
+    setSelectedAnswerIndices(corrAns)
   }, [])
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -113,15 +117,17 @@ const MultipleAns = (props,{ open, setOpen,}) => {
     axios
     .post(`http://localhost:5000/update_question/${editid.id}/${props.qno}`, formData)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             console.log("Data added successfully");
             //  console.log(response.data);
             seteditid({ id: editid.id, qno: (editid.qno + 1) })
             // setexamquest(oldArray => [...oldArray, response.data])
             // console.log(response.data)
+            enqueueSnackbar('Question updated', { variant: 'success' })
           }
           else {
              console.log(response);
+             enqueueSnackbar('Network Error', { variant: 'error' })
           }
         })
         .catch((err) => {
@@ -147,12 +153,26 @@ const MultipleAns = (props,{ open, setOpen,}) => {
       maxWidth: '400px',
     },
   });
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
+  
   return (
     
       
-     
+     <form
+     onSubmit={(e)=>{
+      e.preventDefault()
+      handleUpdate();
+      }}
+     >
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
-          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'56px 48px'}}>
+          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'56px 48px', mb:'20px'}}>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
           <CustomWidthTooltip
             title={<img src={userImg} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
@@ -164,6 +184,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
             placement="left-start"
             ransitionComponent={Zoom}
             >
+            {question.img?
             <img
                 src={question.img?`http://localhost:5000/get_image/${question.img}`:null}
                 alt="User Image"
@@ -171,12 +192,16 @@ const MultipleAns = (props,{ open, setOpen,}) => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             />
+            :null}
             </CustomWidthTooltip>
             {/* <img style={{ height: "80px", width: "80px", objectFit: "contain", marginRight:'12px' }} src={userImg} /> */}
             <Box sx={{ display: "grid", width: "100%", gridTemplateColumns: "11fr 1fr", alignItems: "center",}}>
                   <TextField
+                   name='Question'
+                   required
+                   onInvalid={required}
                     label={"Question"}
-                    InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
+                    InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
                     multiline
                     fullWidth
                     minRows={1}
@@ -219,6 +244,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
                   width: "100%",
                 }}
               >
+                {option.img?
                 <img
                   style={{
                     height: "50px",
@@ -228,6 +254,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
                   }}
                   src={option.img?`http://localhost:5000/get_image/${option.img}`:null}
                 ></img>
+                :null}
                   <FormControlLabel
                   value={index.toString()}
                   control={
@@ -242,8 +269,11 @@ const MultipleAns = (props,{ open, setOpen,}) => {
                 />
 
                 <TextField
+                 required
+                 name={`Option ${index+1}`}
+                 onInvalid={(e)=>{required(e,index+1)}}
                   label={`Option ${index + 1}`}
-                  InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
+                  InputProps={{ disableUnderline: true,  style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
                   multiline
                   minRows={1}
                   variant="filled"
@@ -321,7 +351,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
         <Box sx={{width:'100%'}}>
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
           <TextField 
-           InputProps={{ style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
+           InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '20px', borderRadius:'12px'} }}
            multiline
            placeholder='Explain the answer'
            fullWidth
@@ -335,6 +365,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
         </Box>
             <Box sx={{textAlign:'center', mt:'10px'}}>
                 <Button
+                type="submit"
                 sx={{
                     width: "25%",
                     borderRadius: "12px",
@@ -346,10 +377,6 @@ const MultipleAns = (props,{ open, setOpen,}) => {
                       background: "#7A58E6",
                     },
                   }}
-                onClick={() => {
-                    handleUpdate();
-                    // handlePostQuestion()
-                }}
                 color="primary"
                 >
                 Update
@@ -359,7 +386,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
           </Box>
         </Box>
         
-
+      </form>
 
   );
 };

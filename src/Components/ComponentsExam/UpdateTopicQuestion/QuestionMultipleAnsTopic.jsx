@@ -14,6 +14,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionMultipleAnsTopic = (props) => {
   const answer = props.answer.split(',')
@@ -126,13 +127,15 @@ const QuestionMultipleAnsTopic = (props) => {
     axios
     .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             console.log("Data added successfully");
             //  console.log(response.data);
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
             setexamquest(oldArray => [ ...oldArray,response.data])
+            enqueueSnackbar('Question updated', { variant: 'success' })
           }
           else {
+              enqueueSnackbar('Network Error', { variant: 'error' })
              console.log(response);
           }
         })
@@ -152,9 +155,22 @@ const QuestionMultipleAnsTopic = (props) => {
     color: '#707070',
     fontSize: '18px',
   };
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
 
   return (
-    <Box >
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }}
+    >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={{
             background:'#fff', width:'100%', mt:'32px', p:'56px 48px', 
@@ -165,6 +181,9 @@ const QuestionMultipleAnsTopic = (props) => {
         <Box sx={{display:'flex', width:'100%'}}>
 
             <Input
+             name='Question'
+             required
+             onInvalid={required}
                 disableUnderline = {true}
                 placeholder='Question'
                 multiline
@@ -208,6 +227,9 @@ const QuestionMultipleAnsTopic = (props) => {
               labelPlacement="start"
             />
             <input
+             required
+             name={`Option ${index+1}`}
+             onInvalid={(e)=>{required(e,index+1)}}
               placeholder={`Option ${index + 1}`}
               style={inputStyle}
               disableUnderline = {true}
@@ -250,9 +272,7 @@ const QuestionMultipleAnsTopic = (props) => {
           <span></span>
           <Box sx={{textAlign:'center'}}>
             <Button
-              onClick={()=>{
-                handlePostQuestion()
-              }} 
+             type='submit'
             sx={{
               width: "60%",
               borderRadius: "12px",
@@ -273,6 +293,8 @@ const QuestionMultipleAnsTopic = (props) => {
           </Box>
           <Box sx={{display:'flex'}}>
               <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'center',}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
+          </Box>
+        </Box>
               <Box sx={{width:'100%'}}>
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
           <TextField 
@@ -288,10 +310,8 @@ const QuestionMultipleAnsTopic = (props) => {
           
           />
         </Box>
-          </Box>
-        </Box>
     </Box>
-    </Box>
+    </form>
   );
 };
 

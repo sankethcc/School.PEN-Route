@@ -15,6 +15,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
 import { qStyle } from '../../../styles/style';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionsExam = (props) => {
   const doit=props.doit
@@ -128,6 +129,7 @@ const QuestionsExam = (props) => {
             seteditexam(oldArray => [...oldArray, { que: response.data, qno: editid.qno }])
             seteditid({ id: editid.id, qno: editid.qno + 1 })
             console.log(response.data);
+            enqueueSnackbar('Question Added', { variant: 'success' })
             
 
             // setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
@@ -141,6 +143,7 @@ const QuestionsExam = (props) => {
             );
 
             setQuestion( {text: '', image: null });
+            setCorrectAnswerIndex('')
             
             // console.log(response.data.question_type);
           }
@@ -162,6 +165,7 @@ const QuestionsExam = (props) => {
             console.log(response.data);
             setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            enqueueSnackbar('Question Added', { variant: 'success' })
 
             // console.log(response.data.question_type);
             setOptions([
@@ -172,6 +176,7 @@ const QuestionsExam = (props) => {
             );
 
             setQuestion( {text: '', image: null });
+            setCorrectAnswerIndex('')
           }
           else {
             console.log(response);
@@ -201,10 +206,22 @@ const QuestionsExam = (props) => {
     fontSize:'18px'
   };
 
-  
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
 
   return (
-    <Box >
+    <form 
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }}
+    >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={qStyle.question}
     >
@@ -212,6 +229,9 @@ const QuestionsExam = (props) => {
         <Box sx={{display:'flex', width:'100%'}}>
 
             <Input
+            name='Question'
+            required
+            onInvalid={required}
                 disableUnderline ={true}
                 placeholder='Question'
                 multiline
@@ -252,6 +272,9 @@ const QuestionsExam = (props) => {
                         
                     />
                     <Input
+                     required
+                     name={`Option ${index+1}`}
+                     onInvalid={(e)=>{required(e,index+1)}}
                         placeholder={`Option ${index+1}`}
                         style={inputStyle}
                         disableUnderline ={true}
@@ -309,9 +332,11 @@ const QuestionsExam = (props) => {
     </Box>
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
       <Button variant="contained" onClick={()=>{
-        handlePostQuestion()
+        
       }} 
+      type='submit'
         color="primary"
+        disabled={!examid.id && !editid.id}
         sx={{
             width: "375px",
             borderRadius: "12px",
@@ -333,7 +358,7 @@ const QuestionsExam = (props) => {
 
 
     </Box>
-    </Box>
+    </form>
   );
 };
 

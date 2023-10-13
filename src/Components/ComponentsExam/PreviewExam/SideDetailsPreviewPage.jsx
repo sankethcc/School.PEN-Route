@@ -1,13 +1,30 @@
 import { Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useEffect} from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { Link,NavLink, useNavigate } from 'react-router-dom';
-import { State } from '../../Context/Provider';
+import {State} from '../../Context/Provider'
+import { sideDetail } from '../../../styles/style';
+import axios from 'axios';
 
-const SideDetailsPreviewPage = ({heading}) => {
-  const { Exams, handleUpdatePreviewQuestionExam} = State();
+const SideDetailsExam = ({heading}) => {
+  const { Exams, SetExams, handleUpdatePreviewQuestionExam } = State();
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+      try {
+        var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+        const creatorI = usersdata.user._id
+        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
+        // console.log(data)
+        SetExams(data)
+
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchQuestions()
+  }, [])
   const navigate = useNavigate()
     const styleButton = {
         borderRadius:'34px',
@@ -17,7 +34,7 @@ const SideDetailsPreviewPage = ({heading}) => {
   }
   
   return (
-    <div className="side-details">
+    <div sx={sideDetail.second} className="side-details">
       <div className="amount-wrapper">
         <p className="price-heading">{heading}</p>
         <p className="price-count">{Exams.length}</p>
@@ -44,7 +61,7 @@ const SideDetailsPreviewPage = ({heading}) => {
               <Typography sx={{ font: '700 24px Poppins', color: '#383838', }} variant='h4'>{data.topic_class}</Typography>
               <Box>
                 <Typography sx={{ font: '700 16px Lato', mb: '15px' }} variant='p'>{data.subject}</Typography>
-                <Typography sx={{ color: '#707070' }}> <QuizIcon /> {data.no_of_questions}</Typography>
+                <Typography sx={{ color: '#707070' }}> <QuizIcon /> {data.questions?Object.keys(data.questions).length:0} Questions</Typography>
 
               </Box>
               <Box >
@@ -70,4 +87,4 @@ const SideDetailsPreviewPage = ({heading}) => {
   )
 }
 
-export default SideDetailsPreviewPage
+export default SideDetailsExam

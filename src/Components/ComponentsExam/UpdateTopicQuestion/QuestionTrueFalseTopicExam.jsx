@@ -13,6 +13,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { State } from '../../Context/Provider';
 import axios from 'axios';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionTrueFalseTopicExam = ( props  ) => {
 
@@ -99,8 +100,11 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
             //  console.log(response.data);
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
             setexamquest(oldArray => [ ...oldArray,response.data])
+            enqueueSnackbar('Question updated', { variant: 'success' })
+
           }
           else {
+            enqueueSnackbar('Network Error', { variant: 'error' })
              console.log(response);
           }
         })
@@ -119,8 +123,22 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
     fontSize: '18px',
   };
 
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
+
   return (
-    <Box>
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }}
+    >
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={{
             background:'#fff', width:'100%', mt:'32px', p:'56px 48px', 
@@ -132,6 +150,9 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
       </Typography>
       <Box sx={{display:'flex', width:'100%'}}>
       <Input
+       name='Question'
+       required
+       onInvalid={required}
         placeholder='Question'
         style={{ ...inputStyle, resize: 'vertical' }}
         value={question.text}
@@ -162,6 +183,9 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
             onChange={() => handleRadioChange(index)}
           />
           <Input
+           required
+           name={`Option ${index+1}`}
+           onInvalid={(e)=>{required(e,index+1)}}
             placeholder={`${props[index]}`}
             style={inputStyle}
             value={option.text}
@@ -204,9 +228,8 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
       </Box>
       <Box sx={{display:'grid', gridTemplateColumns:'4fr', justifyContent:'center', mt:'32px'}}>
           <Box sx={{textAlign:'center'}}>
-            <Button onClick={()=>{
-                handlePostQuestion()
-              }} 
+            <Button 
+            type='submit'
             sx={{
               width: "140px",
               borderRadius: "12px",
@@ -229,7 +252,7 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
       </Box>
       
       </Box>
-    </Box>
+    </form>
   );
 };
 

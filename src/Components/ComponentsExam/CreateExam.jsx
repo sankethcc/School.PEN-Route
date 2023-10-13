@@ -24,6 +24,7 @@ import axios from "axios";
 import SelectMenuExam from "./AddQuestionExam/SelectMenuExam";
 import QuestionsContainer from "./UpdateTopicQuestion/QuestionsContainer";
 import { mainBoxStyle, sideDetail } from "../../styles/style";
+import { enqueueSnackbar } from "notistack";
 const style = {
   dflex: {
     display: "flex",
@@ -55,6 +56,9 @@ const CreateQuiz = ({
       }
     }
   const handlePostQuestion = () => {
+    if (!exam.Language || !exam.Class || !exam.Subject || !exam.Topic|| !exam.perquest||!exam.Level|| !exam.assigned_time  ) {
+      enqueueSnackbar('Please select all dropdown', { variant: 'error' })
+    }else{
     // console.log(exam)
      const formData = new FormData();
     formData.append('subject', exam.Subject); 
@@ -76,6 +80,7 @@ const CreateQuiz = ({
           setexamid({ id: response.data._id, qno: 1 })
           setchuk(false)
           console.log("Data added successfully");
+          enqueueSnackbar('Exam Created, Add Questions in Exam', { variant: 'success' })
         } else {
           alert("Error occured");
         }
@@ -84,6 +89,7 @@ const CreateQuiz = ({
         console.log(err.response.data);
       });
   }
+}
   
   
   return (
@@ -127,7 +133,7 @@ const CreateQuiz = ({
             </Box>
                   <QuestionsContainer />
                   <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
-                <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={exam.Quiz_Type}/>
+                <SelectMenuExam dropdownName={"Exam Question Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={exam.Quiz_Type}/>
 
                 </Box>
                 {exam.Quiz_Type === "" ? (
@@ -151,7 +157,8 @@ const CreateQuiz = ({
               <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
                     <Button variant="contained"  onClick={()=>{
                       Submitexam()
-                    }} 
+                    }}
+                    disabled={!examid.id} 
                       color="primary"
                 sx={{
                          

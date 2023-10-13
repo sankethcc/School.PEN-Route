@@ -14,6 +14,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { State } from '../../Context/Provider';
 import axios from 'axios';
 import { qStyle } from '../../../styles/style';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
 
@@ -69,6 +70,9 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
   };
 
   const handlePostQuestion = () => {
+    if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
+      enqueueSnackbar('Please select all dropdown', { variant: 'error' })
+    }else{
     // const data = {
     const formData = new FormData();
     formData.append('language', quest.Language); 
@@ -103,6 +107,7 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
             try {
               
               setQuestions(oldArray => [{ question: QUE, options: popt },...oldArray])
+              enqueueSnackbar('Quiz Posted Successfully', { variant: 'success' })
             }
             catch (err) {
               console.log(err)
@@ -114,6 +119,7 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
         .catch((err) => {
           console.log(err.response.data);
         });
+      }
     }
   const inputStyle = {
     padding: '11px 27px',
@@ -124,9 +130,21 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
     color: '#707070',
     fontSize: '18px',
   };
-
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
   return (
-    <Box>
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }}
+    >
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={qStyle.question}
     >
@@ -135,12 +153,20 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
       </Typography>
       <Box sx={{display:'flex', width:'100%'}}>
       <Input
-        placeholder='Question'
-        style={{ ...inputStyle, resize: 'vertical' }}
-        value={question.text}
-        onChange={handleQuestionChange}
-        disableUnderline = {true}
-      />
+            name='Question'
+                disableUnderline = {true}
+                required
+                placeholder='Question'
+                multiline
+                fullWidth
+                value={question.text}
+                onChange={handleQuestionChange}
+                style={inputStyle}
+                sx={{
+                    color:'var(--grey, #707070)'
+                }}
+                onInvalid={required}
+            />
                 <input
                 type="file"
                 accept="image/*"
@@ -160,17 +186,24 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
       {options.map((option, index) => (
         <Box key={index} sx={{ display: 'flex', alignItems: 'center', mb: '16px' }}>
           <Radio
+            required={selectedAnswer==null}
+            name='Answer'
             sx={{ '& .MuiSvgIcon-root': { fontSize: 35 }, marginRight: '16px' }}
             checked={selectedAnswer === index}
             onChange={() => handleRadioChange(index)}
+            onInvalid={required}
           />
           <Input
-            placeholder={`${prop[index]}`}
-            style={inputStyle}
-            value={option.text}
-            onChange={(e) => handleOptionChange(e, index)}
-            disableUnderline = {true}
-          />
+                      required
+                      name={`Option ${index+1}`}
+                        placeholder={`Option ${index+1}`}
+                        style={inputStyle}
+                        disableUnderline = {true}
+                        value={option.text}
+                        onChange={(e) => handleOptionChange(e, index)}
+                        variant="outlined"
+                        onInvalid={(e)=>{required(e,index+1)}}
+                    />
           <input
             type='file'
             accept='image/*'
@@ -208,32 +241,28 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
       </Box>
       <Box sx={{ display: 'flex', width: '100%', mt: '56px', mb: '91px', justifyContent: 'center' }}>
         <Button
-          variant='contained'
-          onClick={() => {
-            handlePostQuestion();
-            
-          }}
-          color='primary'
+          color="primary"
+          type='submit'
           sx={{
-            width: '375px',
-            borderRadius: '12px',
-            background: '#7A58E6',
-            cursor: 'pointer',
-            border: 'none',
-            color: '#FFF',
-            fontSize: '18px',
-            fontWeight: '500',
-            textTransform: 'capitalize',
-            p: '10px 10px',
-            '&:hover': {
-              background: '#7A58E6',
-            },
-          }}
+              width: "375px",
+              borderRadius: "12px",
+              background: "#7A58E6",
+              cursor: "pointer",
+              border: "none",
+              color: "#FFF",
+              fontSize: "18px",
+              fontWeight: "500",
+              textTransform: "capitalize",
+              p: "10px 10px",
+              "&:hover": {
+                background: "#7A58E6",
+              },
+            }}
         >
           Post Question
         </Button>
       </Box>
-    </Box>
+    </form>
   );
 };
 
