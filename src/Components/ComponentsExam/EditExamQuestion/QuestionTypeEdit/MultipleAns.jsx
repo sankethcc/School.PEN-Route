@@ -12,6 +12,7 @@ import axios from "axios";
 const MultipleAns = (props,{ open, setOpen,}) => {
   const data = props.qdata
   const { editid,seteditid} = State();
+  const answer = data.answer.split(',')
   
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
@@ -30,6 +31,8 @@ const MultipleAns = (props,{ open, setOpen,}) => {
     for (let i = 0; i < arr.length; i+=2){
        setOptions(oldArray => [{text: arr[i], image:null,img:arr[i+1]},...oldArray])
     }
+    const corrAns = answer.map((ans)=>parseInt(ans))
+    setSelectedAnswerIndices(corrAns)
   }, [])
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });

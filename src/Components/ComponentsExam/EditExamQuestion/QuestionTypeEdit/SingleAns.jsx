@@ -156,6 +156,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
             placement="left-start"
             ransitionComponent={Zoom}
             >
+              {question.img?
             <img
                 src={`http://localhost:5000/get_image/${question.img}`}
                 alt="Que Img"
@@ -163,6 +164,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             />
+            :null}
             </CustomWidthTooltip>
             {/* <img style={{ height: "80px", width: "80px", objectFit: "contain", marginRight:'12px' }} src={userImg} /> */}
             <Box sx={{ display: "grid", width: "100%", gridTemplateColumns: "11fr 1fr", alignItems: "center",}}>
@@ -211,6 +213,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
                   width: "100%",
                 }}
               >
+                {option.img?
                 <img
                   style={{
                     height: "50px",
@@ -221,6 +224,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
                   
                   src={option.img?`http://localhost:5000/get_image/${option.img}`:null}
                 ></img>
+                :null}
                 <FormControlLabel
                   value={index.toString()}
                   sx={{margin:'0px'}}
