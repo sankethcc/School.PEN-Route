@@ -97,33 +97,37 @@ const CreateQuiz = () => {
   const handlePostQuestion = () => {
     // const data = {
     const formData = new FormData();
-    formData.append('language', quest.Language); 
-    formData.append('class', quest.Class);
-    formData.append('subject', quest.Subject);
-    formData.append('topic', quest.Topic);
-    formData.append('subtopic', quest.Sub_topic);
-    formData.append('level', quest.Level);
-    formData.append('quiz_type', quest.Quiz_Type);
-    formData.append('question', question.text);
-    formData.append('question_image', question.image);
-    formData.append('explanation', explanation);
-
-    const popt = [],QUE=question.text;
-    for (let i = 0; i < options.length; i++) {
-      const optionText = options[i].text;
-      const optionImageInput = options[i].image;
-      formData.append(`option_${i + 1}`, optionText);
-      formData.append(`option_${i + 1}_image`, optionImageInput);
-      const isAnswer = options[i].answer;
-      formData.append(`is_answer_${i + 1}`, isAnswer.toString());
-      popt.push({text:optionText, is_answer:isAnswer});
+    if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
+      enqueueSnackbar('Please select all dropdown', { variant: 'error' })
     }
+    else {
+      formData.append('language', quest.Language);
+      formData.append('class', quest.Class);
+      formData.append('subject', quest.Subject);
+      formData.append('topic', quest.Topic);
+      formData.append('subtopic', quest.Sub_topic);
+      formData.append('level', quest.Level);
+      formData.append('quiz_type', quest.Quiz_Type);
+      formData.append('question', question.text);
+      formData.append('question_image', question.image);
+      formData.append('explanation', explanation);
+
+      const popt = [], QUE = question.text;
+      for (let i = 0; i < options.length; i++) {
+        const optionText = options[i].text;
+        const optionImageInput = options[i].image;
+        formData.append(`option_${i + 1}`, optionText);
+        formData.append(`option_${i + 1}_image`, optionImageInput);
+        const isAnswer = options[i].answer;
+        formData.append(`is_answer_${i + 1}`, isAnswer.toString());
+        popt.push({ text: optionText, is_answer: isAnswer });
+      }
     
-    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
-    const creatorId = usersdata.user._id
-    // console.log(creatorId)
-    axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+      var usersdata = JSON.parse(localStorage.getItem('user'));
+      const creatorId = usersdata.user._id
+      // console.log(creatorId)
+      axios
+        .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 201) {
             // setbool(!bool)
@@ -131,9 +135,9 @@ const CreateQuiz = () => {
            
             try {
               
-              setQuestions(oldArray => [{ question: QUE, options: popt,id: response.data._id }, ...oldArray])
+              setQuestions(oldArray => [{ question: QUE, options: popt, id: response.data._id }, ...oldArray])
               // console.log(response.data._id)
-              enqueueSnackbar('Quiz Posted Successfully', {variant:'success'})
+              enqueueSnackbar('Quiz Posted Successfully', { variant: 'success' })
             }
             catch (err) {
               console.log(err)
@@ -147,7 +151,7 @@ const CreateQuiz = () => {
         .catch((err) => {
           console.log(err.response.data);
         });
-    
+    }
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
 
@@ -164,6 +168,9 @@ const required = (e,i)=>{
     enqueueSnackbar(`Enter ${name}`, {variant:'error'})
     }
   }
+  // if (!quest.Language) {
+    
+  // }
 }
   
   const inputStyle = {
