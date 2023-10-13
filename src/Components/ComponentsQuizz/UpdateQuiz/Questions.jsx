@@ -15,6 +15,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { State } from '../../Context/Provider';
 import { qStyle } from '../../../styles/style';
+import { enqueueSnackbar } from 'notistack';
 
 const CreateQuiz = () => {
   const navigate = useNavigate()
@@ -110,6 +111,7 @@ const CreateQuiz = () => {
           if (response.status === 200) {
             // setbool(!bool)
             console.log("Data updated successfully");
+            enqueueSnackbar('Quiz Deleted Successfully', { variant: 'success' })
             
           } else {
             alert("Error occured");
@@ -121,6 +123,10 @@ const CreateQuiz = () => {
   }
 
   const handlePostQuestion = () => {
+    if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
+      enqueueSnackbar('Please select all dropdown', { variant: 'error' })
+    }
+    else {
     
     const formData = new FormData();
     formData.append('language', quest.Language);
@@ -153,6 +159,8 @@ const CreateQuiz = () => {
           if (response.status === 200) {
             // setbool(!bool)
             console.log("Data updated successfully");
+            enqueueSnackbar('Quiz Updated Successfully', { variant: 'success' })
+
             
           } else {
             alert("Error occured");
@@ -163,8 +171,16 @@ const CreateQuiz = () => {
         });
     
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
+      }
   };
-
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
    useEffect(()=>{
     const fetchstopic = async ()=>{
       try {
@@ -220,7 +236,14 @@ const CreateQuiz = () => {
   
 
   return (
-    <Box >
+    <form 
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      navigate('/admin')
+      }}
+    
+    >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={qStyle.question}
     >
@@ -228,6 +251,8 @@ const CreateQuiz = () => {
         <Box sx={{display:'flex', width:'100%'}}>
 
             <Input
+                required
+                name='Question'
                 disableUnderline = {true}
                 placeholder='Question'
                 multiline
@@ -238,6 +263,7 @@ const CreateQuiz = () => {
                 sx={{
                     color:'var(--grey, #707070)'
                 }}
+                onInvalid={required}
             />
                 {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
                 <DeleteOutlineIcon />
@@ -268,12 +294,15 @@ const CreateQuiz = () => {
                         
                     />
                     <Input
+                     required
+                     name={`Option ${index+1}`}
                         placeholder={`Option ${index+1}`}
                         style={inputStyle}
                         disableUnderline = {true}
                         value={option.text}
                         onChange={(e) => handleOptionChange(e, index)}
                         variant="outlined"
+                        onInvalid={(e)=>{required(e,index+1)}}
                     />
                     <Box display="flex" alignItems="center">
                         {/* {option.image && (
@@ -325,9 +354,9 @@ const CreateQuiz = () => {
     </Box>
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'space-between'}}>
       <Button variant="contained" onClick={()=>{
-        handlePostQuestion()
-        navigate('/admin')
+       
       }} 
+      type='submit'
         color="primary"
         sx={{
             width: "40%",
@@ -373,7 +402,7 @@ const CreateQuiz = () => {
       </Button>
 
     </Box>
-    </Box>
+    </form>
   );
 };
 

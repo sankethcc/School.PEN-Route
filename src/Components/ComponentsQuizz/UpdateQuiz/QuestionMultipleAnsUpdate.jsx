@@ -16,6 +16,7 @@ import { State } from "../../Context/Provider"
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { qStyle } from '../../../styles/style';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
   const navigate = useNavigate()
@@ -111,6 +112,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
             // setbool(!bool)
             console.log("Data updated successfully");
             
+            
           } else {
             alert("Error occured");
           }
@@ -120,7 +122,9 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
         });
   }
   const handlePostQuestion = () => {
-    
+    if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
+      enqueueSnackbar('Please select all dropdown', { variant: 'error' })
+    }else{
     const formData = new FormData();
     formData.append('language', quest.Language);
     formData.append('class', quest.Class);
@@ -151,6 +155,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
           if (response.status === 200) {
             // setbool(!bool)
             console.log("Data updated successfully");
+            enqueueSnackbar('Quiz Updated Successfully', { variant: 'success' })
             
           } else {
             alert("Error occured");
@@ -162,6 +167,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
+}
   useEffect(()=>{
     const fetchstopic = async ()=>{
       try {
@@ -207,9 +213,23 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     color: '#707070',
     fontSize: '18px',
   };
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
 
   return (
-    <Box >
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      navigate('/admin')
+      }}
+    >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={qStyle.question}
     >
@@ -217,6 +237,8 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
         <Box sx={{display:'flex', width:'100%', mb:'30px'}}>
 
             <Input
+             name='Question'
+             required
                 disableUnderline = {true}
                 placeholder='Question'
                 multiline
@@ -227,6 +249,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
                 sx={{
                     color:'var(--grey, #707070)'
                 }}
+                onInvalid={required}
             />
                 {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
                 <DeleteOutlineIcon />
@@ -260,12 +283,15 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
               labelPlacement="start"
             />
             <Input
+            required
+            name={`Option ${index+1}`}
               placeholder={`Option ${index + 1}`}
               style={inputStyle}
               disableUnderline = {true}
               value={option.text}
               onChange={(e) => handleOptionChange(e, index)}
               variant="outlined"
+              onInvalid={(e)=>{required(e,index+1)}}
             />
                     <Box display="flex" alignItems="center">
                         {/* {option.image && (
@@ -317,10 +343,10 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     </Box>
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'space-between'}}>
       <Button variant="contained" onClick={()=>{
-        handlePostQuestion()
-        navigate('/admin')
+               
       }} 
         color="primary"
+        type='submit'
         sx={{
             width: "40%",
             borderRadius: "12px",
@@ -365,7 +391,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
 
 
     </Box>
-    </Box>
+    </form>
   );
 };
 

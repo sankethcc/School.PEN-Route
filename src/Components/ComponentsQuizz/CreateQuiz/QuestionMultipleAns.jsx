@@ -15,6 +15,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
 import { qStyle } from '../../../styles/style';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionMultipleAns = ({handleThreeDotMenu}) => {
 const { quest,questions, setQuestions} = State();
@@ -98,6 +99,9 @@ const [question, setQuestion] = useState({ text: '', image: null });
   };
 
    const handlePostQuestion = () => {
+    if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
+      enqueueSnackbar('Please select all dropdown', { variant: 'error' })
+    }else{
     // const data = {
     const formData = new FormData();
     formData.append('language', quest.Language); 
@@ -132,6 +136,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
             try {
               
               setQuestions(oldArray => [{ question: QUE, options: popt,id: response.data._id },...oldArray])
+              enqueueSnackbar('Quiz Posted Successfully', { variant: 'success' })
             }
             catch (err) {
               console.log(err)
@@ -143,6 +148,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
         .catch((err) => {
           console.log(err.response.data);
         });
+      }
     
     // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
@@ -155,17 +161,32 @@ const [question, setQuestion] = useState({ text: '', image: null });
     color: '#707070',
     fontSize: '18px',
   };
-
+  
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
   return (
-    <Box >
+    <form 
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }}
+    >
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={qStyle.question}
     >
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px"}} >Question</Typography>
         <Box sx={{display:'flex', width:'100%'}}>
 
-            <Input
+        <Input
+            name='Question'
                 disableUnderline = {true}
+                required
                 placeholder='Question'
                 multiline
                 fullWidth
@@ -175,6 +196,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
                 sx={{
                     color:'var(--grey, #707070)'
                 }}
+                onInvalid={required}
             />
                 {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
                 <DeleteOutlineIcon />
@@ -199,6 +221,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
             <FormControlLabel
               control={
                 <Checkbox
+                required={selectedAnswerIndices==[]}
                   sx={{ '& .MuiSvgIcon-root': { fontSize: 35 } }}
                   checked={selectedAnswerIndices.includes(index)}
                   onChange={(event) => handleCheckboxChange(index)}
@@ -208,12 +231,15 @@ const [question, setQuestion] = useState({ text: '', image: null });
               labelPlacement="start"
             />
             <Input
-              placeholder={`Option ${index + 1}`}
-              style={inputStyle}
-              disableUnderline = {true}
-              value={option.text}
-              onChange={(e) => handleOptionChange(e, index)}
-              variant="outlined"
+              required
+              name={`Option ${index+1}`}
+                placeholder={`Option ${index+1}`}
+                style={inputStyle}
+                disableUnderline = {true}
+                value={option.text}
+                onChange={(e) => handleOptionChange(e, index)}
+                variant="outlined"
+                onInvalid={(e)=>{required(e,index+1)}}
             />
                     <Box display="flex" alignItems="center">
                         {/* {option.image && (
@@ -265,31 +291,31 @@ const [question, setQuestion] = useState({ text: '', image: null });
     </Box>
     <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
       <Button variant="contained" onClick={()=>{
-        handlePostQuestion()
       }} 
-        color="primary"
-        sx={{
-            width: "375px",
-            borderRadius: "12px",
+      color="primary"
+      type='submit'
+      sx={{
+          width: "375px",
+          borderRadius: "12px",
+          background: "#7A58E6",
+          cursor: "pointer",
+          border: "none",
+          color: "#FFF",
+          fontSize: "18px",
+          fontWeight: "500",
+          textTransform: "capitalize",
+          p: "10px 10px",
+          "&:hover": {
             background: "#7A58E6",
-            cursor: "pointer",
-            border: "none",
-            color: "#FFF",
-            fontSize: "18px",
-            fontWeight: "500",
-            textTransform: "capitalize",
-            p: "10px 10px",
-            "&:hover": {
-              background: "#7A58E6",
-            },
-          }}
+          },
+        }}
       >
         Post Question
       </Button>
 
 
     </Box>
-    </Box>
+    </form>
   );
 };
 

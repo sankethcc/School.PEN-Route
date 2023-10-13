@@ -121,7 +121,7 @@ import { mainBoxStyle, sideDetail } from "../../../styles/style";
                 </Box>
                 <QueContainerEdit topic_id={topic_id} />
                   <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
-                <SelectMenuExam dropdownName={"Quiz Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={exam.Quiz_Type}/>
+                <SelectMenuExam dropdownName={"Exam Question Type"} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={exam.Quiz_Type}/>
 
                 </Box>
                 {exam.Quiz_Type === "" ? (

@@ -12,7 +12,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import axios from 'axios';
 
 export default function SelectMenuExam({dropdownName,listArray,add,value,val }) {
-  const style = (dropdownName == "Language") ? "#fff" :(dropdownName == "Quiz Type")? '#fff' :(dropdownName == "Topic Quiz Type")? "#fff": '#F5F6F7'
+  const style = (dropdownName == "Language") ? "#fff" :(dropdownName == "Exam Question Type")? '#fff' :(dropdownName == "Topic Quiz Type")? "#fff": '#F5F6F7'
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
 
   const {exam,setexam,setdsubject,setdtopic,setdstopic,setdlanguage,setedstopic,setdesubject} = State();

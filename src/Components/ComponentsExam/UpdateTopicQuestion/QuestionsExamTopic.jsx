@@ -15,6 +15,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { State } from "../../Context/Provider"
 import axios from 'axios';
 import SelectMenuTopicUpdate from './SelectMenuTopicUpdate';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionsExamTopic = (props) => {
   const { setexamquest,exam,examid,setexamid, quest} = State();
@@ -41,7 +42,7 @@ const QuestionsExamTopic = (props) => {
        setOptions(oldArray => [...oldArray,{text: arr[i], image:null}])
     }
   },[])
-  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(props.answer)-1);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(props.answer));
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -125,15 +126,17 @@ const QuestionsExamTopic = (props) => {
     axios
     .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             console.log("Data added successfully");
             //  console.log(response.data);
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
-            setexamquest(oldArray => [...oldArray, response.data])
+            // setexamquest(oldArray => [...oldArray, response.data])
+            enqueueSnackbar('Question updated', { variant: 'success' })
             // console.log(response.data)
           }
           else {
              console.log(response);
+             enqueueSnackbar('Network Error', { variant: 'error' })
           }
         })
         .catch((err) => {
@@ -160,10 +163,22 @@ const QuestionsExamTopic = (props) => {
     fontSize:'18px'
   };
 
-  
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
 
   return (
-    <Box >
+    <form 
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }}
+    >
       {/* <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
             <SelectMenuTopicUpdate dropdownName={drop} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={quest.Quiz_Type}/>
       </Box> */}
@@ -177,6 +192,9 @@ const QuestionsExamTopic = (props) => {
         <Box sx={{display:'flex', width:'100%'}}>
 
             <Input
+             name='Question'
+             required
+             onInvalid={required}
                 disableUnderline = {true}
                 placeholder='Question'
                 multiline
@@ -217,6 +235,9 @@ const QuestionsExamTopic = (props) => {
                         
                     />
                     <Input
+                     required
+                     name={`Option ${index+1}`}
+                     onInvalid={(e)=>{required(e,index+1)}}
                         placeholder={`Option ${index+1}`}
                         style={inputStyle}
                         disableUnderline = {true}
@@ -259,9 +280,7 @@ const QuestionsExamTopic = (props) => {
           <span></span>
           <Box sx={{textAlign:'center'}}>
             <Button 
-              onClick={()=>{
-                handlePostQuestion()
-              }} 
+              type='submit'
             sx={{
               width: "60%",
               borderRadius: "12px",
@@ -283,6 +302,8 @@ const QuestionsExamTopic = (props) => {
           <Box sx={{display:'flex', justifyContent:'end'}}>
               <Typography sx={{cursor:'pointer', color:'#7A58E6', font:'700 20px Poppins', alignSelf:'center',}} onClick={handleAddOption} aria-label="Add option" >Add Another Options</Typography>
               
+          </Box>
+        </Box>
         <Box sx={{width:'100%'}}>
         <Typography sx={{font:'700 32px Poppins', color:'var(--grey, #707070)',alignSelf:'start', pb:"28px", mt:'28px'}} >Explanation</Typography>
           <TextField 
@@ -298,11 +319,9 @@ const QuestionsExamTopic = (props) => {
           
           />
         </Box>
-          </Box>
-        </Box>
     </Box>
 
-    </Box>
+    </form>
   );
 };
 

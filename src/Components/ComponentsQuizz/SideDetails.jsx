@@ -99,7 +99,9 @@ const SideDetails = ({heading, number}) => {
                 )
               })}
             </RadioGroup>
+            {explanation?
             <Typography sx={{font:'500 20px Poppins'}}><strong>Explanation: </strong>{explanation}</Typography>
+            :null}
           </FormControl>
               </div>
           // </textarea>

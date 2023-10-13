@@ -64,7 +64,6 @@ const SideDetailsExam = ({heading}) => {
                 <Typography sx={{ color: '#707070' }}> <QuizIcon /> {data.questions?Object.keys(data.questions).length:0} Questions</Typography>
 
               </Box>
-              {console.log(data.questions)}
               <Box >
               <Typography variant='p' sx={{color:'#707070', mb:'30px'}}>{data.level}</Typography>
                 <Typography sx={{ color: '#707070' }}> <TimerIcon />{data.assigned_time}</Typography>

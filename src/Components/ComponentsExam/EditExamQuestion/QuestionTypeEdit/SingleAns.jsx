@@ -8,6 +8,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import userImg from "../../../../Data/userImg.png"
 import { State } from "../../../Context/Provider";
 import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 const SingleAns = (props,{ open, setOpen,}) => {
   const data=props.qdata
   // console.log(data)
@@ -104,15 +105,17 @@ const SingleAns = (props,{ open, setOpen,}) => {
     axios
     .post(`http://localhost:5000/update_question/${editid.id}/${props.qno}`, formData)
         .then((response) => {
-          if (response.status === 201) {
+          if (response.status === 200) {
             console.log("Data added successfully");
             //  console.log(response.data);
             seteditid({ id: editid.id, qno: (editid.qno + 1) })
             // setexamquest(oldArray => [...oldArray, response.data])
             // console.log(response.data)
+            enqueueSnackbar('Question updated', { variant: 'success' })
           }
           else {
              console.log(response);
+             enqueueSnackbar('Network Error', { variant: 'error' })
           }
         })
         .catch((err) => {
@@ -138,12 +141,25 @@ const SingleAns = (props,{ open, setOpen,}) => {
       maxWidth: '400px',
     },
   });
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
   return (
     
-      
+      <form
+      onSubmit={(e)=>{
+        e.preventDefault()
+        handleUpdate();
+        }}
+      >
      
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
-          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'20px 20px', mb:'20px'}}>
+          sx={{background: "#fff",width: "100%",borderRadius: "40px", padding:'56px 48px', mb:'20px'}}>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
 
           <CustomWidthTooltip
@@ -156,6 +172,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
             placement="left-start"
             ransitionComponent={Zoom}
             >
+              {question.img?
             <img
                 src={`http://localhost:5000/get_image/${question.img}`}
                 alt="Que Img"
@@ -163,12 +180,16 @@ const SingleAns = (props,{ open, setOpen,}) => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             />
+            :null}
             </CustomWidthTooltip>
             {/* <img style={{ height: "80px", width: "80px", objectFit: "contain", marginRight:'12px' }} src={userImg} /> */}
             <Box sx={{ display: "grid", width: "100%", gridTemplateColumns: "11fr 1fr", alignItems: "center",}}>
                   <TextField
+                   name='Question'
+                   required
+                   onInvalid={required}
                     label={"Question"}
-                    InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
+                    InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px'} }}
                     multiline
                     fullWidth
                     minRows={1}
@@ -211,6 +232,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
                   width: "100%",
                 }}
               >
+                {option.img?
                 <img
                   style={{
                     height: "50px",
@@ -221,12 +243,13 @@ const SingleAns = (props,{ open, setOpen,}) => {
                   
                   src={option.img?`http://localhost:5000/get_image/${option.img}`:null}
                 ></img>
+                :null}
                 <FormControlLabel
                   value={index.toString()}
                   sx={{margin:'0px'}}
                   control={
                     <Radio
-                    sx={{padding:'0px'}}
+                    sx={{ '& .MuiSvgIcon-root': { fontSize: 35 }, padding:'0px', fontSize:'30px'}}
                       checked={correctAnswerIndex === index}
                       onClick={(e) => handleRadioChange(e, index)}
                     />
@@ -236,8 +259,11 @@ const SingleAns = (props,{ open, setOpen,}) => {
                 />
 
                 <TextField
+                 required
+                 name={`Option ${index+1}`}
+                 onInvalid={(e)=>{required(e,index+1)}}
                   label={`Option ${index + 1}`}
-                  InputProps={{ style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
+                  InputProps={{ disableUnderline: true, style: { background:'#EFF3F4', paddingLeft: '10px', borderRadius:'12px' } }}
                   multiline
                   minRows={1}
                   variant="filled"
@@ -327,10 +353,8 @@ const SingleAns = (props,{ open, setOpen,}) => {
           />
         </Box>
             <Box sx={{textAlign:'center', mt:'10px'}}>
-          <Button onClick={()=>{
-                handleUpdate()
-              }} 
-              
+          <Button 
+              type="submit"
                 sx={{
                     width: "25%",
                     borderRadius: "12px",
@@ -353,7 +377,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
         </Box>
         
 
-
+        </form>
   );
 };
 

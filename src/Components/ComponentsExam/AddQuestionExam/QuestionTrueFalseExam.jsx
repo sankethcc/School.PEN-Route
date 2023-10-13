@@ -14,6 +14,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import { State } from '../../Context/Provider';
 import axios from 'axios';
 import { qStyle } from '../../../styles/style';
+import { enqueueSnackbar } from 'notistack';
 
 const QuestionTrueFalseExam = (props) => {
   const doit=props.doit
@@ -94,8 +95,17 @@ const QuestionTrueFalseExam = (props) => {
             console.log(response.data);
             seteditexam(oldArray => [...oldArray, { que: response.data, qno: editid.qno }])
             seteditid({ id: editid.id, qno: editid.qno + 1 })
+            enqueueSnackbar('Question Added', { variant: 'success' })
 
             // console.log(response.data.question_type);
+            setOptions([
+              { text: '', image: null, answer: false },
+              { text: '', image: null, answer: false },
+            ]
+            );
+
+            setQuestion( {text: '', image: null });
+            setSelectedAnswer('')
           }
           else {
             console.log(response);
@@ -117,8 +127,17 @@ const QuestionTrueFalseExam = (props) => {
             console.log(response.data);
             setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
+            enqueueSnackbar('Question Added', { variant: 'success' })
 
             // console.log(response.data.question_type);
+            setOptions([
+              { text: '', image: null, answer: false },
+              { text: '', image: null, answer: false },
+            ]
+            );
+
+            setQuestion( {text: '', image: null });
+            setSelectedAnswer('')
           }
           else {
             console.log(response);
@@ -139,8 +158,21 @@ const QuestionTrueFalseExam = (props) => {
     fontSize: '18px',
   };
 
+  const required = (e,i)=>{
+    const {name, validity} = e.target
+    if(e.target.validity.valueMissing){
+      if(name ==='Question'||name=== `Option ${i}`){
+      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+      }
+    }
+  }
   return (
-    <Box>
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      handlePostQuestion()
+      }}
+    >
         <Box display="flex" flexDirection="column" alignItems="center" width="100%"
        sx={qStyle.question}
     >
@@ -149,6 +181,9 @@ const QuestionTrueFalseExam = (props) => {
       </Typography>
       <Box sx={{display:'flex', width:'100%'}}>
       <Input
+       name='Question'
+       required
+       onInvalid={required}
         placeholder='Question'
         style={{ ...inputStyle, resize: 'vertical' }}
         value={question.text}
@@ -179,6 +214,9 @@ const QuestionTrueFalseExam = (props) => {
             onChange={() => handleRadioChange(index)}
           />
           <Input
+           required
+           name={`Option ${index+1}`}
+           onInvalid={(e)=>{required(e,index+1)}}
             placeholder={`Option ${index+1}`}
             style={inputStyle}
             value={option.text}
@@ -223,8 +261,10 @@ const QuestionTrueFalseExam = (props) => {
         <Button
           variant='contained'
           onClick={() => {
-            handlePostQuestion();
+           
           }}
+          disabled={!examid.id}
+          type='submit'
           color='primary'
           sx={{
             width: '375px',
@@ -242,10 +282,10 @@ const QuestionTrueFalseExam = (props) => {
             },
           }}
         >
-          Post Question
+          Add Question
         </Button>
       </Box>
-    </Box>
+    </form>
   );
 };
 
