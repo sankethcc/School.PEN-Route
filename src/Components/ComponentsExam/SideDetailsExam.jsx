@@ -1,14 +1,30 @@
 import { Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useEffect} from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { Link,NavLink, useNavigate } from 'react-router-dom';
 import {State} from '../Context/Provider'
 import { sideDetail } from '../../styles/style';
+import axios from 'axios';
 
 const SideDetailsExam = ({heading}) => {
-  const { Exams} = State();
+  const { Exams, SetExams } = State();
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+      try {
+        var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+        const creatorI = usersdata.user._id
+        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
+        // console.log(data)
+        SetExams(data)
+
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchQuestions()
+  }, [])
   const navigate = useNavigate()
     const styleButton = {
         borderRadius:'34px',
@@ -45,9 +61,10 @@ const SideDetailsExam = ({heading}) => {
               <Typography sx={{ font: '700 24px Poppins', color: '#383838', }} variant='h4'>{data.topic_class}</Typography>
               <Box>
                 <Typography sx={{ font: '700 16px Lato', mb: '15px' }} variant='p'>{data.subject}</Typography>
-                <Typography sx={{ color: '#707070' }}> <QuizIcon /> {data.no_of_questions}</Typography>
+                <Typography sx={{ color: '#707070' }}> <QuizIcon /> {data.questions?Object.keys(data.questions).length:0} Questions</Typography>
 
               </Box>
+              {console.log(data.questions)}
               <Box >
               <Typography variant='p' sx={{color:'#707070', mb:'30px'}}>{data.level}</Typography>
                 <Typography sx={{ color: '#707070' }}> <TimerIcon />{data.assigned_time}</Typography>

@@ -6,7 +6,7 @@ import { selectStyle } from '../../../styles/style'
 import axios from 'axios'
 
 const SelectContainerExam = () => {
-  const { exam,  desubject, destopic,setdesubject,setedstopic} = State();
+  const { exam,  desubject, destopic,setdesubject,setedstopic,setdlanguage} = State();
   // console.log(quest)
   const [classs,setclasss]=useState(["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"])
   useEffect(() => {
@@ -36,6 +36,7 @@ const SelectContainerExam = () => {
         setdesubject(data.subject)
         setedstopic(data.topic)
         setclasss(data.class)
+        setdlanguage(data.language)
       } catch(error){
         console.error('Error Fetching questions: ', error)
       }
@@ -46,7 +47,41 @@ const SelectContainerExam = () => {
 
   }, [])
 
+  useEffect(() => {
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const role = usersdata.user.role
+    const fetchtopic = async ()=>{
+      try {
+        // console.log(dsubject)
+        setedstopic([]);
+        const { data } = await axios.get(`http://localhost:5000/get_all_topics/${exam.Subject}`)
+        // console.log(Object.keys(data))
+        setedstopic(Object.keys(data));
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    if(role=="admin" && exam.Subject  )
+    fetchtopic()
+  }, [exam.Subject])
 
+  useEffect(() => {
+    var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+    const role = usersdata.user.role
+    const fetchQuestions = async ()=>{
+      try {
+        
+        const { data } = await axios.get(`http://localhost:5000/get_languages`)
+        // console.log(data)
+        if(data)
+        setdlanguage(data)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    if(role=="admin" )
+    fetchQuestions()
+  }, [])
   return (
     <Box 
     sx={selectStyle.first}>

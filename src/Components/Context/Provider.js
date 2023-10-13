@@ -70,7 +70,7 @@ const Provider = ({ children }) => {
     Topic: '',
     user:''
   })
-
+  const [btn,setbtn]=useState()
   const [dasubject, setdasubject] = useState([])
   const [datopic, setdatopic] = useState([])
   const [dalanguage, setdalanguage] = useState([])
@@ -97,21 +97,21 @@ const Provider = ({ children }) => {
   const [userImage, setUserImage] = useState('')
     
  
-  useEffect(()=>{
-    const fetchQuestions = async ()=>{
-      try {
-        var usersdata = JSON.parse(localStorage.getItem('user' )) ;
-        const creatorI = usersdata.user._id
-        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
-        // console.log(data)
-        SetExams(data)
+  // useEffect(()=>{
+  //   const fetchQuestions = async ()=>{
+  //     try {
+  //       var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+  //       const creatorI = usersdata.user._id
+  //       const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
+  //       // console.log(data)
+  //       SetExams(data)
 
-      } catch(error){
-        console.error('Error Fetching questions: ', error)
-      }
-    }
-    fetchQuestions()
-  }, [])
+  //     } catch(error){
+  //       console.error('Error Fetching questions: ', error)
+  //     }
+  //   }
+  //   fetchQuestions()
+  // }, [])
 
   // useEffect(()=>{
   //   const fetchQuestions = async ()=>{
@@ -293,7 +293,8 @@ const Provider = ({ children }) => {
          dalanguage, setdalanguage,
          userData, setUserData,
          updateUser, setUpdateUser,
-         userImage, setUserImage,
+        userImage, setUserImage,
+         btn, setbtn
       }}
     >
       {children}

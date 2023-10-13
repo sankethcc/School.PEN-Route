@@ -13,7 +13,7 @@ import axios from "axios";
 const TrueFalse = (props, { open, setOpen, }) => {
   const data=props.qdata
   const { editid,seteditid} = State();
-  // const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
+  const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.answer));
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
   const [selectedAnswer, setSelectedAnswer] = useState(parseInt(data.answer));
   const [options, setOptions] = useState([]);

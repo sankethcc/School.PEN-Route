@@ -1,13 +1,28 @@
 import { Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React,{useEffect} from 'react'
 import TimerIcon from '@mui/icons-material/Timer';
 import QuizIcon from '@mui/icons-material/Quiz';
 import { Link,NavLink, useNavigate } from 'react-router-dom';
 import { State } from '../../Context/Provider'; 
+import axios from 'axios';
+const SideDetailsEditExam = ({ heading }) => {
+  const { Exams, SetExams } = State();
+  useEffect(()=>{
+    const fetchQuestions = async ()=>{
+      try {
+        var usersdata = JSON.parse(localStorage.getItem('user' )) ;
+        const creatorI = usersdata.user._id
+        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
+        // console.log(data)
+        SetExams(data)
 
-const SideDetailsEditExam = ({heading}) => {
-  const { Exams} = State();
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
+    fetchQuestions()
+  }, [])
   const navigate = useNavigate()
     const styleButton = {
         borderRadius:'34px',

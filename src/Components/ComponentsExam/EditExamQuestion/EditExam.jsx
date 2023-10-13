@@ -16,7 +16,7 @@ import SelectMenuExam from "../AddQuestionExam/SelectMenuExam";
 import QueContainerEdit from "./QueContainerEdit";
 import { useParams } from "react-router-dom";
 import { mainBoxStyle, sideDetail } from "../../../styles/style";
-
+// import {Button} from "@mui/material";
   const style = {
     dflex: {
       display: "flex",
@@ -29,20 +29,32 @@ import { mainBoxStyle, sideDetail } from "../../../styles/style";
   };
   
   const EditExam = () => {
-    const {topic_id} = useParams()
+    const { topic_id } = useParams()
+    
     // console.log("Topic ID Exam " + topic_id)
     const { quest } = State();
     const { exam, SetExams ,setexamid,examquest} = State();
-    const {instruction, eligiblity, learning} = State()
+    const {instruction, eligiblity, learning,btn, setbtn} = State()
     // console.log(Exams)
+    const Submitexam =async () => {
+    try {
+      
+        const { data } = await axios.get(`http://localhost:5000/enable_disable_exam/${topic_id}`)
+        setbtn(data)
+        console.log(data)
+      } catch(error){
+        console.error('Error Fetching questions: ', error)
+      }
+    }
     const handlePostQuestion = () => {
     // console.log(exam)
      const formData = new FormData();
     formData.append('subject', exam.Subject); 
     formData.append('topic_class', exam.Class); 
     formData.append('topic_name', exam.Topic); 
-    formData.append('level', exam.Level); 
-    formData.append('no_of_questions', exam.perquest); 
+      formData.append('level', exam.Level);
+    formData.append('language', exam.Language);  
+    formData.append('per_question_time', exam.perquest); 
     formData.append('assigned_time', exam.assigned_time); 
     formData.append('instruction', instruction); 
     formData.append('learning', learning); 
@@ -127,7 +139,31 @@ import { mainBoxStyle, sideDetail } from "../../../styles/style";
                   />
             ) : null}
             
-
+            <Box sx={{display:'flex', width:"100%", mt:'56px', mb:'91px', justifyContent:'center'}}>
+                    <Button variant="contained"  onClick={()=>{
+                      Submitexam()
+                    }} 
+                      color="primary"
+                sx={{
+                         
+                          width: "375px",
+                          borderRadius: "12px",
+                          background: "#7A58E6",
+                          cursor: "pointer",
+                          border: "none",
+                          color: "#FFF",
+                          fontSize: "18px",
+                          fontWeight: "500",
+                          textTransform: "capitalize",
+                          p: "10px 10px",
+                          "&:hover": {
+                            background: "#7A58E6",
+                          },
+                        }}
+                    >
+                      {btn}
+                    </Button>
+            </Box>
                 
               </Box>
           </Box>
