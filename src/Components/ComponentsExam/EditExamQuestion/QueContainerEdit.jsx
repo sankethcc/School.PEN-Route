@@ -7,7 +7,7 @@ import TrueFalse from './QuestionTypeEdit/TrueFalse';
 import axios from 'axios';
 const QueContainerEdit = (props) => {
   const topic_id=props.topic_id
-  const { quest, setexam,editexam, seteditexam ,editid,seteditid} = State();
+  const { quest, setexam,editexam, seteditexam ,editid,seteditid,setbtn} = State();
   // const [examquest,setexamquest]=useState([])
   const {setInstruction, setEligiblity, setLearning} = State()
   useEffect(() => {
@@ -30,11 +30,22 @@ const QueContainerEdit = (props) => {
         setInstruction(data.instruction)
         setEligiblity (data.eligibility)
         setLearning(data.learning)
-        // console.log(data._id)
-
+        console.log(data.is_enabled)
+        if (data.is_enabled) {
+          setbtn('Disable');
+        }
+        else {
+          setbtn('Enable');
+        }
         setexam (obj);
         const objects = data.questions
-        seteditid({ id: data._id, qno: Object.keys(objects).length+1 })
+        if (objects) {
+          seteditid({ id: data._id, qno: Object.keys(objects).length + 1 })
+        }
+        else {
+          seteditid({ id: data._id, qno: 1 })
+          
+        }
         seteditexam([])
         // console.log(objects)
         // seteditexam(data.questions)

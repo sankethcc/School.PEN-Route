@@ -39,6 +39,7 @@ const LanguageAndDotMenu = () => {
           <UnstyledSelectObjectValues
             dropdownName={"Language"}
             listArray={dlanguage}
+            value={"Language"}
             add={true}
           />
         </Box>

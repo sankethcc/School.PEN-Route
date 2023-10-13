@@ -42,13 +42,13 @@ const CreateQuiz = ({
   const { exam, SetExams ,setexamid,examquest,examid} = State();
   const {instruction, eligiblity, learning} = State()
   // console.log(Exams)
-
+  const [btn, setbtn] = useState('Enable');
   const [chuk,setchuk]=useState(true)
   const Submitexam =async () => {
     try {
       
         const { data } = await axios.get(`http://localhost:5000/enable_disable_exam/${examid.id}`)
-        
+        setbtn(data)
         console.log(data)
       } catch(error){
         console.error('Error Fetching questions: ', error)
@@ -60,8 +60,9 @@ const CreateQuiz = ({
     formData.append('subject', exam.Subject); 
     formData.append('topic_class', exam.Class); 
     formData.append('topic_name', exam.Topic); 
+    formData.append('language', exam.Language); 
     formData.append('level', exam.Level); 
-    formData.append('no_of_questions', exam.perquest); 
+    formData.append('per_question_time', exam.perquest); 
     formData.append('assigned_time', exam.assigned_time); 
     formData.append('instruction', instruction); 
     formData.append('learning', learning); 
@@ -169,7 +170,7 @@ const CreateQuiz = ({
                           },
                         }}
                     >
-                      Submit Exam
+                      {btn}
                     </Button>
             </Box>
               {/* {
