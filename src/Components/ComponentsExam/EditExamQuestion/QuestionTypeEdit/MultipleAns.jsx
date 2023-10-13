@@ -28,7 +28,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
     setOptions([])
     const arr = Object.values(data.options)
     for (let i = 0; i < arr.length; i+=2){
-       setOptions(oldArray => [{text: arr[i], image:null,img:arr[i+1]},...oldArray])
+       setOptions(oldArray => [...oldArray,{text: arr[i], image:null,img:arr[i+1]}])
     }
   }, [])
   const handleQuestionChange = (event) => {

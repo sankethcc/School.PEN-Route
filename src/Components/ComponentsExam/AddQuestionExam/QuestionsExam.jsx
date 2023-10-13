@@ -108,7 +108,7 @@ const QuestionsExam = (props) => {
     formData.append('question_type', exam.Quiz_Type);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
-    formData.append('answer', correctAnswerIndex+1);
+    formData.append('answer', correctAnswerIndex);
 
     for (let i = 0; i < options.length; i++) {
       const optionText = options[i].text;
@@ -128,6 +128,8 @@ const QuestionsExam = (props) => {
             seteditexam(oldArray => [...oldArray, { que: response.data, qno: editid.qno }])
             seteditid({ id: editid.id, qno: editid.qno + 1 })
             console.log(response.data);
+            
+
             // setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
             // setexamid({ id: examid.id, qno: (examid.qno + 1) })
             setOptions([

@@ -62,7 +62,7 @@ const QueContainerEdit = (props) => {
                 data.que.question_type === "" ? (
                  <SingleAns qdata={data.que} qno={data.qno}/> 
                 ) : data.que.question_type === "Multiple choice - multiple answers" ? (
-                  MultipleAns 
+                  <MultipleAns qdata={data.que} qno={data.qno}/>
                 ) : data.que.question_type === "True or False" ? (
                   <TrueFalse qdata={data.que} qno={data.qno}/> 
                 ) : data.que.question_type === "Multiple choice - Single answer" ? (

@@ -114,11 +114,12 @@ const QuestionMultipleAnsExam = (props) => {
     if(doit){
       formData.append('question_no', editid.qno); 
        axios
-         .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
+         .post(`http://localhost:5000/create_questions/${editid.id}`, formData)
          .then((response) => {
            if (response.status === 201) {
              console.log("Data added successfully");
              console.log(response.data);
+             console.log(doit);
              seteditexam(oldArray => [...oldArray, {que:response.data, qno:editid.qno}])
             seteditid({ id: editid.id, qno: editid.qno + 1 })
 

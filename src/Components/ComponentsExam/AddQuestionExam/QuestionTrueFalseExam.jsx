@@ -19,7 +19,7 @@ const QuestionTrueFalseExam = (props) => {
   const doit=props.doit
   const { setexamquest,exam,examid,setexamid,editid,seteditid,seteditexam} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [selectedAnswer, setSelectedAnswer] = useState('');
   const [options, setOptions] = useState([
     { text: '', image: null, answer: false },
     { text: '', image: null, answer: false },
@@ -76,7 +76,7 @@ const QuestionTrueFalseExam = (props) => {
     formData.append('question_type', exam.Quiz_Type);
       formData.append('question_text', question.text);
       formData.append('question_image', question.image);
-      formData.append('answer', selectedAnswer);
+      formData.append('answer', selectedAnswer+1);
 
       for (let i = 0; i < options.length; i++) {
         const optionText = options[i].text;
@@ -85,15 +85,15 @@ const QuestionTrueFalseExam = (props) => {
         formData.append(`option${i + 1}_image`, optionImageInput);
       }
     if (doit) {
-      
+      formData.append('question_no', editid.qno);
       axios
         .post(`http://localhost:5000/create_questions/${editid.id}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");
             console.log(response.data);
-            setexamquest(oldArray => [...oldArray, { que: response.data, qno: examid.qno }])
-            setexamid({ id: examid.id, qno: (editid.qno + 1) })
+            seteditexam(oldArray => [...oldArray, { que: response.data, qno: editid.qno }])
+            seteditid({ id: editid.id, qno: editid.qno + 1 })
 
             // console.log(response.data.question_type);
           }
