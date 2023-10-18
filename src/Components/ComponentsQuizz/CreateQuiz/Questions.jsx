@@ -163,11 +163,13 @@ const CreateQuiz = () => {
 // }, [bool]);
 const required = (e,i)=>{
   const {name, validity} = e.target
-  if(e.target.validity.valueMissing){
-    if(name ==='Question'||name=== `Option ${i}`){
-    enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    }
-  }
+  // if(e.target.validity.valueMissing){
+  //   if(name ==='Question'||name=== `Option ${i}`){
+  //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+  //   }
+  // }
+  
+
   // if (!quest.Language) {
     
   // }
@@ -231,7 +233,7 @@ const required = (e,i)=>{
                 {options.map((option, index) => (
                     <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
                     <FormControlLabel
-                        required={correctAnswerIndex==null}
+                        // required={correctAnswerIndex==null}
                         name='Answer'
                         value={index.toString()}
                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onChange={handleRadioChange} />}

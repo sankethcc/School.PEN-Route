@@ -163,12 +163,12 @@ const [question, setQuestion] = useState({ text: '', image: null });
   };
   
   const required = (e,i)=>{
-    const {name, validity} = e.target
-    if(e.target.validity.valueMissing){
-      if(name ==='Question'||name=== `Option ${i}`){
-      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-      }
-    }
+    // const {name, validity} = e.target
+    // if(e.target.validity.valueMissing){
+    //   if(name ==='Question'||name=== `Option ${i}`){
+    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+    //   }
+    // }
   }
   return (
     <form 

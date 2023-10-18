@@ -164,12 +164,12 @@ const QuestionsExamTopic = (props) => {
   };
 
   const required = (e,i)=>{
-    const {name, validity} = e.target
-    if(e.target.validity.valueMissing){
-      if(name ==='Question'||name=== `Option ${i}`){
-      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-      }
-    }
+    // const {name, validity} = e.target
+    // if(e.target.validity.valueMissing){
+    //   if(name ==='Question'||name=== `Option ${i}`){
+    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+    //   }
+    // }
   }
 
   return (

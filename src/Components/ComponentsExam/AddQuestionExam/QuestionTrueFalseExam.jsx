@@ -160,11 +160,11 @@ const QuestionTrueFalseExam = (props) => {
 
   const required = (e,i)=>{
     const {name, validity} = e.target
-    if(e.target.validity.valueMissing){
-      if(name ==='Question'||name=== `Option ${i}`){
-      enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-      }
-    }
+    // if(e.target.validity.valueMissing){
+    //   if(name ==='Question'||name=== `Option ${i}`){
+    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
+    //   }
+    // }
   }
   return (
     <form
