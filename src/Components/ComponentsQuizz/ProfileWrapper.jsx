@@ -2,7 +2,6 @@ import { Avatar, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import React, { useEffect } from 'react'
-import userImg from '../../Data/userImg.png'
 import { State } from '../Context/Provider';
 import { styleProfile } from '../../styles/style';
 import AccountMenu from './AccountMenu';
@@ -41,11 +40,6 @@ const ProfileWrapper = ({pageName}) => {
             }}
         >
             <AccountMenu />
-            {/* <Avatar 
-                src={userImg}
-                style={{borderRadius:'300px', cursor:'pointer', objectFit:'contain'}}
-                sx={styleProfile.topIcon}   
-            /> */}
         </Box>
         <Box onClick={handleHamburger} sx={{
             display:{

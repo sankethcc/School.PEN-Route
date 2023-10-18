@@ -74,9 +74,6 @@ const CreateQuiz = () => {
     const newOptions = [...options];
     newOptions[index] = { text: '', image: null };
     setOptions(newOptions);
-    // 
-    // const userd = localStorage.getItem('user')
-    // console.log(userd.user)
   };
 
   const handleAddOption = () => {
@@ -95,7 +92,6 @@ const CreateQuiz = () => {
   };
 
   const handlePostQuestion = () => {
-    // const data = {
     const formData = new FormData();
     if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
       enqueueSnackbar('Please select all dropdown', { variant: 'error' })
@@ -125,12 +121,10 @@ const CreateQuiz = () => {
     
       var usersdata = JSON.parse(localStorage.getItem('user'));
       const creatorId = usersdata.user._id
-      // console.log(creatorId)
       axios
         .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 201) {
-            // setbool(!bool)
             console.log("Data added successfully");
            
             try {
@@ -152,27 +146,12 @@ const CreateQuiz = () => {
           console.log(err.response.data);
         });
     }
-    // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
 
-// useEffect(() => {
-//     console.log(questions);
-//     // setpopt([]);
-//     // setprevu({});
-//     // setbool(false)
-// }, [bool]);
+
 const required = (e,i)=>{
   const {name, validity} = e.target
-  // if(e.target.validity.valueMissing){
-  //   if(name ==='Question'||name=== `Option ${i}`){
-  //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-  //   }
-  // }
-  
 
-  // if (!quest.Language) {
-    
-  // }
 }
   
   const inputStyle = {
@@ -211,9 +190,7 @@ const required = (e,i)=>{
                 }}
                 onInvalid={required}
             />
-                {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
-                <DeleteOutlineIcon />
-                </IconButton> */}
+
                 <input
                 type="file"
                 accept="image/*"
@@ -233,7 +210,6 @@ const required = (e,i)=>{
                 {options.map((option, index) => (
                     <Box key={index} style={{ display: 'flex', alignItems: 'center', justifyContent:'space-between', marginBottom: '8px', width:'100%', gap:'32px' }}>
                     <FormControlLabel
-                        // required={correctAnswerIndex==null}
                         name='Answer'
                         value={index.toString()}
                         control={<Radio sx={{ '& .MuiSvgIcon-root': { fontSize: 35, }}} checked={correctAnswerIndex === index} onChange={handleRadioChange} />}
@@ -254,17 +230,6 @@ const required = (e,i)=>{
                         onInvalid={(e)=>{required(e,index+1)}}
                     />
                     <Box display="flex" alignItems="center">
-                        {/* {option.image && (
-                        <IconButton
-                            onClick={() => handleDeleteImage('option')}
-                            aria-label={`Delete image for Option ${index + 1}`}
-                            s
-                        >
-                            <DeleteOutlineIcon size="large" />
-                        </IconButton>
-                        )} */}
-
-
                         <input
                         type="file"
                         accept="image/*"

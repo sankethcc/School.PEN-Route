@@ -8,10 +8,8 @@ import axios from 'axios';
 const QueContainerEdit = (props) => {
   const topic_id=props.topic_id
   const { quest, setexam,editexam, seteditexam ,editid,seteditid,setbtn} = State();
-  // const [examquest,setexamquest]=useState([])
   const {setInstruction, setEligiblity, setLearning} = State()
   useEffect(() => {
-    // setexamquest([])
     const fetchQuestions = async ()=>{
       try {
       
@@ -47,10 +45,7 @@ const QueContainerEdit = (props) => {
           
         }
         seteditexam([])
-        // console.log(objects)
-        // seteditexam(data.questions)
         for (const key in objects) {
-            // console.log(objects[key][0])
             seteditexam(oldArray => [...oldArray, {que:objects[key][0], qno:key}])
         }
 
@@ -61,7 +56,6 @@ const QueContainerEdit = (props) => {
       
     }
     fetchQuestions()
-    // console.log(examquest)
   }, [])
   
   

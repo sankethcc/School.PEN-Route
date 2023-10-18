@@ -12,17 +12,10 @@ import { sideDetail } from '../../styles/style';
 import axios from 'axios';
 const SideDetails = ({heading, number}) => {
   const { questions,bool,openPage,quest,setQuestions} = State();
-  // console.log(questions)
   useEffect(()=>{
     const fetchQuestions = async ()=>{
   
         try {
-          // const formData = new FormData();
-          // formData.append('subject', quest.Subject);
-          // formData.append('topic', quest.Topic);
-          // formData.append('subtopic', quest.Sub_topic);
-          // formData.append('level', quest.Level);
-          // const { data } = await axios.get("http://localhost:5000/get_quizzes_by_filter", formData)
           var usersdata = JSON.parse(localStorage.getItem('user' )) ;
           const creatorId = usersdata.user._id
           const role=usersdata.user.role
@@ -33,7 +26,6 @@ const SideDetails = ({heading, number}) => {
           formData.append('role', role);
 
           const { data } = await axios.get(`http://localhost:5000/get_all_quizz/${role}/${creatorId}`)
-          // console.log(quest)
 
           const quet = data.filter((data) => (
                           (!quest.Subject || data.subject == quest.Subject) &&
@@ -48,11 +40,9 @@ const SideDetails = ({heading, number}) => {
           setQuestions([]);
           quet?.map((dat, i) => {
           const { question, options, explanation} = dat.question_container
-          // console.log(dat)
 
           setQuestions(oldArray => [{ question: question, options: options, id: dat._id, explanation: explanation }, ...oldArray])
           })
-        // console.log(data)
       } catch(error){
         console.error('Error Fetching questions: ', error)
       }
@@ -72,10 +62,8 @@ const SideDetails = ({heading, number}) => {
       
       <Box>
         {questions?.map((data, i) => {
-          // console.log(data)
         const {question, options, id, explanation } = data
           return (
-          // <textarea className='preview-question'>
           <div className='preview-question' key={i}>
             <Link to={`/update/${id}`} >
           <img src={edits} className='edit-logo' alt="" />
@@ -91,7 +79,6 @@ const SideDetails = ({heading, number}) => {
               {options.map((option, i)=>{
                 const text = option.text
                 const is_answer = option.is_answer
-                // console.log(is_answer)
                 
                 return(
                   <FormControlLabel key={i}  disabled={!is_answer} value="option" control={<Radio />} label={text} />
@@ -104,7 +91,6 @@ const SideDetails = ({heading, number}) => {
             :null}
           </FormControl>
               </div>
-          // </textarea>
         )
         })}
 

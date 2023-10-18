@@ -26,6 +26,8 @@ const LanguageAndDotMenu = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  
   return (
     <Box sx={{ pt: "40px" }}>
       <Box

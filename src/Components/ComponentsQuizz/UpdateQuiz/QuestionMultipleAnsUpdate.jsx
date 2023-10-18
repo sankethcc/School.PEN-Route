@@ -103,8 +103,6 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
   const handleDeleteQuestion = () => {
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
-    // console.log(creatorId)
-    // const quiz_id= '651beef47be29762479cf0ef'
       axios
     .delete(`http://localhost:5000/delete_quizz/${quiz_id}/${creatorId}`)
         .then((response) => {
@@ -148,12 +146,10 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
     console.log(creatorId)
-    // const quiz_id= '651beef47be29762479cf0ef'
     axios
     .put(`http://localhost:5000/update_quizz/${quiz_id}/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 200) {
-            // setbool(!bool)
             console.log("Data updated successfully");
             enqueueSnackbar('Quiz Updated Successfully', { variant: 'success' })
             
@@ -165,15 +161,12 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
           console.log(err.response.data);
         });
     
-    // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
 }
   useEffect(()=>{
     const fetchstopic = async ()=>{
       try {
         const { data } = await axios.get(`http://localhost:5000/get_quizz/${quiz_id}`)
-        // const temp= JSON.parse(data)
-        // console.log(data.class)
         const obj = {
           Language: data.language,
           Class: data.class,
@@ -185,7 +178,6 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
         }
         setOptions(data.question_container.options)
         setQuestion({ text: data.question_container.question, question_image_url: data.question_container.question_image_url })
-        // console.log(obj)
         setquest(obj)
         const correctAnswers = []
         data.question_container.options.map((option, i)=>{
@@ -215,11 +207,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
   };
   const required = (e,i)=>{
     const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
+
   }
 
   return (

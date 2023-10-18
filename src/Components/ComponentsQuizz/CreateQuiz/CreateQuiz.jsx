@@ -1,15 +1,4 @@
-import {
-  Avatar,
-  Box,
-  FormControl,
-  FormGroup,
-  InputLabel,
-  Menu,
-  MenuItem,
-  Select,
-  Typography,
-  Button,
-} from "@mui/material";
+import {  Box,} from "@mui/material";
 import React, { useState } from "react";
 import Questions from "./Questions";
 import ProfileWrapper from "../ProfileWrapper";
@@ -38,11 +27,7 @@ const CreateQuiz = ({
   
   const { quest } = State();
   return (
-    <Box
-      style={style.dflex}
-      sx={ mainBoxStyle.first
-      }
-    >
+    <Box style={style.dflex} sx={ mainBoxStyle.first }>
       <Box
         sx={mainBoxStyle.second}
       >
@@ -68,16 +53,12 @@ const CreateQuiz = ({
               </Box>
           </Box>
       </Box>
+
+
       {/* preview question section */}
 
-      <Box
-        sx={sideDetail.first}
-      >
-
+      <Box sx={sideDetail.first}>
         <SideDetails heading='Total Quiz'  />
-
-
-             
       </Box>
     </Box>
   );

@@ -5,25 +5,16 @@ import React, { useState } from "react";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ClearIcon from "@mui/icons-material/Clear";
-import User from "../../../Data/User.png";
-import userImg from "../../../Data/userImg.png"
 import axios from 'axios'
 import { State } from '../../Context/Provider'
 import { enqueueSnackbar } from "notistack";
 
 const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
-  // console.log(data)
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.ans));
   const [question, setQuestion] = useState({ text: data.question, image: data.img });
   const [options, setOptions] = useState(data.options);
   const {boo,setboo} = State()
-  // useEffect(() => {
-  //   setOptions([])
-  //   const arr = Object.values(props.options)
-  //   for (let i = 0; i < arr.length; i+=2){
-  //      setOptions(oldArray => [{text: arr[i], image:null},...oldArray])
-  //   }
-  // },[])
+
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -95,14 +86,12 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
       formData.append(`option${i + 1}_image`, optionImageInput); 
     }
     
-    // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
     .post(`http://localhost:5000/update_question/${data.id}/${data.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
             enqueueSnackbar('Question updated', { variant: 'success' })
-            //  console.log(response.data);
             
             setboo(!boo)
           }
@@ -137,12 +126,6 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
 
 
   const required = (e,i)=>{
-    // const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
   }
   return (
 
@@ -291,16 +274,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
                   sx={{ml: "10px" }}
                 />
                 <Box sx={{}} display="flex" alignItems="center">
-                  {/* {option.image && (
-                        <IconButton
-                            onClick={() => handleDeleteImage('option')}
-                            aria-label={`Delete image for Option ${index + 1}`}
-                            s
-                        >
-                            <DeleteOutlineIcon size="large" />
-                        </IconButton>
-                        )} */}
-
+                  
                   <input
                     type="file"
                     accept="image/*"

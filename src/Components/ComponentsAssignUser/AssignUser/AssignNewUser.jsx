@@ -78,15 +78,6 @@ const AssignNewUser = () => {
     }
 
     const fetchuSubjecte = async () => {
-      // setdatopic(dtopic)
-      // try {
-      //   setdasubject([])
-      //   const { data } = await axios.get("http://localhost:5000/get_all_subjects")
-      //   if(data)
-      //    setdasubject(data)
-      // } catch (error) {
-      //   console.error('Error Fetching questions: ', error)
-      // }
     }
     if (assign.fun == 'Quiz' && assign.subject) {
       fetchuSubject()

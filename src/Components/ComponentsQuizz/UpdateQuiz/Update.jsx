@@ -6,11 +6,8 @@ import Questions from "./Questions";
 import AddDetails from "../AddSubject/AddDetails";
 import ProfileWrapper from "../ProfileWrapper";
 import SelectContainer from "../CreateQuiz/SelectContainer";
-import AssignUser from "../../ComponentsAssignUser/AssignUser/AssignNewUser";
-import UserProfile from "../../ComponentsAssignUser/UserProfile/UserProfile";
 import { State } from "../../Context/Provider";
 import QuestionMultipleAnsUpdate from "./QuestionMultipleAnsUpdate";
-import QuestionTrueFalse from "./QuestionTrueFalseUpdate";
 import QuestionTrueFalseUpdate from "./QuestionTrueFalseUpdate";
 import { mainBoxStyle } from "../../../styles/style";
 
@@ -40,7 +37,6 @@ const UpdateQuiz = () => {
         <ProfileWrapper pageName='Update Quiz'  />
         
           <Box>
-            {/* <LanguageAndDotMenu {...propsForLanguageDotMenu} /> */}
               <Box sx={{
                   width: {
                     xs: "60%",

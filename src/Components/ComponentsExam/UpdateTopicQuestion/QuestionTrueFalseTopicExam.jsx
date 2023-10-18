@@ -91,15 +91,12 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
       formData.append(`option${i + 1}_image`, optionImageInput); 
     }
     
-    // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
     .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
-            //  console.log(response.data);
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
-            // setexamquest(oldArray => [ ...oldArray,response.data])
             enqueueSnackbar('Question updated', { variant: 'success' })
 
           }
@@ -124,12 +121,7 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
   };
 
   const required = (e,i)=>{
-    // const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
+
   }
 
   return (

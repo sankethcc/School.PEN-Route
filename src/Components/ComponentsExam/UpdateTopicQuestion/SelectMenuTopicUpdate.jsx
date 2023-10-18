@@ -25,10 +25,6 @@ export default function SelectMenuTopicUpdate({dropdownName,listArray,add,value,
   };
 
   const handleAdd = () => {
-    // Handle adding the subject
-    // ...
-
-    // Close the dialog
     handleClose();
   };
   

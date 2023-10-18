@@ -1,15 +1,4 @@
-import {
-  Avatar,
-  Box,
-  FormControl,
-  FormGroup,
-  InputLabel,
-  Menu,
-  MenuItem,
-  Select,
-  Typography,
-  Button,
-} from "@mui/material";
+import {  Box,  Button,} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import QuestionsExam from "./AddQuestionExam/QuestionsExam";
 import ProfileWrapper from "../ComponentsQuizz/ProfileWrapper";
@@ -35,14 +24,12 @@ const style = {
     alignItems: "center",
   },
 };
-//jnjnkkjn
 
 const CreateQuiz = ({
 
 }) => {
   const { exam, SetExams ,setexamid,examquest,examid} = State();
   const {instruction, eligiblity, learning} = State()
-  // console.log(Exams)
   const [btn, setbtn] = useState('Enable');
   const [chuk,setchuk]=useState(true)
   const Submitexam =async () => {
@@ -59,7 +46,6 @@ const CreateQuiz = ({
     if (!exam.Language || !exam.Class || !exam.Subject || !exam.Topic|| !exam.perquest||!exam.Level|| !exam.assigned_time   ) {
       enqueueSnackbar('Please select all dropdown', { variant: 'error' })
     }else{
-    // console.log(exam)
      const formData = new FormData();
     formData.append('subject', exam.Subject); 
     formData.append('topic_class', exam.Class); 
@@ -180,15 +166,6 @@ const CreateQuiz = ({
                       {btn}
                     </Button>
             </Box>
-              {/* {
-              examquest?.map((data, i)=>{
-
-
-                  
-              })
-                  
-               } */}
-               
               </Box>
           </Box>
 

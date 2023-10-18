@@ -108,10 +108,8 @@ const QuestionMultipleAnsTopic = (props) => {
   };
 
    const handlePostQuestion = () => {
-    // const data = {
       const selectedAns = selectedAnswerIndices.map((ans)=>ans+1)
     const formData = new FormData();
-    // formData.append('question_no', examid.qno); 
     formData.append('question_type', drop);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
@@ -129,9 +127,7 @@ const QuestionMultipleAnsTopic = (props) => {
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
-            //  console.log(response.data);
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
-            // setexamquest(oldArray => [ ...oldArray,response.data])
             enqueueSnackbar('Question updated', { variant: 'success' })
           }
           else {
@@ -144,7 +140,6 @@ const QuestionMultipleAnsTopic = (props) => {
         });
     
     
-    // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
   const inputStyle = {
     padding: '11px 27px',
@@ -156,12 +151,6 @@ const QuestionMultipleAnsTopic = (props) => {
     fontSize: '18px',
   };
   const required = (e,i)=>{
-    // const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
   }
 
   return (
@@ -195,9 +184,6 @@ const QuestionMultipleAnsTopic = (props) => {
                     color:'var(--grey, #707070)'
                 }}
             />
-                {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
-                <DeleteOutlineIcon />
-                </IconButton> */}
                 <input
                 type="file"
                 accept="image/*"
@@ -238,17 +224,6 @@ const QuestionMultipleAnsTopic = (props) => {
               variant="outlined"
             />
                     <Box display="flex" alignItems="center">
-                        {/* {option.image && (
-                        <IconButton
-                            onClick={() => handleDeleteImage('option')}
-                            aria-label={`Delete image for Option ${index + 1}`}
-                            s
-                        >
-                            <DeleteOutlineIcon size="large" />
-                        </IconButton>
-                        )} */}
-
-
                         <input
                         type="file"
                         accept="image/*"

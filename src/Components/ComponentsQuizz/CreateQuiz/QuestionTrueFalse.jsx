@@ -73,7 +73,6 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
     if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
       enqueueSnackbar('Please select all dropdown', { variant: 'error' })
     }else{
-    // const data = {
     const formData = new FormData();
     formData.append('language', quest.Language); 
     formData.append('class', quest.Class);
@@ -102,7 +101,6 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
     .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 201) {
-            // setbool(!bool)
             console.log("Data added successfully");
             try {
               
@@ -132,11 +130,6 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
   };
   const required = (e,i)=>{
     const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
   }
   return (
     <form

@@ -102,7 +102,6 @@ const [question, setQuestion] = useState({ text: '', image: null });
     if (!quest.Language || !quest.Class || !quest.Subject || !quest.Topic|| !quest.Sub_topic||!quest.Level|| !quest.Quiz_Type  ) {
       enqueueSnackbar('Please select all dropdown', { variant: 'error' })
     }else{
-    // const data = {
     const formData = new FormData();
     formData.append('language', quest.Language); 
     formData.append('class', quest.Class);
@@ -131,7 +130,6 @@ const [question, setQuestion] = useState({ text: '', image: null });
     .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 201) {
-            // setbool(!bool)
             console.log("Data added successfully");
             try {
               
@@ -150,7 +148,6 @@ const [question, setQuestion] = useState({ text: '', image: null });
         });
       }
     
-    // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
   const inputStyle = {
     padding: '11px 27px',
@@ -163,12 +160,8 @@ const [question, setQuestion] = useState({ text: '', image: null });
   };
   
   const required = (e,i)=>{
-    // const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
+    const {name, validity} = e.target
+
   }
   return (
     <form 
@@ -198,9 +191,6 @@ const [question, setQuestion] = useState({ text: '', image: null });
                 }}
                 onInvalid={required}
             />
-                {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
-                <DeleteOutlineIcon />
-                </IconButton> */}
                 <input
                 type="file"
                 accept="image/*"
@@ -242,17 +232,6 @@ const [question, setQuestion] = useState({ text: '', image: null });
                 onInvalid={(e)=>{required(e,index+1)}}
             />
                     <Box display="flex" alignItems="center">
-                        {/* {option.image && (
-                        <IconButton
-                            onClick={() => handleDeleteImage('option')}
-                            aria-label={`Delete image for Option ${index + 1}`}
-                            s
-                        >
-                            <DeleteOutlineIcon size="large" />
-                        </IconButton>
-                        )} */}
-
-
                         <input
                         type="file"
                         accept="image/*"

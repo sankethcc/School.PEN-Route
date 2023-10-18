@@ -6,7 +6,6 @@ import { OptionGroup } from '@mui/base/OptionGroup';
 import { Popper } from '@mui/base/Popper';
 import { Box, fontSize, styled } from '@mui/system';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-// import { useState } from 'react';
 import {State} from "../../Context/Provider"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField } from '@mui/material';
 import axios from 'axios';
@@ -15,7 +14,6 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
   const style = dropdownName == "Language" ? "#fff" : '#F5F6F7'
   const { quest, setquest,setdsubject,setdtopic,setdstopic , setdlanguage} = State();
   const [open, setOpen] = React.useState(false);
-  // const [subject, setSubject] = React.useState('');
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
 
   const [sub, setSub] = React.useState('')
@@ -40,10 +38,6 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
   };
 
   const handleAdd = () => {
-    // Handle adding the subject
-    // ...
-
-    // Close the dialog
     handleClose();
   };
   const submithandler = () => {
@@ -84,7 +78,6 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
       .then((response) => {
         if (response.status === 200) {
           console.log("Data added successfully");
-          // console.log(response)
           (dropdownName=="Subject")?setdsubject(oldArray => [sub,...oldArray]):(dropdownName=="Topic")?setdtopic(oldArray => [sub,...oldArray]):setdstopic(oldArray => [sub,...oldArray])
         } else {
           alert("Error occured");

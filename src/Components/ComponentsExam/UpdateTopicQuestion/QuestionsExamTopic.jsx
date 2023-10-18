@@ -23,11 +23,6 @@ const QuestionsExamTopic = (props) => {
   const [options, setOptions] = useState([
   ]);
   const [drop, setdrop] = useState(props.type);
-  // { text: '', image: null },
-  //   { text: '', image: null },
-  //   { text: '', image: null },
-  //   { text: '', image: null },
-  // const [bool, setbool]=useState(false)
   const [explanation, setExplanation] = useState('')
 
   const handleExplanationChange = (event)=>{
@@ -37,7 +32,6 @@ const QuestionsExamTopic = (props) => {
   useEffect(() => {
     setOptions([])
     const arr = Object.values(props.options)
-    // console.log(arr)
     for (let i = 0; i < arr.length; i+=2){
        setOptions(oldArray => [...oldArray,{text: arr[i], image:null}])
     }
@@ -56,14 +50,6 @@ const QuestionsExamTopic = (props) => {
 
   const handleRadioChange = (event, index) => {
     const selectedIndex = parseInt(event.target.value, 10);
-    
-    // Create a new array with updated answer values
-    // const newOptions = options.map((option, index) => ({
-    //     ...option,
-    //     answer: index === selectedIndex,
-    // }));
-
-    // setOptions(newOptions);
     setCorrectAnswerIndex(index);
 };
 
@@ -85,9 +71,6 @@ const QuestionsExamTopic = (props) => {
     const newOptions = [...options];
     newOptions[index] = { text: '', image: null };
     setOptions(newOptions);
-    // 
-    // const userd = localStorage.getItem('user')
-    // console.log(userd.user)
   };
 
   const handleAddOption = () => {
@@ -106,10 +89,7 @@ const QuestionsExamTopic = (props) => {
   };
 
   const handlePostQuestion = () => {
-    // const data = {
-    // console.log(options)
     const formData = new FormData();
-    // formData.append('question_no', examid.qno); 
     formData.append('question_type', drop);
     formData.append('question_text', question.text);
     formData.append('question_image', question.image);
@@ -122,17 +102,13 @@ const QuestionsExamTopic = (props) => {
       formData.append(`option${i + 1}_image`, optionImageInput); 
     }
     
-    // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
     .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
-            //  console.log(response.data);
             setexamid({ id: examid.id, qno: (examid.qno + 1) })
-            // setexamquest(oldArray => [...oldArray, response.data])
             enqueueSnackbar('Question updated', { variant: 'success' })
-            // console.log(response.data)
           }
           else {
              console.log(response);
@@ -143,15 +119,9 @@ const QuestionsExamTopic = (props) => {
           console.log(err.response.data);
         });
     
-    // console.log('Posted Question:', { question, options, correctAnswerIndex });
   };
 
-// useEffect(() => {
-//     console.log(questions);
-//     // setpopt([]);
-//     // setprevu({});
-//     // setbool(false)
-// }, [bool]);
+
   
   const inputStyle = {
     padding: "11px 27px",
@@ -164,12 +134,6 @@ const QuestionsExamTopic = (props) => {
   };
 
   const required = (e,i)=>{
-    // const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
   }
 
   return (
@@ -179,9 +143,7 @@ const QuestionsExamTopic = (props) => {
       handlePostQuestion()
       }}
     >
-      {/* <Box sx={{width:'50%', mt:'30px', mb:'30px'}}>
-            <SelectMenuTopicUpdate dropdownName={drop} listArray={["Multiple choice - Single answer", "Multiple choice - multiple answers", "Yes or No", "True or False"]} add={false} value={"Quiz_Type"} val={quest.Quiz_Type}/>
-      </Box> */}
+
     <Box display="flex" flexDirection="column" alignItems="center" width="100%"
         sx={{
             background:'#fff', width:'100%', mt:'32px', p:'56px 48px', 
@@ -206,9 +168,7 @@ const QuestionsExamTopic = (props) => {
                     color:'var(--grey, #707070)'
                 }}
             />
-                {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
-                <DeleteOutlineIcon />
-                </IconButton> */}
+
                 <input
                 type="file"
                 accept="image/*"
@@ -246,17 +206,6 @@ const QuestionsExamTopic = (props) => {
                         variant="outlined"
                     />
                     <Box display="flex" alignItems="center">
-                        {/* {option.image && (
-                        <IconButton
-                            onClick={() => handleDeleteImage('option')}
-                            aria-label={`Delete image for Option ${index + 1}`}
-                            s
-                        >
-                            <DeleteOutlineIcon size="large" />
-                        </IconButton>
-                        )} */}
-
-
                         <input
                         type="file"
                         accept="image/*"

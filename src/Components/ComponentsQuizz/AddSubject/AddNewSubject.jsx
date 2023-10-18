@@ -1,19 +1,7 @@
-import {
-    Avatar,
-    Box,
-    FormControl,
-    FormGroup,
-    InputLabel,
-    Menu,
-    MenuItem,
-    Select,
-    Typography,
-    Button,
-  } from "@mui/material";
+import {    Box,  } from "@mui/material";
   import React, { useState } from "react";
   import ProfileWrapper from "../ProfileWrapper";
   import LanguageAndDotMenu from "../LanguageAndDotMenu";
-  import SideDetails from "../SideDetails";
   import { State } from "../../Context/Provider";
 import SubjectsAccordian from "./SbujectsAccordian";
 import AddDetails from "./AddDetails";

@@ -3,7 +3,6 @@ import {Avatar,Box,FormControl,FormGroup,InputLabel,Menu,MenuItem,Select,Typogra
   import ProfileWrapper from "../../ComponentsQuizz/ProfileWrapper"; 
   import { State } from "../../Context/Provider"; 
 import SideDetailsEditExam from "./SideDetailsEditExam";
-import EditQuestionsExam from "./EditQuestionsExam";
 import axios from "axios";
 import LanguageAndDotMenuExam from "../LanguageAndDotMenuExam";
 import SelectContainerExam from "../AddQuestionExam/SelectContainerExam";

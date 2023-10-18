@@ -57,7 +57,6 @@ const CreateQuiz = () => {
         is_answer: i === selectedIndex,
     }));
 
-    // setOptions(newOptions);
     setCorrectAnswerIndex(parseInt(index));
     setOptions(newOptions)
     console.log(index)
@@ -81,7 +80,6 @@ const CreateQuiz = () => {
     const newOptions = [...options];
     newOptions[index] = { text: '', image_url: null };
     setOptions(newOptions);
-    // quest.Language()
   };
 
   const handleAddOption = () => {
@@ -109,7 +107,6 @@ const CreateQuiz = () => {
     .delete(`http://localhost:5000/delete_quizz/${quiz_id}/${creatorId}`)
         .then((response) => {
           if (response.status === 200) {
-            // setbool(!bool)
             console.log("Data updated successfully");
             enqueueSnackbar('Quiz Deleted Successfully', { variant: 'success' })
             
@@ -152,12 +149,10 @@ const CreateQuiz = () => {
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
     console.log(creatorId)
-    // const quiz_id= '651beef47be29762479cf0ef'
     axios
     .put(`http://localhost:5000/update_quizz/${quiz_id}/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 200) {
-            // setbool(!bool)
             console.log("Data updated successfully");
             enqueueSnackbar('Quiz Updated Successfully', { variant: 'success' })
 
@@ -170,23 +165,16 @@ const CreateQuiz = () => {
           console.log(err.response.data);
         });
     
-    // console.log('Posted Question:', { question, options, correctAnswerIndex });
       }
   };
   const required = (e,i)=>{
     const {name, validity} = e.target
-    // if(e.target.validity.valueMissing){
-    //   if(name ==='Question'||name=== `Option ${i}`){
-    //   enqueueSnackbar(`Enter ${name}`, {variant:'error'})
-    //   }
-    // }
+
   }
    useEffect(()=>{
     const fetchstopic = async ()=>{
       try {
         const { data } = await axios.get(`http://localhost:5000/get_quizz/${quiz_id}`)
-        // const temp= JSON.parse(data)
-        // console.log(data.class)
         const obj = {
           Language: data.language,
           Class: data.class,
@@ -198,7 +186,6 @@ const CreateQuiz = () => {
         }
         setOptions(data.question_container.options)
         setQuestion({ text: data.question_container.question, question_image_url: data.question_container.question_image_url })
-        // console.log(obj)
         setExplanation(data.question_container.explanation)
         setquest(obj)
         data.question_container.options.map((option, i)=>{
@@ -216,12 +203,7 @@ const CreateQuiz = () => {
      fetchstopic()
     
   }, [])
-// useEffect(() => {
-//     console.log(questions);
-//     // setpopt([]);
-//     // setprevu({});
-//     // setbool(false)
-// }, [bool]);
+
   
   const inputStyle = {
     padding: "11px 27px",
@@ -265,9 +247,7 @@ const CreateQuiz = () => {
                 }}
                 onInvalid={required}
             />
-                {/* <IconButton onClick={() => setQuestion({ ...question, text: '' })} aria-label="Clear question">
-                <DeleteOutlineIcon />
-                </IconButton> */}
+                
                 <input
                 type="file"
                 accept="image/*"
@@ -305,17 +285,6 @@ const CreateQuiz = () => {
                         onInvalid={(e)=>{required(e,index+1)}}
                     />
                     <Box display="flex" alignItems="center">
-                        {/* {option.image && (
-                        <IconButton
-                            onClick={() => handleDeleteImage('option')}
-                            aria-label={`Delete image for Option ${index + 1}`}
-                            s
-                        >
-                            <DeleteOutlineIcon size="large" />
-                        </IconButton>
-                        )} */}
-
-
                         <input
                         type="file"
                         accept="image/*"

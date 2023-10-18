@@ -107,10 +107,7 @@ const Login = () => {
         style={containerStyle}
       >
         <Container
-          // maxWidth="xs"
           sx={{
-            // width: "30%",
-            // minHeight: "70%",
             bgcolor: "#fff",
             borderRadius: "20px",
             py: "30px",
@@ -184,18 +181,6 @@ const Login = () => {
             sx={{ textAlign: "center", w: "100%" }}
           >
             <div>
-              {/* {role == "user" ? (
-                <input
-                  name="name"
-                  type="text"
-                  value={note.name}
-                  onChange={InputEvent}
-                  style={inputStyle}
-                  placeholder="Enter User Name"
-                />
-              ) : (
-                <li />
-              )} */}
               <Input
                 name="email"
                 type="text"

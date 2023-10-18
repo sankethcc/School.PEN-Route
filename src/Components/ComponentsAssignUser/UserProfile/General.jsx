@@ -29,11 +29,7 @@ const General = () => {
     formData.append('state', userData.state);
     formData.append('pincode', userData.pincode);
     formData.append('user_image', userImage);
-    // console.log(updateUser)
-    // console.log(userImage)
-    // console.log(userData)
 
-    // console.log(formData)
     axios
     .put(`http://localhost:5000/update_user_profile/${userId}`, formData)
         .then((response) => {

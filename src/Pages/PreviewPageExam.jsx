@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import Menu from '../Components/Menu/Menu'
-import CreateQuiz from '../Components/ComponentsQuizz/CreateQuiz/CreateQuiz'
 import { Box } from '@mui/system'
 import PreviewExam from '../Components/ComponentsExam/PreviewExam/PreviewExam'
 

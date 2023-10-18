@@ -27,10 +27,6 @@ const AddNewPopup = () => {
   };
 
   const handleAdd = () => {
-    // Handle adding the subject
-    // ...
-
-    // Close the dialog
     handleClose();
   };
 

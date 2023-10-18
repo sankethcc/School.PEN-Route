@@ -12,11 +12,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 const Menu = () => {
   
   const navigate = useNavigate();
-  // const [activeTab, setActiveTab] = useState('tab1');
-  const [onClick, setOnClick] = useState("")
-  const [toggle, setToggle] = useState(false)
-  const [lightBox, setLightBox] = useState('')
-  const { activeTab, setActiveTab, openPage, toggleMenu, handleHamburger } = State();
+  const {setActiveTab, openPage, toggleMenu, handleHamburger } = State();
 
 
 
@@ -35,7 +31,6 @@ const Menu = () => {
   
   return (
     <Box 
-    // className={`menu-container ${dBlock} `}
     sx={{
       background:'#fff',
       p:'18px 32px',
@@ -123,8 +118,6 @@ const Menu = () => {
             </Link>
           </Box>
           :null}
-          {/* comment */}
-          {/* comment */}
         </List>
       </Box>
     </Box>

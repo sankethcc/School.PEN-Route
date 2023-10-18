@@ -16,7 +16,6 @@ const SideDetailsExam = ({heading}) => {
         var usersdata = JSON.parse(localStorage.getItem('user' )) ;
         const creatorI = usersdata.user._id
         const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
-        // console.log(data)
         SetExams(data)
 
       } catch(error){

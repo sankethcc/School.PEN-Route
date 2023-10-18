@@ -9,36 +9,13 @@ import { Box } from '@mui/system';
 
 const AddDetails = () => {
   
-  // const [listarray, setlistarray] = useState(["Science", "Mathematics", "History"])
   const { subjects,setdsubject,setdtopic,setdstopic,dsubject ,dtopic,dstopic} = State();
-  // console.log(subjects.subject)
   const [existingSubject, setExistingSubject] = useState(false)
-
-  // const [sub, setSub] = useState({
-  //   name: "",
-  //   topic: "",
-  //   subt1: "",
-  //   subt2: ""
-  // });
-
   const [sub, setSub] = useState([
     {name: '', image: null},
     {topic: '', image: null},
     {subt1: '', image: null},
   ])
-  
-  // const InputEvent = (event) => {
-  //   const value = event.target.value;
-  //   const name = event.target.name;
-  //   setSub((prevData) => {
-  //     return {
-  //       ...prevData,
-  //       [name]: value,
-  //     };
-  //   });
-  // };
-
-
   const InputEvent = (event, index) => {
     const { value, name } = event.target;
     setSub((prevData) => {
@@ -75,19 +52,10 @@ const AddDetails = () => {
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
-            // console.log(response)
             
             if (!dsubject.includes(sub[0].name)){
               setdsubject(oldArray => [sub[0].name, ...oldArray])
             }
-            // if (!dtopic.includes(sub[1].topic)){
-            //   setdtopic(oldArray => [sub[1].topic, ...oldArray])
-            // }
-            // if (!dstopic.includes(sub[2].subt1)){
-            //   setdstopic(oldArray => [sub[2].subt1,...oldArray])
-            // }
-
-            // window.location.reload();
            
           } else {
             alert("Error occured");
@@ -112,9 +80,7 @@ const AddDetails = () => {
   return (
     <Box className="side-details page2">
       <h3>Create subject/topic/subtopic</h3>
-      {/* <DropDown dropdownName={"Add new or select existing"} listArray={["Science", "Mathematics", "History"]} add={true} adddetailsId={"page2Extra"} /> */}
 
-        {/* style={{display:'none'}} */}
       <div className="dropdown dropdown-defult" style={{marginBottom:'10px'}}>
             <Link className="btn btn-secondary dropdown-toggle inner-select"  role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Add new or select existing
@@ -148,8 +114,6 @@ const AddDetails = () => {
           <div className='input-wrapper'>
           <input name="name"
                 type="text"
-                // {(existingSubject =="false")?value={'sanket'} :null}}
-                // value={`${ existingSubject =="false" ?sub.name:null}`}
                 value={sub.name}
                 onChange={(e)=>InputEvent(e,0)}
                 placeholder='New sub name ABC'>
@@ -218,33 +182,7 @@ const AddDetails = () => {
                 </label>
           </div>
         </div>
-        {/* <div className='subtopic'>
-          <div className='subtopic-heading'> 
-            <text className="textc">SubTopic 1.1</text>
-            <text className='add-new'>Add new subtopic</text>
-          </div>
-          <div className='subtopicl'>
-            <input name="subt2"
-                type="text"
-                value={sub.subt2}
-                onChange={(e)=>InputEvent(e,3)}
-                placeholder='Psychology disorders'
-            />
-            <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleImageUpload(e, null, 'subt2')}
-                style={{ display: 'none' }}
-                id="subt2-image-upload"
-                />
-                <label htmlFor="subt2-image-upload">
-                <IconButton component="span" aria-label="Upload image">
-                    <AddPhotoAlternateIcon />
-                </IconButton>
-                </label>
-
-          </div>
-        </div> */}
+        
         <div>
           <button onClick={()=>{
             submithandler()
@@ -256,7 +194,6 @@ const AddDetails = () => {
         </div>
       </div>
       :null}
-      {/* <AddNewSubject /> */}
     </Box>
   )
 }
