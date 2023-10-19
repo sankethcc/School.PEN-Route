@@ -12,7 +12,7 @@ import { enqueueSnackbar } from "notistack";
 
 const MultipleAns = (props,{ open, setOpen,}) => {
   const data = props.qdata
-  const { editid,seteditid} = State();
+  const { editid,seteditid,link} = State();
   const answer = data.answer.split(',')
   
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
@@ -115,7 +115,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/update_question/${editid.id}/${props.qno}`, formData)
+    .post(`${link}/update_question/${editid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");

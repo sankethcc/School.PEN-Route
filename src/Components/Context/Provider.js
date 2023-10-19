@@ -48,6 +48,7 @@ const Provider = ({ children }) => {
 
   const [examid, setexamid] = useState({id:null, qno:1});
   // const [prevnote, setprevnote] = useState([])
+  const link="http://34.131.15.235"
   const [dsubject, setdsubject] = useState([])
   const [dtopic, setdtopic] = useState([])
   const [dlanguage, setdlanguage] = useState([])
@@ -294,7 +295,8 @@ const Provider = ({ children }) => {
          userData, setUserData,
          updateUser, setUpdateUser,
         userImage, setUserImage,
-         btn, setbtn
+        btn, setbtn,
+         link
       }}
     >
       {children}

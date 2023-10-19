@@ -14,7 +14,7 @@ import edit from '../../../Data/edit.png'
 import PreviewExamEdit from './PreviewExamEdit';
 
 const PreviewExamQuestions = ({heading, number}) => {
-  const {updatePreviewQuestionExam,boo,setboo} = State()
+  const {updatePreviewQuestionExam,boo,setboo,link} = State()
    const {topic_id} = useParams()
   const [examquest, setexamquest] = useState([])
   // const [j, setj] = useState(0);
@@ -22,7 +22,7 @@ const PreviewExamQuestions = ({heading, number}) => {
     // setexamquest([])
     const fetchQuestions = async ()=>{
       try {
-        const { data } = await axios.get(`http://localhost:5000/get_topic/${topic_id}`)
+        const { data } = await axios.get(`${link}/get_topic/${topic_id}`)
         
         const objects = data.questions
         // const no = Object.keys(data.questions);
@@ -92,7 +92,7 @@ const PreviewExamQuestions = ({heading, number}) => {
             <img onClick={() => handleOpen(index)} style={{position:'absolute', top:'30px', right:'30px', cursor:'pointer'}} src={edit}></img>
               {open[index] && <PreviewExamEdit open={open} setOpen={setOpen} handleOpen={handleOpen} data={data} />}
             <Box sx={{display:'flex', mr:'20px', mb:'20px'}}>
-                {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`http://127.0.0.1:5000/get_image/${data.img}`}></img> : <></>}
+                {data.img ? <img alt='Question image' style={{ width: '200px', height: '200px', objectFit: 'contain', marginRight: '20px' }} src={`${link}/get_image/${data.img}`}></img> : <></>}
               <p>{data.question} </p>
 
             </Box>
@@ -109,7 +109,7 @@ const PreviewExamQuestions = ({heading, number}) => {
                 // const is_answer = option.is_answer             
                 return(
                   <Box key={i} sx={{ display: 'flex', mr: '20px', mb: '20px' }}>{
-                    option.img?<img src={`http://127.0.0.1:5000/get_image/${option.img}`} alt='get-image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }}  />:<></>
+                    option.img?<img src={`${link}/get_image/${option.img}`} alt='get-image' style={{ width: '100px', height: '100px', objectFit: 'contain', marginRight: '20px' }}  />:<></>
                     }
                     <FormControlLabel key={i}  value="option" control={<Radio disabled={data.ans != i} /> } label={text} />
                   </Box>

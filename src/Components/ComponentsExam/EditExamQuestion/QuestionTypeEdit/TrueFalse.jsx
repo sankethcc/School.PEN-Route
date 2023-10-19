@@ -13,7 +13,7 @@ import { enqueueSnackbar } from "notistack";
 
 const TrueFalse = (props, { open, setOpen, }) => {
   const data=props.qdata
-  const { editid,seteditid} = State();
+  const { editid,seteditid,link} = State();
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.answer));
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
   const [selectedAnswer, setSelectedAnswer] = useState(parseInt(data.answer));
@@ -89,7 +89,7 @@ const TrueFalse = (props, { open, setOpen, }) => {
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/update_question/${editid.id}/${props.qno}`, formData)
+    .post(`${link}/update_question/${editid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");

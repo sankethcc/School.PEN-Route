@@ -41,14 +41,14 @@ const CreateQuiz = ({
 
 }) => {
   const { exam, SetExams ,setexamid,examquest,examid} = State();
-  const {instruction, eligiblity, learning} = State()
+  const {instruction, eligiblity, learning,link} = State()
   // console.log(Exams)
   const [btn, setbtn] = useState('Enable');
   const [chuk,setchuk]=useState(true)
   const Submitexam =async () => {
     try {
       
-        const { data } = await axios.get(`http://localhost:5000/enable_disable_exam/${examid.id}`)
+        const { data } = await axios.get(`${link}/enable_disable_exam/${examid.id}`)
         setbtn(data)
         console.log(data)
       } catch(error){
@@ -73,7 +73,7 @@ const CreateQuiz = ({
     formData.append('eligiblity', eligiblity); 
 
     axios
-  .post("http://localhost:5000/create_topic", formData)
+  .post(`${link}/create_topic`, formData)
       .then((response) => {
         if (response.status === 201) {
           SetExams(oldArray => [response.data, ...oldArray])

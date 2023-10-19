@@ -19,7 +19,7 @@ import { useSnackbar } from 'notistack';
 
 const CreateQuiz = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const { quest,questions, setQuestions} = State();
+  const { quest,questions, setQuestions,link} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
     { text: '', image: null ,answer: ''},
@@ -127,7 +127,7 @@ const CreateQuiz = () => {
       const creatorId = usersdata.user._id
       // console.log(creatorId)
       axios
-        .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+        .post(`${link}/create_quiz/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 201) {
             // setbool(!bool)

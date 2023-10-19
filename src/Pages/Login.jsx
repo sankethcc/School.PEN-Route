@@ -11,9 +11,12 @@ import BckgroundImage from "../Data/LoginBackground.png";
 import SchoolPenLogo from "../Data/SchoolPenLogo.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { State } from "../Components/Context/Provider";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { link} = State();
+
   const backgroundImageUrl = BckgroundImage;
   const containerStyle = {
     background: `url(${backgroundImageUrl})`,
@@ -57,7 +60,7 @@ const Login = () => {
   const login = () => {
     
       axios
-        .post("http://localhost:5000/login", {
+        .post(`${link}/login`, {
           user_id: note.email,
           password: note.password,
           role: role,

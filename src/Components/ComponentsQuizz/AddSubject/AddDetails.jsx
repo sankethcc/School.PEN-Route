@@ -10,7 +10,7 @@ import { Box } from '@mui/system';
 const AddDetails = () => {
   
   // const [listarray, setlistarray] = useState(["Science", "Mathematics", "History"])
-  const { subjects,setdsubject,setdtopic,setdstopic,dsubject ,dtopic,dstopic} = State();
+  const { subjects,setdsubject,setdtopic,setdstopic,dsubject ,dtopic,dstopic,link} = State();
   // console.log(subjects.subject)
   const [existingSubject, setExistingSubject] = useState(false)
 
@@ -71,7 +71,7 @@ const AddDetails = () => {
     formData.append('subtopic_image', sub[2].image);
 
     axios
-    .post("http://localhost:5000/add_Subject_quizz", formData)
+    .post(`${link}/add_Subject_quizz`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");

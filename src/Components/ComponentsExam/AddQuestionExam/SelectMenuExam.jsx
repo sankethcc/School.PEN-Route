@@ -15,7 +15,7 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   const style = (dropdownName == "Language") ? "#fff" :(dropdownName == "Exam Question Type")? '#fff' :(dropdownName == "Topic Quiz Type")? "#fff": '#F5F6F7'
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
 
-  const {exam,setexam,setdsubject,setdtopic,setdstopic,setdlanguage,setedstopic,setdesubject} = State();
+  const {exam,setexam,setdsubject,setdtopic,setdstopic,setdlanguage,setedstopic,setdesubject,link} = State();
   const [open, setOpen] = React.useState(false);
   
   const [subImg, setSubImg] = React.useState([{image:null}])
@@ -50,7 +50,7 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
   const formData = new FormData();
   if (dropdownName == "Language") {
     formData.append('language', sub);
-    axios.post("http://localhost:5000/create_language", formData)
+    axios.post(`${link}/create_language`, formData)
       .then((response) => {
         if (response.status === 201) {
           console.log("Data added successfully");
@@ -75,7 +75,7 @@ export default function SelectMenuExam({dropdownName,listArray,add,value,val }) 
       formData.append('subject', exam.Subject);
     }
     
-    axios.post("http://localhost:5000/add_Subject_exams", formData)
+    axios.post(`${link}/add_Subject_exams`, formData)
       .then((response) => {
         if (response.status === 200) {
           console.log("Data added successfully");

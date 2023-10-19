@@ -6,7 +6,7 @@ import { selectStyle } from '../../../styles/style'
 import axios from 'axios'
 
 const SelectContainer = () => {
-  const { quest, dsubject, dtopic, dstopic,setQuestions,setdsubject,setSubjects,setdstopic,setdtopic,setdlanguage} = State();
+  const { quest, dsubject, dtopic, dstopic,setQuestions,setdsubject,setSubjects,setdstopic,setdtopic,setdlanguage,link} = State();
   const [classs,setclasss]=useState(["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"])
   
   // console.log(role)
@@ -15,7 +15,7 @@ const SelectContainer = () => {
     const role = usersdata.user.role
     const fetchSubject = async ()=>{
       try{
-        const { data } = await axios.get("http://localhost:5000/get_all_subject_quizz")
+        const { data } = await axios.get(`${link}/get_all_subject_quizz`)
         // const subjects = JSON.parse(data)
         const subjects = (data)
         setSubjects(subjects)
@@ -36,7 +36,7 @@ const SelectContainer = () => {
       try {
         // console.log(usersdata.user._id)
         
-        const { data } = await axios.get(`http://localhost:5000/get_assign_details/${usersdata.user.user_id}`)
+        const { data } = await axios.get(`${link}/get_assign_details/${usersdata.user.user_id}`)
         
         setdsubject(data.subject)
         setdstopic(data.subtopic)
@@ -60,7 +60,7 @@ const SelectContainer = () => {
       try {
         // console.log(dsubject)
         setdstopic([]);
-        const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${quest.Subject}`)
+        const { data } = await axios.get(`${link}/get_subject_topics/${quest.Subject}`)
         setdtopic(data);
       } catch(error){
         console.error('Error Fetching questions: ', error)
@@ -75,7 +75,7 @@ const SelectContainer = () => {
     const role = usersdata.user.role
     const fetchstopic = async ()=>{
       try {
-        const { data } = await axios.get(`http://localhost:5000/get_subject_subtopics/${quest.Subject}/${quest.Topic}`)
+        const { data } = await axios.get(`${link}/get_subject_subtopics/${quest.Subject}/${quest.Topic}`)
         // const temp= JSON.parse(data)
         setdstopic(data)
         // console.log(data)
@@ -94,7 +94,7 @@ const SelectContainer = () => {
     const fetchQuestions = async ()=>{
       try {
         
-        const { data } = await axios.get(`http://localhost:5000/get_languages`)
+        const { data } = await axios.get(`${link}/get_languages`)
         // console.log(data)
         if(data)
         setdlanguage(data)

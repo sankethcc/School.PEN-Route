@@ -17,7 +17,7 @@ import { enqueueSnackbar } from 'notistack';
 
 const QuestionTrueFalseTopicExam = ( props  ) => {
 
-    const { setexamquest,exam,examid,setexamid, quest} = State();
+    const { setexamquest,exam,examid,setexamid, quest,link} = State();
 
   const [question, setQuestion] = useState({ text: props.question, image: null });
   const [selectedAnswer, setSelectedAnswer] = useState(parseInt(props.answer));
@@ -93,7 +93,7 @@ const QuestionTrueFalseTopicExam = ( props  ) => {
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/update_question/${examid.id}/${props.qno}`, formData)
+    .post(`${link}/update_question/${examid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");

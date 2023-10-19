@@ -18,7 +18,7 @@ import { enqueueSnackbar } from 'notistack';
 
 const QuestionTrueFalseExam = (props) => {
   const doit=props.doit
-  const { setexamquest,exam,examid,setexamid,editid,seteditid,seteditexam} = State();
+  const { setexamquest,exam,examid,setexamid,editid,seteditid,seteditexam,link} = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [options, setOptions] = useState([
@@ -88,7 +88,7 @@ const QuestionTrueFalseExam = (props) => {
     if (doit) {
       formData.append('question_no', editid.qno);
       axios
-        .post(`http://localhost:5000/create_questions/${editid.id}`, formData)
+        .post(`${link}/create_questions/${editid.id}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");
@@ -120,7 +120,7 @@ const QuestionTrueFalseExam = (props) => {
     else {
       formData.append('question_no', examid.qno);
       axios
-        .post(`http://localhost:5000/create_questions/${examid.id}`, formData)
+        .post(`${link}/create_questions/${examid.id}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");

@@ -16,7 +16,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.ans));
   const [question, setQuestion] = useState({ text: data.question, image: data.img });
   const [options, setOptions] = useState(data.options);
-  const {boo,setboo} = State()
+  const {boo,setboo,link} = State()
   // useEffect(() => {
   //   setOptions([])
   //   const arr = Object.values(props.options)
@@ -97,7 +97,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/update_question/${data.id}/${data.qno}`, formData)
+    .post(`${link}/update_question/${data.id}/${data.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
