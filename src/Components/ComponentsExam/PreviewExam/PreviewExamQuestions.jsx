@@ -56,7 +56,7 @@ const PreviewExamQuestions = ({heading, number}) => {
           // console.log(Object.keys(objects[key]))
         }
         //  Object.keys(data[0].options)
-        // console.log(Object.keys(arr[0][0].options))
+        console.log("hi")
         // setexamquest(arr)
         // setboo(!boo)
       } catch(error){
