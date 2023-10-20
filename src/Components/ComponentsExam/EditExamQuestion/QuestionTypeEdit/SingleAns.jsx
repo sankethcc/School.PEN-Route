@@ -12,7 +12,7 @@ import { enqueueSnackbar } from "notistack";
 const SingleAns = (props,{ open, setOpen,}) => {
   const data=props.qdata
   // console.log(data)
-  const { editid,seteditid} = State();
+  const { editid,seteditid,link} = State();
 
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.answer));
   const [question, setQuestion] = useState({ text: data.question_text, image: null, img: data.question_image});
@@ -103,7 +103,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/update_question/${editid.id}/${props.qno}`, formData)
+    .post(`${link}/update_question/${editid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
@@ -163,7 +163,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
 
           <CustomWidthTooltip
-            title={<img src={`http://localhost:5000/get_image/${question.img}`} alt="Que Img" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
+            title={<img src={`${link}/get_image/${question.img}`} alt="Que Img" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
             arrow
             open={isHovered}
             onClose={handleMouseLeave}
@@ -174,7 +174,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
             >
               {question.img?
             <img
-                src={`http://localhost:5000/get_image/${question.img}`}
+                src={`${link}/get_image/${question.img}`}
                 alt="Que Img"
                 style={{ height: '80px', width: '80px', objectFit: 'contain', marginRight: '12px' }}
                 onMouseEnter={handleMouseEnter}
@@ -241,7 +241,7 @@ const SingleAns = (props,{ open, setOpen,}) => {
                     marginRight:'12px',
                   }}
                   
-                  src={option.img?`http://localhost:5000/get_image/${option.img}`:null}
+                  src={option.img?`${link}/get_image/${option.img}`:null}
                 ></img>
                 :null}
                 <FormControlLabel

@@ -12,7 +12,7 @@ import { enqueueSnackbar } from "notistack";
 
 const MultipleAns = (props,{ open, setOpen,}) => {
   const data = props.qdata
-  const { editid,seteditid} = State();
+  const { editid,seteditid,link} = State();
   const answer = data.answer.split(',')
   
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(data.answer);
@@ -115,7 +115,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
     
     // const topicID = '65206c78d9a9b6e425e37bb6';
     axios
-    .post(`http://localhost:5000/update_question/${editid.id}/${props.qno}`, formData)
+    .post(`${link}/update_question/${editid.id}/${props.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
@@ -186,7 +186,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
             >
             {question.img?
             <img
-                src={question.img?`http://localhost:5000/get_image/${question.img}`:null}
+                src={question.img?`${link}/get_image/${question.img}`:null}
                 alt="User Image"
                 style={{ height: '80px', width: '80px', objectFit: 'contain', marginRight: '12px' }}
                 onMouseEnter={handleMouseEnter}
@@ -252,7 +252,7 @@ const MultipleAns = (props,{ open, setOpen,}) => {
                     objectFit: "contain",
                     marginRight:'12px',
                   }}
-                  src={option.img?`http://localhost:5000/get_image/${option.img}`:null}
+                  src={option.img?`${link}/get_image/${option.img}`:null}
                 ></img>
                 :null}
                   <FormControlLabel

@@ -9,13 +9,13 @@ import { sideDetail } from '../../styles/style';
 import axios from 'axios';
 
 const SideDetailsExam = ({heading}) => {
-  const { Exams, SetExams } = State();
+  const { Exams, SetExams,link } = State();
   useEffect(()=>{
     const fetchQuestions = async ()=>{
       try {
         var usersdata = JSON.parse(localStorage.getItem('user' )) ;
         const creatorI = usersdata.user._id
-        const { data } = await axios.get(`http://localhost:5000/get_topics/${creatorI}`)
+        const { data } = await axios.get(`${link}/get_topics/${creatorI}`)
         SetExams(data)
 
       } catch(error){

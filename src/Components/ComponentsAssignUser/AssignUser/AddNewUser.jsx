@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Box, FormGroup, Input, Button } from '@mui/material'
 import axios from 'axios';
+import { State } from '../../Context/Provider';
 
 const AddNewUser = ({user, setUser, toggleShowAddUser}) => {
     // const [user, setUser] = useState([])
+    const {link} = State()
     const [note, setnote] = useState({
         name: "",
         email: "",
@@ -37,7 +39,7 @@ const AddNewUser = ({user, setUser, toggleShowAddUser}) => {
         };
         
         axios
-        .post("http://localhost:5000/user", {
+        .post(`${link}/user`, {
           name: note.name,
           user_id: note.email,
           password: note.password

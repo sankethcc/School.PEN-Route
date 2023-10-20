@@ -32,13 +32,13 @@ import { mainBoxStyle, sideDetail } from "../../../styles/style";
     
     // console.log("Topic ID Exam " + topic_id)
     const { quest } = State();
-    const { exam, SetExams ,setexamid,examquest} = State();
+    const { exam, SetExams ,setexamid,examquest,link} = State();
     const {instruction, eligiblity, learning,btn, setbtn} = State()
     // console.log(Exams)
     const Submitexam =async () => {
     try {
       
-        const { data } = await axios.get(`http://localhost:5000/enable_disable_exam/${topic_id}`)
+        const { data } = await axios.get(`${link}/enable_disable_exam/${topic_id}`)
         setbtn(data)
         console.log(data)
       } catch(error){
@@ -60,7 +60,7 @@ import { mainBoxStyle, sideDetail } from "../../../styles/style";
     formData.append('eligiblity', eligiblity); 
 
     axios
-  .post(`http://localhost:5000/update_topic/${topic_id}`, formData)
+  .post(`${link}/update_topic/${topic_id}`, formData)
       .then((response) => {
         if (response.status === 202) {
           // SetExams(oldArray => [response.data, ...oldArray])

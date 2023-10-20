@@ -22,7 +22,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
   const navigate = useNavigate()
   const {quiz_id} = useParams()
 
-  const { quest,questions,setquest, setQuestions} = State();
+  const { quest,questions,setquest, setQuestions, link} = State();
   const [question, setQuestion] = useState({ text: '', question_image_url: null });
   const [options, setOptions] = useState([
     { text: '', image: null, is_answer: '' },
@@ -104,7 +104,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
       axios
-    .delete(`http://localhost:5000/delete_quizz/${quiz_id}/${creatorId}`)
+    .delete(`${link}/delete_quizz/${quiz_id}/${creatorId}`)
         .then((response) => {
           if (response.status === 200) {
             // setbool(!bool)
@@ -147,7 +147,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
     const creatorId = usersdata.user._id
     console.log(creatorId)
     axios
-    .put(`http://localhost:5000/update_quizz/${quiz_id}/${creatorId}`, formData)
+    .put(`${link}/update_quizz/${quiz_id}/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data updated successfully");
@@ -166,7 +166,7 @@ const QuestionMultipleAnsUpdate = ({handleThreeDotMenu}) => {
   useEffect(()=>{
     const fetchstopic = async ()=>{
       try {
-        const { data } = await axios.get(`http://localhost:5000/get_quizz/${quiz_id}`)
+        const { data } = await axios.get(`${link}/get_quizz/${quiz_id}`)
         const obj = {
           Language: data.language,
           Class: data.class,

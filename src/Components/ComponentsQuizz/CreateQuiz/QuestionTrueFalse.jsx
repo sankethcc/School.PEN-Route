@@ -18,7 +18,7 @@ import { enqueueSnackbar } from 'notistack';
 
 const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
 
-  const { quest, questions, setQuestions } = State();
+  const { quest, questions, setQuestions,link } = State();
   const [question, setQuestion] = useState({ text: '', image: null });
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [options, setOptions] = useState([
@@ -98,7 +98,7 @@ const QuestionTrueFalse = ({ handleThreeDotMenu, prop  }) => {
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
     axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+    .post(`${link}/create_quiz/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");

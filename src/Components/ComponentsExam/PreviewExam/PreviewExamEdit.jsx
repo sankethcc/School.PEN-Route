@@ -13,8 +13,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
   const [correctAnswerIndex, setCorrectAnswerIndex] = useState(parseInt(data.ans));
   const [question, setQuestion] = useState({ text: data.question, image: data.img });
   const [options, setOptions] = useState(data.options);
-  const {boo,setboo} = State()
-
+  const {boo,setboo,link} = State()
 
   const handleQuestionChange = (event) => {
     setQuestion({ ...question, text: event.target.value });
@@ -87,7 +86,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
     }
     
     axios
-    .post(`http://localhost:5000/update_question/${data.id}/${data.qno}`, formData)
+    .post(`${link}/update_question/${data.id}/${data.qno}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");
@@ -165,7 +164,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
           sx={{background: "#fff",width: "100%",borderRadius: "40px",}}>
           <Box sx={{ display: "flex", width: "100%", alignItems: "center", mb:'20px' }}>
           <CustomWidthTooltip
-            title={<img src={`http://localhost:5000/get_image/${data.img}`} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
+            title={<img src={`${link}/get_image/${data.img}`} alt="User Image" style={{ height: '400px', width: '400px', objectFit: 'contain' }} /> }
             arrow
             open={isHovered}
             onClose={handleMouseLeave}
@@ -176,7 +175,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
             >
               {data.img?
             <img
-                src={`http://localhost:5000/get_image/${data.img}`}
+                src={`${link}/get_image/${data.img}`}
                 alt="User Image"
                 style={{ height: '80px', width: '80px', objectFit: 'contain', marginRight: '12px' }}
                 onMouseEnter={handleMouseEnter}
@@ -242,7 +241,7 @@ const PreviewExamEdit = ({ open, setOpen,handleOpen,data}) => {
                     objectFit: "contain",
                     marginRight:'12px',
                   }}
-                  src={`http://localhost:5000/get_image/${option.img}`}
+                  src={`${link}/get_image/${option.img}`}
                 ></img>
                 :null}
                 <FormControlLabel

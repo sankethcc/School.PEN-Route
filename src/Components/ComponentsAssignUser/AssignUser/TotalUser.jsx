@@ -7,7 +7,7 @@ import { State } from '../../Context/Provider'
 
 const TotalUser = () => {
     // const [user, setUser] = useState([])
-    const { user, setUser} = State();
+    const { user, setUser, link} = State();
     const [showAddUser, setShowAddUser] = useState(false);
 
     const toggleShowAddUser = () => {
@@ -15,7 +15,7 @@ const TotalUser = () => {
     };
       
     useEffect(() => {
-    axios.get(`http://localhost:5000/user`).then(
+    axios.get(`${link}/user`).then(
         // &limit=10
     (response) => {
         setUser(response.data);

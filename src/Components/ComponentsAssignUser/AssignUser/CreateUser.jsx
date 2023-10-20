@@ -19,7 +19,7 @@ import { State } from '../../Context/Provider'
 
 
 const CreateUser = () => {
-    const { user, setUser} = State();
+    const { user, setUser, link} = State();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -113,7 +113,7 @@ const CreateUser = () => {
     } else {
       setRegistrationSuccess(true);
       axios
-      .post("http://localhost:5000/user", {
+      .post(`${link}/user`, {
         name: fullName,
         user_id: email,
         password: password

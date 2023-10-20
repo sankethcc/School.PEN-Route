@@ -7,14 +7,14 @@ import axios from 'axios'
 const AssignNewUser = () => {
   const { assign,dasubject, setdasubject,
         datopic, setdatopic,
-         dalanguage, setdalanguage} = State();
+         dalanguage, setdalanguage, link} = State();
   const { user, setUser} = State();
   // setdalanguage(["English"])
   useEffect(() => {
 
     const fetchuSubject = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/get_all_subject_quizz")
+        const { data } = await axios.get(`${link}/get_all_subject_quizz`)
         // console.log(data)
         setdasubject([])
         data.forEach(object => {
@@ -28,7 +28,7 @@ const AssignNewUser = () => {
     const fetchuSubjecte = async () => {
       try {
         setdasubject([])
-        const { data } = await axios.get("http://localhost:5000/get_all_subjects")
+        const { data } = await axios.get(`${link}/get_all_subjects`)
         if(data)
          setdasubject(data)
       } catch (error) {
@@ -47,7 +47,7 @@ const AssignNewUser = () => {
     const fetchQuestions = async ()=>{
       try {
         
-        const { data } = await axios.get(`http://localhost:5000/get_languages`)
+        const { data } = await axios.get(`${link}/get_languages`)
         // console.log(data)
         if(data)
         setdalanguage(data)
@@ -69,7 +69,7 @@ const AssignNewUser = () => {
 
     const fetchuSubject = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:5000/get_subject_topics/${assign.subject}`)
+        const { data } = await axios.get(`${link}/get_subject_topics/${assign.subject}`)
         if(data)
          setdatopic(data)
       } catch (error) {
@@ -96,7 +96,7 @@ const AssignNewUser = () => {
     formData.append('topic',assign.Topic);
     const userid=assign.user
     axios
-        .put(`http://localhost:5000/assign_user/${userid}`, formData)
+        .put(`${link}/assign_user/${userid}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data added successfully");

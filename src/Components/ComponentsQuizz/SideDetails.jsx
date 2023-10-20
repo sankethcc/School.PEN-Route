@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom'
 import { sideDetail } from '../../styles/style';
 import axios from 'axios';
 const SideDetails = ({heading, number}) => {
-  const { questions,bool,openPage,quest,setQuestions} = State();
+  const { questions,bool,openPage,quest,setQuestions,link} = State();
   useEffect(()=>{
     const fetchQuestions = async ()=>{
   
@@ -25,7 +25,7 @@ const SideDetails = ({heading, number}) => {
           formData.append('creator_id', creatorId);
           formData.append('role', role);
 
-          const { data } = await axios.get(`http://localhost:5000/get_all_quizz/${role}/${creatorId}`)
+          const { data } = await axios.get(`${link}/get_all_quizz/${role}/${creatorId}`)
 
           const quet = data.filter((data) => (
                           (!quest.Subject || data.subject == quest.Subject) &&

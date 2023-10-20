@@ -18,7 +18,7 @@ import { qStyle } from '../../../styles/style';
 import { enqueueSnackbar } from 'notistack';
 
 const QuestionMultipleAns = ({handleThreeDotMenu}) => {
-const { quest,questions, setQuestions} = State();
+const { quest,questions, setQuestions,link} = State();
 const [question, setQuestion] = useState({ text: '', image: null });
   const [options, setOptions] = useState([
     { text: '', image: null, answer: '' },
@@ -127,7 +127,7 @@ const [question, setQuestion] = useState({ text: '', image: null });
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const creatorId = usersdata.user._id
     axios
-    .post(`http://localhost:5000/create_quiz/${creatorId}`, formData)
+    .post(`${link}/create_quiz/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 201) {
             console.log("Data added successfully");

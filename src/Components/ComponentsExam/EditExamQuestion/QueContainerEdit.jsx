@@ -8,12 +8,12 @@ import axios from 'axios';
 const QueContainerEdit = (props) => {
   const topic_id=props.topic_id
   const { quest, setexam,editexam, seteditexam ,editid,seteditid,setbtn} = State();
-  const {setInstruction, setEligiblity, setLearning} = State()
+  const {setInstruction, setEligiblity, setLearning,link} = State()
   useEffect(() => {
     const fetchQuestions = async ()=>{
       try {
       
-        const { data } = await axios.get(`http://localhost:5000/get_topic/${topic_id}`)
+        const { data } = await axios.get(`${link}/get_topic/${topic_id}`)
         
         const obj={
           Subject: data.subject,

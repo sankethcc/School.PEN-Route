@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 const General = () => {
-  const{userData, setUserData, updateUser, userImage} = State()
+  const{userData, setUserData, updateUser, userImage, link} = State()
     const handleInputChange = (e)=>{
     const {name, value} = e.target
     setUserData({...userData, [name]: value} )
@@ -31,7 +31,7 @@ const General = () => {
     formData.append('user_image', userImage);
 
     axios
-    .put(`http://localhost:5000/update_user_profile/${userId}`, formData)
+    .put(`${link}/update_user_profile/${userId}`, formData)
         .then((response) => {
           if (response.status === 200) {
             // setbool(!bool)

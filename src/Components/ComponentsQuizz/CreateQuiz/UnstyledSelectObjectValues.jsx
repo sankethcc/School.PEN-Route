@@ -12,7 +12,7 @@ import axios from 'axios';
 
 export default function UnstyledSelectObjectValues({dropdownName,listArray,add,value,val }) {
   const style = dropdownName == "Language" ? "#fff" : '#F5F6F7'
-  const { quest, setquest,setdsubject,setdtopic,setdstopic , setdlanguage} = State();
+  const { quest, setquest,setdsubject,setdtopic,setdstopic , setdlanguage,link} = State();
   const [open, setOpen] = React.useState(false);
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
 
@@ -44,7 +44,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
   const formData = new FormData();
   if (dropdownName == "Language") {
     formData.append('language', sub);
-    axios.post("http://localhost:5000/create_language", formData)
+    axios.post(`${link}/create_language`, formData)
       .then((response) => {
         if (response.status === 201) {
           console.log("Data added successfully");
@@ -74,7 +74,7 @@ export default function UnstyledSelectObjectValues({dropdownName,listArray,add,v
       formData.append('subtopic_image', subImg[0].image);
       formData.append('subtopic', sub);
     }
-    axios.post("http://localhost:5000/add_Subject_quizz", formData)
+    axios.post(`${link}/add_Subject_quizz`, formData)
       .then((response) => {
         if (response.status === 200) {
           console.log("Data added successfully");

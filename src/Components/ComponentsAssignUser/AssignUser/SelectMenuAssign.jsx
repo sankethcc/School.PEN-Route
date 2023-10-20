@@ -13,7 +13,7 @@ import axios from 'axios';
 
 export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
   const style = '#F5F6F7'
-  const { setassign,assign,dasubject, setdasubject,setdatopic,setdalanguage} = State();
+  const { setassign,assign,dasubject, setdasubject,setdatopic,setdalanguage, link} = State();
   const [open, setOpen] = React.useState(false);
   // const [subject, setSubject] = React.useState('');
   const index = (dropdownName == "Subject")?0:(dropdownName =="Topic")?1:(dropdownName == 'Sub topic')?2:null
@@ -51,7 +51,7 @@ export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
     if (dropdownName == "Language") {
       if (assign.fun == 'Quiz') {
         formData.append('language', sub);
-        axios.post("http://localhost:5000/create_language", formData)
+        axios.post(`${link}/create_language`, formData)
           .then((response) => {
             if (response.status === 201) {
               console.log("Data added successfully");
@@ -81,7 +81,7 @@ export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
           formData.append('subject', assign.subject);
         }
         
-        axios.post("http://localhost:5000/add_Subject_quizz", formData)
+        axios.post(`${link}/add_Subject_quizz`, formData)
           .then((response) => {
             if (response.status === 200) {
               console.log("Data added successfully");
@@ -107,7 +107,7 @@ export default function SelectMenuAssign({dropdownName,listArray,add,value}) {
       formData.append('subject', assign.subject);
     }
     
-    axios.post("http://localhost:5000/add_Subject_exams", formData)
+    axios.post(`${link}/add_Subject_exams`, formData)
       .then((response) => {
         if (response.status === 200) {
           console.log("Data added successfully");

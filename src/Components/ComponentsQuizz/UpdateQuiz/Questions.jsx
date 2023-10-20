@@ -21,7 +21,7 @@ const CreateQuiz = () => {
   const navigate = useNavigate()
   const {quiz_id} = useParams()
   
-  const { quest,questions,setquest, setQuestions} = State();
+  const { quest,questions,setquest, setQuestions, link} = State();
   const [question, setQuestion] = useState({ text: '', question_image_url: null });
   const [options, setOptions] = useState([
     { text: '', image_url: null ,is_answer: false},
@@ -104,7 +104,7 @@ const CreateQuiz = () => {
     // console.log(creatorId)
     // const quiz_id= '651beef47be29762479cf0ef'
       axios
-    .delete(`http://localhost:5000/delete_quizz/${quiz_id}/${creatorId}`)
+    .delete(`${link}/delete_quizz/${quiz_id}/${creatorId}`)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data updated successfully");
@@ -150,7 +150,7 @@ const CreateQuiz = () => {
     const creatorId = usersdata.user._id
     console.log(creatorId)
     axios
-    .put(`http://localhost:5000/update_quizz/${quiz_id}/${creatorId}`, formData)
+    .put(`${link}/update_quizz/${quiz_id}/${creatorId}`, formData)
         .then((response) => {
           if (response.status === 200) {
             console.log("Data updated successfully");
@@ -174,7 +174,7 @@ const CreateQuiz = () => {
    useEffect(()=>{
     const fetchstopic = async ()=>{
       try {
-        const { data } = await axios.get(`http://localhost:5000/get_quizz/${quiz_id}`)
+        const { data } = await axios.get(`${link}/get_quizz/${quiz_id}`)
         const obj = {
           Language: data.language,
           Class: data.class,

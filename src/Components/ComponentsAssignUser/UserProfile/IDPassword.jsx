@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 const IDPassword = () => {
-  const {updateUser, setUpdateUser, userData, userImage} = State()
+  const {updateUser, setUpdateUser, userData, userImage, link} = State()
   const handleInputChange = (e)=>{
     const {name, value} = e.target
     setUpdateUser({...updateUser, [name]:value})
@@ -36,7 +36,7 @@ const IDPassword = () => {
 
     // console.log(formData)
     axios
-    .put(`http://localhost:5000/update_user_profile/${userId}`, formData)
+    .put(`${link}/update_user_profile/${userId}`, formData)
         .then((response) => {
           if (response.status === 200) {
             // setbool(!bool)

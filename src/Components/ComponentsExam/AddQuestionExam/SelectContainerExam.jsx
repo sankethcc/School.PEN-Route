@@ -6,7 +6,7 @@ import { selectStyle } from '../../../styles/style'
 import axios from 'axios'
 
 const SelectContainerExam = () => {
-  const { exam,  desubject, destopic,setdesubject,setedstopic,setdlanguage} = State();
+  const { exam,  desubject, destopic,setdesubject,setedstopic,setdlanguage,link} = State();
   // console.log(quest)
   const [classs,setclasss]=useState(["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"])
   useEffect(() => {
@@ -16,7 +16,7 @@ const SelectContainerExam = () => {
       try {
         // console.log(quest.Subject)
         setdesubject([])
-        const { data } = await axios.get("http://localhost:5000/get_all_subjects")
+        const { data } = await axios.get(`${link}/get_all_subjects`)
         // console.log(data)
         if(data)
         setdesubject(data);
@@ -32,7 +32,7 @@ const SelectContainerExam = () => {
       try {
         // console.log(usersdata.user._id)
         
-        const { data } = await axios.get(`http://localhost:5000/get_assign_details/${usersdata.user.user_id}`)
+        const { data } = await axios.get(`${link}/get_assign_details/${usersdata.user.user_id}`)
         setdesubject(data.subject)
         setedstopic(data.topic)
         setclasss(data.class)
@@ -54,7 +54,7 @@ const SelectContainerExam = () => {
       try {
         // console.log(dsubject)
         setedstopic([]);
-        const { data } = await axios.get(`http://localhost:5000/get_all_topics/${exam.Subject}`)
+        const { data } = await axios.get(`${link}/get_all_topics/${exam.Subject}`)
         // console.log(Object.keys(data))
         setedstopic(Object.keys(data));
       } catch(error){
@@ -71,7 +71,7 @@ const SelectContainerExam = () => {
     const fetchQuestions = async ()=>{
       try {
         
-        const { data } = await axios.get(`http://localhost:5000/get_languages`)
+        const { data } = await axios.get(`${link}/get_languages`)
         // console.log(data)
         if(data)
         setdlanguage(data)
