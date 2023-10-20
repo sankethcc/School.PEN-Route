@@ -7,19 +7,17 @@ import axios from 'axios'
 
 const SelectContainerExam = () => {
   const { exam,  desubject, destopic,setdesubject,setedstopic,setdlanguage,link} = State();
-  // console.log(quest)
   const [classs,setclasss]=useState(["1", "2", "3", "4", "5", "6", "7", "8", "9","10","11","12"])
   useEffect(() => {
     var usersdata = JSON.parse(localStorage.getItem('user' )) ;
     const role = usersdata.user.role
     const fetchSubjec = async ()=>{
       try {
-        // console.log(quest.Subject)
         setdesubject([])
         const { data } = await axios.get(`${link}/get_all_subjects`)
-        // console.log(data)
-        if(data)
-        setdesubject(data);
+        if(data){
+          setdesubject(data);
+        }
       
       } catch(error){
         console.error('Error Fetching questions: ', error)
@@ -30,7 +28,6 @@ const SelectContainerExam = () => {
     
      const fetchuSubject = async ()=>{
       try {
-        // console.log(usersdata.user._id)
         
         const { data } = await axios.get(`${link}/get_assign_details/${usersdata.user.user_id}`)
         setdesubject(data.subject)
@@ -52,10 +49,8 @@ const SelectContainerExam = () => {
     const role = usersdata.user.role
     const fetchtopic = async ()=>{
       try {
-        // console.log(dsubject)
         setedstopic([]);
         const { data } = await axios.get(`${link}/get_all_topics/${exam.Subject}`)
-        // console.log(Object.keys(data))
         setedstopic(Object.keys(data));
       } catch(error){
         console.error('Error Fetching questions: ', error)
@@ -72,7 +67,6 @@ const SelectContainerExam = () => {
       try {
         
         const { data } = await axios.get(`${link}/get_languages`)
-        // console.log(data)
         if(data)
         setdlanguage(data)
       } catch(error){
